@@ -1,2 +1,2 @@
 # Projeto-LightApple
-O objetivo do projeto ´e criar um site/aplicativo que intermedie a coleta de res´ıduos orgˆanicos entre estabelecimentos comerciais e transportadoras, facil- itando o processo de destina¸c˜ao correta desses res´ıduos para a produ¸c˜ao de energia limpa. O site/aplicativo tamb´em visa incentivar os estabelecimentos em troca de cr´editos de energia.
+O objetivo do projeto é criar um site/aplicativo que intermedie a coleta de resíduos orgânicos entre estabelecimentos comerciais e transportadoras, facilitando o processo de destinação correta desses resíduos para a produção de energia limpa. O site/aplicativo também visa incentivar os estabelecimentos em troca de créditos de energia.
