@@ -1,0 +1,355 @@
+@charset "UTF-8";
+
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html,
+body {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(255, 255, 255);
+}
+
+.navbar,
+.navbar * {
+  box-sizing: border-box;
+}
+.navbar {
+  background: #abd94a;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  position: relative;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+.light-apple-logo {
+  flex-shrink: 0;
+  width: 75px;
+  height: 75px;
+  position: relative;
+  object-fit: cover;
+}
+.lightapple-titulo {
+  color: #287326;
+  text-align: left;
+  font-family: "Ribeye-Regular", sans-serif;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 400;
+  position: relative;
+  flex: 1;
+}
+.navigation {
+  background: #abd94a;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.criar-conta {
+  color: #287326;
+  text-align: left;
+  font-family: "Righteous-Regular", sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+}
+.entrar {
+  color: #287326;
+  text-align: left;
+  font-family: "Righteous-Regular", sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+}
+
+.anuncio-1,
+.anuncio-1 * {
+  box-sizing: border-box;
+}
+.anuncio-1 {
+  background: #ffffff;
+  height: 248px;
+  position: relative;
+  overflow: hidden;
+}
+.imagem-lixo-1 {
+  width: 1440px;
+  height: 248px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  object-fit: cover;
+}
+.caixa-txt-1 {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 614px;
+  height: 105px;
+  position: absolute;
+  left: -38px;
+  top: 45px;
+}
+.tt-1 {
+  color: #287326;
+  text-align: center;
+  font-family: "Roboto-Black", sans-serif;
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 900;
+  position: relative;
+  width: 520px;
+}
+.desc-1 {
+  color: #287326;
+  text-align: center;
+  font-family: "Roboto-Black", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 900;
+  position: relative;
+  width: 520px;
+}
+
+.section-vantagens,
+.section-vantagens * {
+  box-sizing: border-box;
+}
+.section-vantagens {
+  padding: 60px 170px 60px 170px;
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+  align-items: center;
+  justify-content: center;
+  height: 327px;
+  position: relative;
+  overflow: hidden;
+}
+.caixa-de-vantagens {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+.txt-de-vantagem {
+  color: #287326;
+  text-align: center;
+  font-family: "Roboto-Bold", sans-serif;
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+  position: relative;
+  align-self: stretch;
+}
+.caixa-de-vantagens-exemplos {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+.vantagens {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.caixa-vantagem-1 {
+  padding: 12px 0px 12px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+.crc {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 50px;
+  flex-shrink: 0;
+  width: 100px;
+  height: 100px;
+  position: relative;
+}
+.delivery {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  left: 10px;
+  top: 9.5px;
+  object-fit: cover;
+}
+.delivery2 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.txt-delivery {
+  color: #287326;
+  text-align: center;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+.caixa-vantagem-2 {
+  padding: 12px 0px 12px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+.pontos {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  left: 10px;
+  top: 9.5px;
+  object-fit: cover;
+}
+.pontos2 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.txt-pontos {
+  color: #287326;
+  text-align: center;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+.linha {
+  flex-shrink: 0;
+  height: 0px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  overflow: visible;
+}
+
+.anuncio-2,
+.anuncio-2 * {
+  box-sizing: border-box;
+}
+.anuncio-2 {
+  padding: 60px 170px 60px 170px;
+  display: flex;
+  flex-direction: row;
+  gap: 91px;
+  align-items: center;
+  justify-content: center;
+  height: 420px;
+  position: relative;
+  overflow: hidden;
+}
+.caixa-txt-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+.tt-2 {
+  color: #287326;
+  text-align: center;
+  font-family: "Roboto-Bold", sans-serif;
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+  position: relative;
+  align-self: stretch;
+}
+.desc-2 {
+  color: #287326;
+  text-align: center;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+.cont-coleta {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  height: 290px;
+  position: relative;
+  overflow: hidden;
+}
+.box-coleta {
+  background: rgba(255, 255, 255, 0.5);
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+}
+.centro-coleta {
+  width: 348px;
+  height: 290px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  object-fit: cover;
+}
+.vector-200 {
+  flex-shrink: 0;
+  height: 0px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  overflow: visible;
+}
+
