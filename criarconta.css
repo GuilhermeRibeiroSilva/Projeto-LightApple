@@ -1,0 +1,204 @@
+@charset "UTF-8";
+
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html,
+body {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(255, 255, 255);
+}
+
+/*NAVBAR*/
+
+.navbar,
+.navbar * {
+  box-sizing: border-box;
+}
+.navbar {
+  background: #abd94a;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  position: relative;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+.light-apple-logo {
+  flex-shrink: 0;
+  width: 75px;
+  height: 75px;
+  position: relative;
+  object-fit: cover;
+}
+.lightapple-titulo {
+  color: #287326;
+  text-align: left;
+  font-family: "Ribeye-Regular", sans-serif;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 400;
+  position: relative;
+  flex: 1;
+}
+.navigation {
+  background: #abd94a;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 248px;
+  position: relative;
+}
+.possui-conta {
+  color: #287326;
+  text-align: left;
+  font-family: "Righteous-Regular", sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+}
+.entrar {
+  color: #287326;
+  text-align: left;
+  font-family: "Righteous-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+}
+
+/*SECTION CRIAR CONTA*/
+.section-criar-conta,
+.section-criar-conta * {
+  box-sizing: border-box;
+}
+.section-criar-conta {
+  height: 1068px;
+  position: relative;
+  overflow: hidden;
+}
+.box-criarconta {
+  background: linear-gradient(to left, #ffffff, #ffffff),
+    linear-gradient(to left, #ffffff, #ffffff);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 391px;
+  position: absolute;
+  left: 111px;
+  top: 122px;
+}
+.tt {
+  color: #287326;
+  text-align: left;
+  font-family: "Roboto-Bold", sans-serif;
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+  position: relative;
+  align-self: stretch;
+}
+.desc {
+  color: #287326;
+  text-align: left;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+.coleta-imagem {
+  width: 601px;
+  height: 636px;
+  position: absolute;
+  left: 75px;
+  top: 314px;
+  object-fit: cover;
+}
+
+/*dentro da section forms criar conta*/
+
+.form-container {
+    position: absolute;
+    right: 7%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 500px;
+    margin: 0 20px;
+}
+  
+  form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%; /* Alterado */
+  }
+  
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #218838;
+}
+
+.txtsenha {
+    color: #287326;
+    text-align: left;
+    font-family: "Roboto-Medium", sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    position: relative;
+    align-self: stretch;
+}
+
+#senha {
+        background: #ffffff;
+        border-radius: 6px;
+        border-style: solid;
+        border-color: #287326;
+        border-width: 1px;
+        padding: 8px 12px 8px 12px;
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        align-items: center;
+        justify-content: flex-start;
+        align-self: stretch;
+        flex-shrink: 0;
+        position: relative;
+}
