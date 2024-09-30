@@ -1,0 +1,274 @@
+@charset "UTF-8";
+
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html,
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(255, 255, 255);
+  overflow-x: hidden;
+}
+
+a {
+  color: #218838;
+  text-decoration: none;
+}
+
+/*NAVBAR*/
+
+.navbar,
+.navbar * {
+  box-sizing: border-box;
+}
+.navbar {
+  background: #abd94a;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  position: relative;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+.light-apple-logo {
+  flex-shrink: 0;
+  width: 75px;
+  height: 75px;
+  position: relative;
+  object-fit: cover;
+}
+.lightapple-titulo {
+  color: #287326;
+  text-align: left;
+  font-family: "Ribeye-Regular", sans-serif;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 400;
+  position: relative;
+  flex: 1;
+}
+.navigation {
+  background: #abd94a;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.nao-possui-conta {
+  color: #287326;
+  text-align: left;
+  font-family: "Righteous-Regular", sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+}
+.criarconta {
+  color: #287326;
+  text-align: left;
+  font-family: "Righteous-Regular", sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+}
+
+/*SECTION ENTRAR*/
+
+.section-entrar,
+.section-entrar * {
+  box-sizing: border-box;
+}
+.section-entrar {
+  height: 716px;
+  position: relative;
+  overflow: hidden;
+}
+
+.box-entar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 520px;
+    position: absolute;
+    left: 124px;
+    top: 41px;
+  }
+  .tt {
+    color: #287326;
+    text-align: left;
+    font-family: "Roboto-Bold", sans-serif;
+    font-size: 40px;
+    line-height: 48px;
+    font-weight: 700;
+    position: relative;
+    align-self: stretch;
+  }
+  .desc {
+    color: #287326;
+    text-align: left;
+    font-family: "Roboto-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    position: relative;
+    align-self: stretch;
+  }
+  .coleta-reciclavel-organico {
+    width: 559px;
+    height: 466px;
+    position: absolute;
+    left: 124px;
+    top: 188px;
+    object-fit: cover;
+  }
+
+/*FORMS ENTRAR*/
+
+.form-container {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 558px;
+    margin: 0 20px;
+  }
+  
+  form {
+    background-color: #acd94a59;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+  
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input,
+  select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+
+  .txtemail {
+    color: #287326;
+    text-align: left;
+    font-family: "Roboto-Medium", sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    position: relative;
+    align-self: stretch;
+  }
+  
+  #email {
+    background: #ffffff;
+    border-radius: 6px;
+    border-style: solid;
+    border-color: #287326;
+    border-width: 1px;
+    padding: 8px 12px 8px 12px;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+  }
+  
+  .txtsenha {
+    color: #287326;
+    text-align: left;
+    font-family: "Roboto-Medium", sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    position: relative;
+    align-self: stretch;
+  }
+ 
+#senha {
+    background: #ffffff;
+    border-radius: 6px;
+    border-style: solid;
+    border-color: #287326;
+    border-width: 1px;
+    padding: 8px 12px 8px 12px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .box-btn,
+.box-btn * {
+  box-sizing: border-box;
+}
+.box-btn {
+  display: flex;
+  flex-direction: row;
+  gap: 37px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.btn-esqueceu {
+    background-color: #ffffff;
+    color: #218838;
+    border-color: #218838;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 240px;
+    position: relative;
+}
+.btn-entrar {
+  background-color: #abd94a;
+  color: #218838;
+  border-color: #218838;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 240px;
+  position: relative;
+}
+

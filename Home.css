@@ -1,16 +1,22 @@
 @charset "UTF-8";
 
 * {
-    margin: 0px;
-    padding: 0px;
-    font-family: Arial, Helvetica, sans-serif;
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 html,
 body {
-    height: 100vh;
-    width: 100vw;
-    background-color: rgb(255, 255, 255);
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(255, 255, 255);
+  overflow-x: hidden;
+}
+
+a {
+  color: #218838;
+  text-decoration: none;
 }
 
 /*NAVBAR*/
@@ -287,15 +293,16 @@ body {
   box-sizing: border-box;
 }
 .anuncio-2 {
-  padding: 60px 170px 60px 275px;
   display: flex;
-  flex-direction: row;
-  gap: 151px;
-  align-items: center;
-  justify-content: center;
-  height: 420px;
-  position: relative;
-  overflow: hidden;
+width: 1096px;
+height: 420px;
+padding: 60px 170px;
+justify-content: center;
+align-items: center;
+margin-right: auto;
+margin-left: auto;
+gap: 60px;
+flex-shrink: 0;
 }
 .caixa-txt-2 {
   display: flex;
@@ -351,15 +358,7 @@ body {
   top: 0px;
   object-fit: cover;
 }
-.vector-200 {
-  flex-shrink: 0;
-  height: 0px;
-  position: absolute;
-  right: 0px;
-  left: 0px;
-  bottom: 0px;
-  overflow: visible;
-}
+
 
 /*SECTION SOBRE*/
 
@@ -518,15 +517,6 @@ body {
   flex: 1;
   position: relative;
 }
-.vector-200 {
-  flex-shrink: 0;
-  height: 0px;
-  position: absolute;
-  right: 0px;
-  left: 0px;
-  bottom: 0px;
-  overflow: visible;
-}
 
 /*SECTION ANUNCIO 3*/
 .anuncio-3,
@@ -570,15 +560,7 @@ body {
   top: calc(50% - 146px);
   overflow: visible;
 }
-.vector-200 {
-  flex-shrink: 0;
-  height: 0px;
-  position: absolute;
-  right: 0px;
-  left: 0px;
-  bottom: 0px;
-  overflow: visible;
-}
+
 
 /*FOOTER*/
 
