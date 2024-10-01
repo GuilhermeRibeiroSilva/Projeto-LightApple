@@ -1,18 +1,23 @@
 @charset "UTF-8";
 
 * {
-    margin: 0px;
-    padding: 0px;
-    font-family: Arial, Helvetica, sans-serif;
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 html,
 body {
-    height: 100vh;
-    width: 100vw;
-    background-color: rgb(255, 255, 255);
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(255, 255, 255);
+  overflow-x: hidden;
 }
 
+a {
+  color: #218838;
+  text-decoration: none;
+}
 /*NAVBAR*/
 
 .navbar,
@@ -53,7 +58,7 @@ body {
   background: #abd94a;
   display: flex;
   flex-direction: row;
-  gap: 40px;
+  gap: 39px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -119,7 +124,7 @@ body {
   position: relative;
   overflow: visible;
 }
-.avatar {
+/*.avatar {
   border-radius: var(--var-sds-size-radius-full, 9999px);
   flex-shrink: 0;
   width: var(--var-sds-size-icon-large, 40px);
@@ -134,6 +139,40 @@ body {
   left: calc(50% - 20px);
   top: calc(50% - 20px);
   object-fit: cover;
+}*/
+
+/*DROPDOWN NAV*/
+
+.avatar {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar img.avt {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
 }
 
 /*SECTION MINIMENU*/
@@ -143,6 +182,7 @@ body {
 }
 .section-minimenu {
   height: 422px;
+  margin-left: 7%;
   position: relative;
   overflow: hidden;
 }
@@ -251,7 +291,7 @@ body {
   gap: 60px;
   align-items: center;
   justify-content: center;
-  height: 598px;
+  height: 690px;
   position: relative;
   overflow: hidden;
 }
@@ -286,7 +326,9 @@ body {
     align-self: stretch;
   }
 
-.center {
+  /*CARDS PARA EMPRESA DE COLETA E TROCA DE PONTO*/
+
+.empresas {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -294,13 +336,13 @@ body {
   justify-content: center;
 }
 
-.wrapper {
+.emp-coleta {
   display: flex;
   grid-gap: 1em;
   overflow: hidden;
   width: 55em;
 }
-.wrapper > .inner {
+.emp-coleta > .box-cards {
   display: flex;
   grid-gap: 1em;
   transition: all 1s ease-in-out;
@@ -308,7 +350,7 @@ body {
 
 .card {
   border-radius: 0.5em;
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.253);
 }
 .card > img {
   border-top-right-radius: inherit;
@@ -316,25 +358,20 @@ body {
   display: block;
   width: 17.5em;
 }
-.card > .content {
-  background: #0a2640;
+.card > .texto {
+  background: #abd94a;
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
   padding: 1em;
   text-align: center;
 }
-.card > .content > h1, .card > .content > h3 {
+.card > .texto > h1, .card > .texto > h3 {
   margin: 0.35em 0;
 }
-.card > .content > h1 {
-  color: #fff;
+.card > .texto > h1 {
+  color: #218838;
   font-size: 1.25rem;
   line-height: 1;
-}
-.card > .content > h3 {
-  color: #ccc;
-  font-size: 0.9rem;
-  font-weight: 300;
 }
 
 .map {
@@ -342,7 +379,7 @@ body {
 }
 .map > button {
   all: unset;
-  background: #11406c;
+  background: #abd94a;
   cursor: pointer;
   margin: 0 0.125em;
   position: relative;
@@ -355,7 +392,7 @@ body {
   width: 1em;
 }
 .map > button.active:after {
-  background: #001d38;
+  background: #218838;
   content: "";
   left: 50%;
   position: absolute;
@@ -376,6 +413,8 @@ body {
   padding: 60px 170px 60px 170px;
   display: flex;
   flex-direction: row;
+  margin-left: 5%;
+  margin-right: 6%;
   gap: 60px;
   align-items: center;
   justify-content: center;
@@ -403,7 +442,7 @@ body {
   width: 348px;
   height: 290px;
   position: absolute;
-  left: 0px;
+  left: 13%;
   top: 0.5px;
   object-fit: cover;
 }
@@ -460,6 +499,85 @@ body {
   border-color: #287326;
 }
 
+/*SECTION TROCA DE PONTOS*/
+.section-troca-de-pontos,
+.section-troca-de-pontos * {
+  box-sizing: border-box;
+}
+.section-troca-de-pontos {
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  align-items: center;
+  justify-content: center;
+  height: 710px;
+  position: relative;
+  overflow: hidden;
+}
+.box-troca {
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.box-troca-pontos {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+.tt {
+  color: #287326;
+  text-align: center;
+  font-family: "Roboto-Bold", sans-serif;
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+  position: relative;
+  align-self: stretch;
+}
+.desc {
+  color: #287326;
+  text-align: center;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+
+.btn-vermais {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  background: #abd94a;
+  border-radius: 8px;
+  padding: 12px;
+  align-items: center;
+  justify-content: center;
+  width: 240px;
+  color: #287326;
+  text-align: left;
+  font-family: "Roboto-Medium", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  border-color: #218838;
+}
 
 /*FOOTER*/
 

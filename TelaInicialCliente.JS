@@ -1,5 +1,5 @@
 const buttonsWrapper = document.querySelector(".map");
-const slides = document.querySelector(".inner");
+const slides = document.querySelector(".box-cards");
 
 buttonsWrapper.addEventListener("click", e => {
   if (e.target.nodeName === "BUTTON") {
@@ -18,3 +18,27 @@ buttonsWrapper.addEventListener("click", e => {
     }
   }
 });
+
+
+// script.js
+function toggleDropdown() {
+  var dropdown = document.getElementById("dropdown");
+  if (dropdown.style.display === "block") {
+      dropdown.style.display = "none";
+  } else {
+      dropdown.style.display = "block";
+  }
+}
+
+// Fechar o dropdown se o usuário clicar fora dele
+window.onclick = function(event) {
+  if (!event.target.matches('.avt')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      for (var i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.style.display === "block") {
+              openDropdown.style.display = "none";
+          }
+      }
+  }
+}
