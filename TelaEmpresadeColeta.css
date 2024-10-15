@@ -302,7 +302,7 @@ nav ul li a {
   box-sizing: border-box;
 }
 .section-txt {
-  background: #287326;
+  background: #ffffff;
   height: 160px;
   width: 100%;
   position: relative;
@@ -311,7 +311,7 @@ nav ul li a {
 }
 
 .empresas-de-coleta {
-  color: #abd94a;
+  color: #218838;
   font-family: "Inter-Regular", sans-serif;
   font-size: 48px;
   line-height: 140%;
@@ -322,7 +322,7 @@ nav ul li a {
 }
 
 .empresas-cadastradas {
-  color: #abd94a;
+  color: #218838;
   font-family: "Inter-Regular", sans-serif;
   font-size: 24px;
   line-height: 140%;
@@ -437,9 +437,9 @@ main {
 
 .favoritar {
   position: absolute;
-  top: 92%;
-  right: 17px;
-  font-size: 24px;
+  top: 88%;
+  right: 14px;
+  font-size: 45px;
   cursor: pointer;
   color: transparent;
   text-shadow: 0 0 0 grey;

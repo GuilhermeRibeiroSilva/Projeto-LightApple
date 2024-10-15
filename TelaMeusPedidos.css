@@ -303,14 +303,14 @@ nav ul li a {
 }
 .section-txt {
   background: #ffffff;
-  height: 160px;
+  height: 100px;
   width: 100%;
   position: relative;
   overflow: hidden;
   padding-left: 30px;
 }
 
-.troca_de_pontos {
+.meus_pedidos {
   color: #218838;
   font-family: "Inter-Regular", sans-serif;
   font-size: 48px;
@@ -321,15 +321,6 @@ nav ul li a {
   padding-top: 18px;
 }
 
-.troque_aqui {
-  color: #218838;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 24px;
-  line-height: 140%;
-  font-weight: 400;
-  text-align: center;
-  margin: 10px 0 0 0;
-}
 
 /*FILTRO E EMPRESA DE COLETA*/
 
@@ -394,6 +385,15 @@ ul {
   margin: 0;
 }
 
+input[type="date"] {
+    border-radius: 3px;
+  border-style: solid;
+  border-color: #287326;
+  color: #218838;
+  width: 105px;
+  height: 20px;
+}
+
 /* Produtos em grid de 3 colunas */
 .products-grid {
   display: grid;
@@ -407,6 +407,7 @@ ul {
   position: relative;
   border: 1px solid #218838;
   border-radius: 10px;
+  background-color: #abd94a;
   color: #218838;
   padding: 15px;
   text-align: center;
@@ -441,30 +442,15 @@ ul {
   color: #218838;
 }
 
-.favoritar {
+.info {
   position: absolute;
-  top: 85%;
-  right: 14px;
-  font-size: 45px;
+  top: 80%;
+  right: 20px;
+  font-size: 35px;
   cursor: pointer;
   color: transparent;
-  text-shadow: 0 0 0 grey;
+  text-shadow: 0 0 0 #218838;
   transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.favoritado {
-  color: red; /* Quando o coração estiver favoritado, ele ficará vermelho */
-  text-shadow: none; /* Remove a borda do coração */
-}
-
-.nao-favoritado {
-  color: transparent; /* O coração não será preenchido */
-  text-shadow: 0 0 0 grey; /* Aplica borda cinza para dar a aparência de coração vazio */
-}
-
-/* Aumenta o coração ao passar o mouse */
-.favoritar:hover {
-  transform: scale(1.2);
 }
 
 .pagination {
@@ -489,6 +475,51 @@ button.active {
 button[disabled] {
   background-color: #fff;
   cursor: not-allowed;
+}
+
+/* Modal escondido por padrão */
+.hidden {
+    display: none;
+}
+
+/* Estilo básico do modal */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Estilo do botão de fechar */
+.modal .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/* Desfocar o conteúdo do main */
+.modal-open main {
+    filter: blur(5px);
+    pointer-events: none; /* Desabilitar clique no conteúdo em segundo plano */
+}
+
+/* Fundo semi-transparente para modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 5;
 }
 
 

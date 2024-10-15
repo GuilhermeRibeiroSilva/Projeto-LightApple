@@ -58,3 +58,52 @@ document.addEventListener('DOMContentLoaded', function () {
     // Inicializa a página com a primeira ativa
     updatePagination();
   });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const products = document.querySelectorAll('.product');
+    const categoryLinks = document.querySelectorAll('.categoria-link');
+    const pontosRange = document.getElementById('pontosRange');
+    const currentPontos = document.getElementById('currentPontos');
+    
+    let selectedCategory = null;
+    let selectedPontos = pontosRange.value;
+  
+    // Função para atualizar a exibição dos produtos com base nos filtros
+    const filterProducts = () => {
+      products.forEach(product => {
+        const productCategory = product.getAttribute('data-category');
+        const productPontos = parseInt(product.getAttribute('data-points'));
+        
+        const categoryMatch = selectedCategory === 'Todos' || selectedCategory === null || productCategory === selectedCategory;
+        const pontosMatch = productPontos <= selectedPontos;
+  
+        if (categoryMatch && pontosMatch) {
+          product.style.display = 'block';
+        } else {
+          product.style.display = 'none';
+        }
+      });
+    };
+  
+    // Filtro por categoria
+    categoryLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        selectedCategory = e.target.textContent.trim();
+        filterProducts();
+      });
+    });
+  
+    // Filtro por pontos
+    pontosRange.addEventListener('input', () => {
+      selectedPontos = pontosRange.value;
+      currentPontos.textContent = `${selectedPontos} P`;
+      filterProducts();
+    });
+  
+    // Inicia com os filtros aplicados
+    filterProducts();
+  });
+  
+  
+  

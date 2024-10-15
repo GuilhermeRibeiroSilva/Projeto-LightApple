@@ -111,136 +111,107 @@
   </header>
   <section class="section-txt">
     <h1 class="troca_de_pontos">Trocar Pontos</h1>
-    <p class="troque_aqui">Troque seus ppontos por brindes aqui</p>
+    <p class="troque_aqui">Troque seus pontos por brindes aqui</p>
   </section>
   <main>
-      <div class="accordion" id="accordionPanelsStayOpenExample">
+    <div class="accordion" id="accordionPanelsStayOpenExample">
 
-        <input type="search" name="" id="flitersearch">
+      <input type="search" name="" id="flitersearch">
 
-        <!-- Filtro de Limite de Coleta -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingThree">Limite de Coleta</h2>
-          <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show"
-            aria-labelledby="headingThree">
-            <div class="accordion-body">
-              <label for="priceRange">Limite de coleta (kg): <span id="currentPrice">0 kg</span></label>
-              <input type="range" class="form-range" min="0" max="100000" value="100000" id="priceRange" />
-            </div>
+      <!-- Filtro de Categorias -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingCategorias">Categorias</h2>
+        <div id="collapseCategorias" class="accordion-collapse collapse show" aria-labelledby="headingCategorias">
+          <div class="accordion-body">
+            <ul class="list-unstyled">
+              <li><a href="#" class="categoria-link text-dark">Todos</a></li>
+              <li><a href="#" class="categoria-link text-dark">Cupons</a></li>
+              <li><a href="#" class="categoria-link text-dark">Produtos Artesanais</a></li>
+            </ul>
           </div>
         </div>
-
-        <!-- Filtro de Distância -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingDistancia">Distância Máxima</h2>
-          <div id="panelsStayOpen-collapseDistancia" class="accordion-collapse collapse show"
-            aria-labelledby="headingDistancia">
-            <div class="accordion-body">
-              <label for="distanciaRange">Distância máxima (km): <span id="currentDistancia">0 km</span></label>
-              <input type="range" class="form-range" min="0" max="5000" value="5000" id="distanciaRange" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Filtro de Estrelas com Input Range -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingFive">Avaliações</h2>
-          <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show" aria-labelledby="headingFive">
-            <div class="accordion-body">
-              <!-- Slider para Avaliações de Estrelas -->
-              <label for="avaliacaoRange">Avaliação mínima: <span id="avaliacaoValor">3</span> &#9733;</label>
-              <input type="range" class="form-range" min="1" max="5" value="1" id="avaliacaoRange" />
-            </div>
-          </div>
-        </div>
-
       </div>
 
-      <div class="products-grid">
-        <div class="product" data-limitedecoleta="1000" data-distancia="2" data-avaliacao="3">
-          <img src="imagens/empresa-biocoleta.png">
-          <h3>Ecocycle</h3>
-          <p>1000/1000 Kg</p>
-          <p>2km</p>
-          <p>3.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
+      <!-- Filtro de Pontos -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingPontos">Pontos</h2>
+        <div id="collapsePontos" class="accordion-collapse collapse show" aria-labelledby="headingPontos">
+          <div class="accordion-body">
+            <label for="pontosRange">Pontos: <span id="currentPontos">200000 P</span></label>
+            <input type="range" class="form-range" min="1" max="200000" value="200000" id="pontosRange" />
+          </div>
         </div>
-        <div class="product" data-limitedecoleta="800" data-distancia="75" data-avaliacao="2">
-          <img src="imagens/empresa-ecoponto.png">
-          <h3>GreenHarvest</h3>
-          <p>10/800 Kg</p>
-          <p>75km</p>
-          <p>2.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" data-limitedecoleta="200" data-distancia="35" data-avaliacao="1">
-          <img src="imagens/empresa-verdeponto.png">
-          <h3>BioCollect</h3>
-          <p>100/200 Kg</p>
-          <p>35km</p>
-          <p>1.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" data-limitedecoleta="10000" data-distancia="135" data-avaliacao="4">
-          <img src="imagens/empresa-biocoleta.png">
-          <h3>ReNew Waste</h3>
-          <p>1/10000 Kg</p>
-          <p>135km</p>
-          <p>4.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" data-limitedecoleta="35000" data-distancia="65" data-avaliacao="5">
-          <img src="imagens/empresa-ecoponto.png">
-          <h3>TerraCycle</h3>
-          <p>10000/35000 Kg</p>
-          <p>65km</p>
-          <p>5.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" data-limitedecoleta="55000" data-distancia="25" data-avaliacao="4">
-          <img src="imagens/empresa-verdeponto.png">
-          <h3>EcoPulse</h3>
-          <p>10500/55000 Kg</p>
-          <p>25km</p>
-          <p>4.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" data-limitedecoleta="100000" data-distancia="15" data-avaliacao="5">
-          <img src="imagens/empresa-biocoleta.png">
-          <h3>Ecocycle</h3>
-          <p>10500/100000 Kg</p>
-          <p>15km</p>
-          <p>5.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" data-limitedecoleta="85000" data-distancia="315" data-avaliacao="3">
-          <img src="imagens/empresa-ecoponto.png">
-          <h3>TerraCycle</h3>
-          <p>125/85000 Kg</p>
-          <p>315km</p>
-          <p>3.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" data-limitedecoleta="9050" data-distancia="5" data-avaliacao="1">
-          <img src="imagens/empresa-verdeponto.png">
-          <h3>ReNew</h3>
-          <p>1004/9050 Kg</p>
-          <p>5km</p>
-          <p>1.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        
       </div>
-      
+
+    </div>
+
+    <div class="products-grid">
+      <div class="product" data-category="Produtos Artesanais" data-points="1000">
+        <img src="imagens/vasinho-plantas.png">
+        <h3>Vaso de plantas</h3>
+        <p>1000 P</p>
+        <span class="favoritar nao-favoritado">&#x2665;</span>
+      </div>
+      <div class="product" data-category="Produtos Artesanais" data-points="100">
+        <img src="imagens/abajur-reci.png">
+        <h3>Abajur</h3>
+        <p>100 P</p>
+        <span class="favoritar nao-favoritado">&#x2665;</span>
+      </div>
+      <div class="product" data-category="Produtos Artesanais" data-points="950">
+        <img src="imagens/porta-talher.png">
+        <h3>Porta Talher</h3>
+        <p>950 P</p>
+        <span class="favoritar nao-favoritado">&#x2665;</span>
+      </div>
+      <div class="product" data-category="Produtos Artesanais" data-points="480">
+        <img src="imagens/porta-obj.png">
+        <h3>Porta Objetos</h3>
+        <p>480 P</p>
+        <span class="favoritar nao-favoritado">&#x2665;</span>
+      </div>
+      <div class="product" data-category="Cupons" data-points="880">
+        <img src="imagens/cupon-desc.png">
+        <h3>Cupon de desconto 15%</h3>
+        <p>880P</p>
+        <span class="favoritar nao-favoritado">&#x2665;</span>
+      </div>
+      <div class="product" data-category="Produtos Artesanais" data-points="150000">
+        <img src="imagens/bancos-reci.png">
+        <h3>Cadeira Ecológica</h3>
+        <p>150000 P</p>
+        <span class="favoritar nao-favoritado">&#x2665;</span>
+      </div>
+      <div class="product" data-category="Cupons" data-points="2000">
+        <img src="imagens/cupon-desc.png">
+        <h3>Cupon de desconto 25$</h3>
+        <p>2000 P</p>
+        <span class="favoritar nao-favoritado">&#x2665;</span>
+      </div>
+      <div class="product" data-category="Cupons" data-points="1500">
+        <img src="imagens/cupon-desc.png">
+        <h3>Cupon de desconto 35%</h3>
+        <p>1500 P</p>
+        <span class="favoritar nao-favoritado">&#x2665;</span>
+      </div>
+      <div class="product" data-category="Cupons" data-points="4500">
+        <img src="imagens/cupon-desc.png">
+        <h3>Cupon de desconto 50$</h3>
+        <p>4500 P</p>
+        <span class="favoritar nao-favoritado">&#x2665;</span>
+      </div>
+
+    </div>
+
   </main>
   <div class="pagination">
-          <button class="prev" disabled>Previous</button>
-          <button class="page-number active">1</button>
-          <span>...</span>
-          <button class="page-number">2</button>
-          <button class="page-number">3</button>
-          <button class="next">Next</button>
-        </div>
+    <button class="prev" disabled>Previous</button>
+    <button class="page-number active">1</button>
+    <span>...</span>
+    <button class="page-number">2</button>
+    <button class="page-number">3</button>
+    <button class="next">Next</button>
+  </div>
   <footer class="footer">
     <img class="light-apple-logo" src="imagens/LightApple-Logo.png" />
     <div class="copy-2024-light-apple">&copy; 2024 LightApple</div>
