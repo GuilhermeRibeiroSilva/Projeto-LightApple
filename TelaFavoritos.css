@@ -33,7 +33,7 @@ a {
   padding-left: 30px;
 }
 
-.troca_de_pontos {
+.meus_favoritos {
   color: #218838;
   font-family: "Inter-Regular", sans-serif;
   font-size: 48px;
@@ -44,7 +44,7 @@ a {
   padding-top: 18px;
 }
 
-.troque_aqui {
+.empresas-favoritas {
   color: #218838;
   font-family: "Inter-Regular", sans-serif;
   font-size: 24px;
@@ -111,12 +111,6 @@ main {
   position: relative;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
 /* Produtos em grid de 3 colunas */
 .products-grid {
   display: grid;
@@ -164,18 +158,22 @@ ul {
   color: #218838;
 }
 
-.adicionar-carrinho {
-  font-size: 18px;
-  cursor: pointer;
-  color: #218838;
-  transition: transform 0.3s ease, color 0.3s ease;
+.favoritar {
+    position: absolute;
+    top: 88%;
+    right: 14px;
+    font-size: 45px;
+    cursor: pointer;
+    color: red; /* Coração já favoritado inicialmente */
+    text-shadow: none;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.adicionar-carrinho:hover {
-  transform: scale(1.1);
-  color: #287326;
-}
 
+/* Aumenta o coração ao passar o mouse */
+.favoritar:hover {
+  transform: scale(1.2);
+}
 
 .pagination {
   display: flex;
@@ -203,8 +201,6 @@ button[disabled] {
 
 
 
-
-
 /* Ajustes para dispositivos móveis */
 @media (max-width: 768px) {
   main {
@@ -226,4 +222,3 @@ button[disabled] {
       grid-template-columns: 1fr; /* Em telas bem pequenas, usa apenas 1 coluna */
   }
 }
-

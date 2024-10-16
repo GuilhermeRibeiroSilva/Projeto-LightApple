@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LightApple</title>
   <link rel="stylesheet" href="TelaTrocarpontos.css">
+  <link rel="stylesheet" href="navmenu(cliente).css">
+  <link rel="stylesheet" href="footer.css">
 </head>
 
 <body>
@@ -61,6 +63,17 @@
             </div>
           </div>
         </div>
+        <div class="cart-menu">
+          <img src="imagens/Shopping cart.png" class="cart-pic" onclick="toggleCart()">
+          <div class="sub-menu-cart-wrap" id="cartDropdown">
+            <div class="sub-menu-cart">
+              <div class="cart-items">
+                
+              </div>
+              <button class="checkout-btn">Finalizar Compra</button>
+            </div>
+          </div>
+        </div>
         <div class="user-menu">
           <img src="imagens/Avatar.png" class="user-pic" onclick="toggleMenu()">
           <div class="sub-menu-wrap" id="subMenu">
@@ -69,13 +82,13 @@
                 <img src="imagens/Avatar.png">
                 <h3>Joana</h3>
               </div>
-              <a href="#" class="sub-menu-link">
-                <p>Meu Perfil</p>
+              <p id="points">
+                Meus Pontos: 50000 P
                 <span></span>
-              </a>
+              </p>
               <hr>
               <a href="#" class="sub-menu-link">
-                <p>Editar Perfil</p>
+                <p>Meu Perfil</p>
                 <span></span>
               </a>
               <hr>
@@ -150,55 +163,55 @@
         <img src="imagens/vasinho-plantas.png">
         <h3>Vaso de plantas</h3>
         <p>1000 P</p>
-        <span class="favoritar nao-favoritado">&#x2665;</span>
+        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
       </div>
       <div class="product" data-category="Produtos Artesanais" data-points="100">
         <img src="imagens/abajur-reci.png">
         <h3>Abajur</h3>
         <p>100 P</p>
-        <span class="favoritar nao-favoritado">&#x2665;</span>
+        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
       </div>
       <div class="product" data-category="Produtos Artesanais" data-points="950">
         <img src="imagens/porta-talher.png">
         <h3>Porta Talher</h3>
         <p>950 P</p>
-        <span class="favoritar nao-favoritado">&#x2665;</span>
+        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
       </div>
       <div class="product" data-category="Produtos Artesanais" data-points="480">
         <img src="imagens/porta-obj.png">
         <h3>Porta Objetos</h3>
         <p>480 P</p>
-        <span class="favoritar nao-favoritado">&#x2665;</span>
+        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
       </div>
       <div class="product" data-category="Cupons" data-points="880">
         <img src="imagens/cupon-desc.png">
         <h3>Cupon de desconto 15%</h3>
         <p>880P</p>
-        <span class="favoritar nao-favoritado">&#x2665;</span>
+        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
       </div>
       <div class="product" data-category="Produtos Artesanais" data-points="150000">
         <img src="imagens/bancos-reci.png">
         <h3>Cadeira Ecológica</h3>
         <p>150000 P</p>
-        <span class="favoritar nao-favoritado">&#x2665;</span>
+        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
       </div>
       <div class="product" data-category="Cupons" data-points="2000">
         <img src="imagens/cupon-desc.png">
         <h3>Cupon de desconto 25$</h3>
         <p>2000 P</p>
-        <span class="favoritar nao-favoritado">&#x2665;</span>
+        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
       </div>
       <div class="product" data-category="Cupons" data-points="1500">
         <img src="imagens/cupon-desc.png">
         <h3>Cupon de desconto 35%</h3>
         <p>1500 P</p>
-        <span class="favoritar nao-favoritado">&#x2665;</span>
+        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
       </div>
       <div class="product" data-category="Cupons" data-points="4500">
         <img src="imagens/cupon-desc.png">
         <h3>Cupon de desconto 50$</h3>
         <p>4500 P</p>
-        <span class="favoritar nao-favoritado">&#x2665;</span>
+        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
       </div>
 
     </div>
@@ -245,7 +258,7 @@
     </div>
   </footer>
   <script src="TelaTrocarpontos.js"></script>
-  <script src="navmenu.js"></script>
+  <script src="navmenu(cliente).js"></script>
 </body>
 
 </html>

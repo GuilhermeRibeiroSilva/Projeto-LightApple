@@ -1,0 +1,377 @@
+/*NAVBAR*/
+
+nav {
+    background: #abd94a;
+    width: 98%;
+    padding: 4px 1%; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  
+  .logo-lightapple {
+    flex-shrink: 0;
+    width: 75px;
+    height: 75px;
+    position: relative;
+    object-fit: cover;
+    padding-left: 1px;
+  }
+  .lightapple-titulo {
+    color: #287326;
+    text-align: left;
+    font-family: "Ribeye-Regular", sans-serif;
+    font-size: 28px;
+    line-height: 36px;
+    font-weight: 400;
+    position: relative;
+    width: 296px;
+    padding-left: 15px;
+  }
+  .inicio {
+    color: #287326;
+    text-align: left;
+    font-family: "Roboto-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    position: relative;
+  }
+  .empresa-coleta {
+    color: #287326;
+    text-align: left;
+    font-family: "Roboto-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    position: relative;
+  }
+  .trocar-pontos {
+    color: #287326;
+    text-align: left;
+    font-family: "Roboto-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    position: relative;
+  }
+  .pedidos {
+    color: #287326;
+    text-align: left;
+    font-family: "Roboto-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    position: relative;
+  }
+  #pesquisar {
+    border-radius: 6px;
+    border-style: solid;
+    border-color: #287326;
+    border-width: 2px;
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    width: 200px;
+    margin-right: 26px;
+    position: relative;
+  }
+  
+  .user-menu {
+    position: relative;
+  }
+  
+  .user-pic {
+    width: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 40px;
+  }
+  
+  nav ul {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center; 
+    list-style: none;
+    padding-left: 40px;
+  }
+  
+  nav ul li {
+    margin: 0 20px;
+  }
+  
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  /*DROPDOWN PERFIL*/
+  
+  .sub-menu-wrap {
+    position: absolute;
+    top: 120%;
+    right: 0; 
+    width: 250px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease;
+    z-index: 10; 
+  }
+  
+  .sub-menu-wrap.open-menu {
+    max-height: 600px;
+  }
+  
+  .sub-menu {
+    background: #fff;
+    border: 1px solid #287326;
+    border-radius: 0px 0px 10px 10px;
+    padding: 20px;
+    margin-top: 10px;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-info img {
+    width: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .user-info h3 {
+    color: #287326;
+  }
+  
+  .sub-menu hr {
+    margin: 8px 0px 0px 0px;
+  }
+  
+  .sub-menu-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #287326;
+    margin: 15px 0;
+  }
+  
+  .sub-menu-link p {
+    flex-grow: 1;
+  }
+  
+  .sub-menu-link span {
+    font-size: 22px;
+    transition: transform 0.5s;
+  }
+  
+  .sub-menu-link:hover span {
+    transform: translateX(5px);
+  }
+  
+  .sub-menu-link:hover p {
+    font-weight: 600;
+  }
+
+  #points {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    color: #287326;
+  }
+
+  /*DROPDOWN CARRINHO DE COMPRAS*/
+
+/* Ícone de carrinho */
+.cart-menu {
+    position: relative;
+}
+
+.cart-pic {
+    width: 40px;
+    cursor: pointer;
+    margin-right: 40px;
+}
+
+/* Dropdown do carrinho */
+.sub-menu-cart-wrap {
+    position: absolute;
+    top: 125%;
+    right: 0;
+    width: 320px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease;
+    z-index: 10;
+}
+
+.sub-menu-cart-wrap.open-cart {
+    max-height: 600px;
+}
+
+.sub-menu-cart {
+    background: #fff;
+    border: 1px solid #287326;
+    border-radius: 0px 0px 10px 10px;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cart-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.cart-info h4 {
+    color: #287326;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.cart-info p {
+    color: #287326;
+    font-size: 14px;
+}
+
+.remove-item {
+    background-color: #287326;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.remove-item:hover {
+    background-color: #3e8e41;
+}
+
+.checkout-btn {
+    width: 100%;
+    height: 40px;
+    background-color: #287326;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.checkout-btn:hover {
+    background-color: #3e8e41;
+}
+
+  
+/* DROPDOWN CRIAR PEDIDO */
+.pedido-menu {
+  position: relative;
+}
+
+.ped-pic {
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 40px;
+}
+
+.sub-menu-ped-wrap {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  width: 320px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease;
+  z-index: 10;
+}
+
+.sub-menu-ped-wrap.open-menu-ped {
+  max-height: 600px;
+}
+
+.sub-menu-ped {
+  background: #fff;
+  border: 1px solid #287326;
+  border-radius: 0px 0px 10px 10px;
+  padding: 20px;
+  margin-top: 10px;
+  max-height: 500px; /* Altura fixa */
+  overflow-y: auto; /* Ativa a rolagem se necessário */
+}
+
+.ped-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ped-info img {
+  width: 50px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.ped-info h3 {
+  color: #287326;
+}
+
+#criar-pedido-form {
+  margin-top: 20px;
+}
+
+#criar-pedido-form label {
+  display: block;
+  color: #287326;
+  margin-bottom: 10px;
+}
+
+#criar-pedido-form input[type="text"], 
+#criar-pedido-form input[type="number"] {
+  width: 90%;
+  height: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #287326;
+}
+
+#criar-pedido-form select {
+  width: 92%;
+  height: 35px;
+  margin-bottom: 20px;
+  padding: 5px;
+  border-radius: 8px;
+  border: 1px solid #287326;
+}
+
+#criar-pedido-btn {
+  background-color: #287326;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+}
+
+#criar-pedido-btn:hover {
+  background-color: #3e8e41;
+}
+
+  

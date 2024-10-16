@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LightApple</title>
     <link rel="stylesheet" href="TelaMeusPedidos.css">
+    <link rel="stylesheet" href="navmenu(cliente).css">
+    <link rel="stylesheet" href="footer.css">
 </head>
 
 <body>
@@ -62,6 +64,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="cart-menu">
+                    <img src="imagens/Shopping cart.png" class="cart-pic" onclick="toggleCart()">
+                    <div class="sub-menu-cart-wrap" id="cartDropdown">
+                        <div class="sub-menu-cart">
+                            <div class="cart-items">
+                                
+                            </div>
+                            <button class="checkout-btn">Finalizar Compra</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="user-menu">
                     <img src="imagens/Avatar.png" class="user-pic" onclick="toggleMenu()">
                     <div class="sub-menu-wrap" id="subMenu">
@@ -70,13 +83,13 @@
                                 <img src="imagens/Avatar.png">
                                 <h3>Joana</h3>
                             </div>
-                            <a href="#" class="sub-menu-link">
-                                <p>Meu Perfil</p>
+                            <p id="points">
+                                Meus Pontos: 50000 P
                                 <span></span>
-                            </a>
+                            </p>
                             <hr>
                             <a href="#" class="sub-menu-link">
-                                <p>Editar Perfil</p>
+                                <p>Meu Perfil</p>
                                 <span></span>
                             </a>
                             <hr>
@@ -147,7 +160,14 @@
         </div>
 
         <div class="products-grid">
-            <div class="product" data-status="Pendentes" data-data="2024-05-15">
+            <div class="product" data-status="Pendentes" data-data="2024-05-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }' >
                 <h3>Pedido #001</h3>
                 <p>ROOP</p>
                 <p>Local de Partida: XY</p>
@@ -157,7 +177,14 @@
                 <p>PENDENTE</p>
                 <span class="info">&#8505;</span>
             </div>
-            <div class="product" data-status="Abertos" data-data="2024-05-15">
+            <div class="product" data-status="Abertos" data-data="2024-05-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
                 <h3>Pedido #002</h3>
                 <p>ROOP</p>
                 <p>Local de Partida: XY</p>
@@ -167,7 +194,14 @@
                 <p>ABERTO</p>
                 <span class="info">&#8505;</span>
             </div>
-            <div class="product" data-status="Fechados" data-data="2022-08-15">
+            <div class="product" data-status="Fechados" data-data="2022-08-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
                 <h3>Pedido #003</h3>
                 <p>ROOP</p>
                 <p>Local de Partida: XY</p>
@@ -177,7 +211,14 @@
                 <p>FECHADO</p>
                 <span class="info">&#8505;</span>
             </div>
-            <div class="product" data-status="Abertos" data-data="2022-08-15">
+            <div class="product" data-status="Abertos" data-data="2022-08-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
                 <h3>Pedido #004</h3>
                 <p>ROOP</p>
                 <p>Local de Partida: XY</p>
@@ -187,7 +228,14 @@
                 <p>ABERTO</p>
                 <span class="info">&#8505;</span>
             </div>
-            <div class="product" data-status="Pendentes" data-data="2020-12-15">
+            <div class="product" data-status="Pendentes" data-data="2020-12-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
                 <h3>Pedido #005</h3>
                 <p>ROOP</p>
                 <p>Local de Partida: XY</p>
@@ -197,7 +245,14 @@
                 <p>PENDENTE</p>
                 <span class="info">&#8505;</span>
             </div>
-            <div class="product" data-status="Fechados" data-data="2020-12-15">
+            <div class="product" data-status="Fechados" data-data="2020-12-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
                 <h3>Pedido #006</h3>
                 <p>ROOP</p>
                 <p>Local de Partida: XY </p>
@@ -259,7 +314,7 @@
         </div>
     </footer>
     <script src="TelaMeusPedidos.js"></script>
-    <script src="navmenu.js"></script>
+    <script src="navmenu(cliente).js"></script>
 </body>
 
 </html>

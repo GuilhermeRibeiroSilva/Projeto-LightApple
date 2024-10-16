@@ -95,43 +95,48 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('modal');
-    const modalInfo = document.getElementById('modal-info');
-    const closeModalBtn = document.querySelector('.close-btn');
-    const main = document.querySelector('main');
+  const modal = document.getElementById('modal');
+  const modalInfo = document.getElementById('modal-info');
+  const closeModalBtn = document.querySelector('.close-btn');
+  const main = document.querySelector('main');
+  const overlay = document.createElement('div');
+  overlay.classList.add('modal-overlay');
+  document.body.appendChild(overlay);
 
-    // Função para abrir o modal e mostrar as informações
-    function openModal(info) {
-        modal.classList.remove('hidden');
-        modalInfo.textContent = info;
-        main.classList.add('modal-open');
-    }
+  // Função para abrir o modal e mostrar as informações
+  function openModal(info) {
+      modalInfo.innerHTML = `
+          <p><strong>ID do Pedido:</strong> ${info.id}</p>
+          <p><strong>Produto:</strong> ${info.produto}</p>
+          <p><strong>Local de Partida:</strong> ${info.localPartida}</p>
+          <p><strong>Quantidade:</strong> ${info.quantidade}</p>
+          <p><strong>Data:</strong> ${info.data}</p>
+          <p><strong>Status:</strong> ${info.status}</p>
+      `;
+      document.body.classList.add('modal-active'); // Adiciona a classe para exibir o modal e aplicar o desfoque
+  }
 
-    // Função para fechar o modal
-    function closeModal() {
-        modal.classList.add('hidden');
-        main.classList.remove('modal-open');
-    }
+  // Função para fechar o modal
+  function closeModal() {
+      document.body.classList.remove('modal-active'); // Remove a classe para esconder o modal e remover o desfoque
+  }
 
-    // Adicionar evento de clique nos ícones de informação
-    document.querySelectorAll('.info').forEach(infoIcon => {
-        infoIcon.addEventListener('click', (e) => {
-            const product = e.target.closest('.product');
-            const info = product.getAttribute('data-info');
-            openModal(info); // Exibir o modal com as informações
-        });
-    });
+  // Adicionar evento de clique nos ícones de informação
+  document.querySelectorAll('.info').forEach(infoIcon => {
+      infoIcon.addEventListener('click', (e) => {
+          const product = e.target.closest('.product'); // Encontra o produto pai do ícone clicado
+          const info = JSON.parse(product.getAttribute('data-info')); // Converte o data-info JSON em objeto
+          openModal(info); // Exibir o modal com as informações do produto correspondente
+      });
+  });
 
-    // Fechar o modal ao clicar no botão de fechar
-    closeModalBtn.addEventListener('click', closeModal);
+  // Fechar o modal ao clicar no botão de fechar
+  closeModalBtn.addEventListener('click', closeModal);
 
-    // Fechar o modal ao clicar fora dele
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
+  // Fechar o modal ao clicar fora dele (overlay)
+  overlay.addEventListener('click', closeModal);
 });
+
 
   
   

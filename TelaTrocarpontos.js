@@ -1,22 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Selecionar todos os botões de coração
-    const favoriteButtons = document.querySelectorAll('.favoritar');
-  
-    favoriteButtons.forEach(button => {
-      button.addEventListener('click', function () {
-        // Alternar entre favoritado e não favoritado
-        if (this.classList.contains('nao-favoritado')) {
-          this.classList.remove('nao-favoritado');
-          this.classList.add('favoritado');
-        } else {
-          this.classList.remove('favoritado');
-          this.classList.add('nao-favoritado');
-        }
-      });
-    });
-  }); 
-
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const paginationButtons = document.querySelectorAll(".page-number");
     const prevButton = document.querySelector(".prev");
     const nextButton = document.querySelector(".next");
@@ -104,6 +86,74 @@ document.addEventListener('DOMContentLoaded', function () {
     // Inicia com os filtros aplicados
     filterProducts();
   });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const carrinho = []; // Array para armazenar os produtos do carrinho
+
+    // Função para atualizar o carrinho no DOM
+    function atualizarCarrinho() {
+        const carrinhoMenu = document.querySelector(".cart-items");
+        carrinhoMenu.innerHTML = ""; // Limpa o carrinho antes de atualizar
+
+        carrinho.forEach(item => {
+            const cartItem = document.createElement("div");
+            cartItem.classList.add("cart-item");
+            cartItem.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="cart-info">
+                    <h4>${item.name}</h4>
+                    <p>${item.points} P</p>
+                </div>
+                <button class="remove-item" data-name="${item.name}">Remover</button>
+            `;
+            carrinhoMenu.appendChild(cartItem);
+        });
+
+        // Adiciona o evento de remoção
+        document.querySelectorAll(".remove-item").forEach(button => {
+            button.addEventListener("click", function () {
+                removerDoCarrinho(this.dataset.name);
+            });
+        });
+    }
+
+    // Função para adicionar um item ao carrinho
+    function adicionarAoCarrinho(produto) {
+        const nomeProduto = produto.querySelector("h3").textContent;
+        const pontosProduto = produto.querySelector("p").textContent;
+        const imagemProduto = produto.querySelector("img").src;
+
+        // Adiciona o produto ao array carrinho
+        carrinho.push({
+            name: nomeProduto,
+            points: pontosProduto,
+            image: imagemProduto
+        });
+
+        // Atualiza o carrinho no DOM
+        atualizarCarrinho();
+    }
+
+    // Função para remover item do carrinho
+    function removerDoCarrinho(nomeProduto) {
+        const indice = carrinho.findIndex(item => item.name === nomeProduto);
+        if (indice > -1) {
+            carrinho.splice(indice, 1); // Remove o item
+        }
+
+        // Atualiza o carrinho no DOM
+        atualizarCarrinho();
+    }
+
+    // Adiciona evento de clique para todos os botões de "adicionar ao carrinho"
+    document.querySelectorAll(".adicionar-carrinho").forEach(botao => {
+        botao.addEventListener("click", function () {
+            const produto = this.closest(".product");
+            adicionarAoCarrinho(produto);
+        });
+    });
+});
+
   
   
   

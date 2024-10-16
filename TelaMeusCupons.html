@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LightApple</title>
-    <link rel="stylesheet" href="TelaInicialCliente.css">
+    <link rel="stylesheet" href="TelaMeusCupons.css">
     <link rel="stylesheet" href="navmenu(cliente).css">
     <link rel="stylesheet" href="footer.css">
 </head>
@@ -123,145 +123,87 @@
             </nav>
         </div>
     </header>
+    <section class="section-txt">
+        <h1 class="meus_cupons">Meus Cupons</h1>
+    </section>
     <main>
-        <section class="section-minimenu">
-            <a href="#">
-                <div class="box-empresa-de-coleta">
-                    <img class="empresacoleta" src="imagens/empresacoleta.png" />
-                    <div class="txtempresacoleta">EMPRESAS DE COLETA</div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="box-trocadepontos">
-                    <img class="troca" src="imagens/troca.png" />
-                    <div class="txttrocadepontos">TROCAR PONTOS</div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="box-pedidos">
-                    <img class="pedido" src="imagens/pedido.png" />
-                    <div class="txtpedidos">PEDIDOS</div>
-                </div>
-            </a>
-        </section>
-        <section class="section-empresa-coleta">
-            <div class="box-empresadecoleta">
-                <div class="tt">Empresas de Coleta</div>
-                <div class="desc">Algumas em empresas cadastradas no nosso site</div>
-            </div>
-            <div class="empresas">
-                <div class="emp-coleta">
-                    <div class="box-cards">
-                        <div class="card">
-                            <img src="imagens/empresa-biocoleta.png">
-                            <div class="texto">
-                                <h1>EcoPonto</h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="imagens/empresa-ecoponto.png">
-                            <div class="texto">
-                                <h1>BioColeta</h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="imagens/empresa-verdeponto.png">
-                            <div class="texto">
-                                <h1>VerdePonto</h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="imagens/empresa-biocoleta.png">
-                            <div class="texto">
-                                <h1>Ecourbis Ambiental</h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="imagens/empresa-ecoponto.png">
-                            <div class="texto">
-                                <h1>Essencis Soluções </h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="">
-                            <div class="texto">
-                                <h1></h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="accordion" id="accordionPanelsStayOpenExample">
 
-                <div class="map">
-                    <button class="active first"></button>
-                    <button class="second"></button>
-                </div>
-            </div>
-            <button class="btn-vermais"><a href="#">Ver Mais Empresas</a></button>
-        </section>
-        <section class="section-anuncio">
-            <div class="cont-img-anuncio">
-                <div class="box-img-anuncio">
-                    <img class="anuncio" src="imagens/anuncio.png" />
-                </div>
-            </div>
-            <div class="box-anuncio">
-                <div class="tt2">NÃO FEZ SEU PEDIDO AINDA?</div>
-                <div class="desc2">Faça seu pedido para ganhar pontos de reciclagem.</div>
-                <button class="btn-criarpedido"><a href="#">Criar Pedido</a></button>
-            </div>
-        </section>
-        <section class="section-troca-de-pontos">
-            <div class="box-troca">
-                <div class="box-troca-pontos">
-                    <div class="tt">Troca de Pontos</div>
-                    <div class="desc">Alguns produtos para troca de pontos</div>
-                </div>
-            </div>
-            <div class="empresas">
-                <div class="emp-coleta">
-                    <div class="box-cards">
-                        <div class="card">
-                            <img src="imagens/copos.jpg">
-                            <div class="texto">
-                                <h1>Copos</h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="imagens/cupon.png">
-                            <div class="texto">
-                                <h1>Cupons</h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="imagens/chaveiro.jpg">
-                            <div class="texto">
-                                <h1>Chaveiros</h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="">
-                            <div class="texto">
-                                <h1>Ecourbis Ambiental</h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="">
-                            <div class="texto">
-                                <h1>Essencis Soluções </h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="">
-                            <div class="texto">
-                                <h1></h1>
-                            </div>
-                        </div>
+            <input type="search" name="" id="flitersearch">
+
+            <!-- Filtro de Tipo de Cupons -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingCupons">Tipo de Cupom</h2>
+                <div id="collapseCupons" class="accordion-collapse collapse show" aria-labelledby="headingCupons">
+                    <div class="accordion-body">
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="cupon-link text-dark">Todos</a></li>
+                            <li><a href="#" class="cupon-link text-dark">50%Off</a></li>
+                            <li><a href="#" class="cupon-link text-dark">20%Off</a></li>
+                            <li><a href="#" class="cupon-link text-dark">15%Off</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <button class="btn-vermais"><a href="#">Ver Produtos</a></button>
-        </section>
+
+            <!-- Filtro de Data de Vencimento -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingVencimento">Data de Vencimento</h2>
+                <div id="collapseVencimento" class="accordion-collapse collapse show"
+                    aria-labelledby="headingVencimento">
+                    <div class="accordion-body">
+                        <label for="vencimentoDate">Data de vencimento:</label>
+                        <input type="date" id="vencimentoDate" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="products-grid">
+            <div class="product" data-cupon="50%Off" data-vencimento="2024-05-25">
+                <h3>50%Off</h3>
+                <p>Expira em: 2024-05-25</p>
+                <p>Use o código: ECO50</p>
+            </div>
+            <div class="product" data-cupon="20%Off" data-vencimento="2024-05-28">
+                <h3>20%Off</h3>
+                <p>Expira em: 2024-05-28</p>
+                <p>Use o código: ECO20</p>
+            </div>
+            <div class="product" data-cupon="15%Off" data-vencimento="2024-08-28">
+                <h3>15%Off</h3>
+                <p>Expira em: 2024-08-28</p>
+                <p>Use o código: ECO15</p>
+            </div>
+            <div class="product" data-cupon="15%Off" data-vencimento="2024-08-28">
+                <h3>15%Off</h3>
+                <p>Expira em: 2024-08-28</p>
+                <p>Use o código: ECO15</p>
+            </div>
+            <div class="product" data-cupon="20%Off" data-vencimento="2024-05-28">
+                <h3>20%Off</h3>
+                <p>Expira em: 2024-05-28</p>
+                <p>Use o código: ECO20</p>
+            </div>
+            <div class="product" data-cupon="50%Off" data-vencimento="2024-05-25">
+                <h3>50%Off</h3>
+                <p>Expira em: 2024-05-25</p>
+                <p>Use o código: ECO50</p>
+            </div>
+        </div>
+        </div>
     </main>
+    <div class="pagination">
+        <button class="prev" disabled>Previous</button>
+        <button class="page-number active">1</button>
+        <span>...</span>
+        <button class="page-number">2</button>
+        <button class="page-number">3</button>
+        <button class="next">Next</button>
+    </div>
     <footer class="footer">
         <img class="light-apple-logo" src="imagens/LightApple-Logo.png" />
         <div class="copy-2024-light-apple">&copy; 2024 LightApple</div>
@@ -294,7 +236,7 @@
             </div>
         </div>
     </footer>
-    <script src="TelaInicialCliente.js"></script>
+    <script src="TelaMeusCupons.js"></script>
     <script src="navmenu(cliente).js"></script>
 </body>
 
