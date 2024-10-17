@@ -136,7 +136,7 @@
                 </div>
             </div>
             <div class="profile-right">
-                <button class="edit-profile-btn">Editar Perfil</button>
+                <button type="button" id="editar-perfil-btn">Editar Perfil</button>
             </div>
         </section>
 
@@ -163,7 +163,10 @@
                 <input type="email" id="email" name="email" value="joana@email.com" readonly>
 
                 <label for="senha">Senha:</label>
-                <input type="password" id="senha" name="senha" value="********" readonly>
+                <div class="senha-section">
+                    <input type="password" id="senha" name="senha" value="********" readonly>
+                    <button type="button" class="trocar-senha-btn">Trocar Senha</button>
+                </div>
 
                 <label for="tipo-conta">Tipo de Conta:</label>
                 <select id="tipo-conta" name="tipo-conta" disabled>
@@ -176,6 +179,21 @@
                 </select>
             </form>
         </section>
+        <!-- Overlay para o card de troca de senha -->
+        <div class="overlay" style="display: none;">
+            <div class="senha-card">
+                <label for="nova-senha">Nova Senha</label>
+                <input type="password" id="nova-senha" class="input-padrao">
+
+                <label for="confirmar-senha">Confirmar Nova Senha</label>
+                <input type="password" id="confirmar-senha" class="input-padrao">
+
+                <div class="button-container">
+                    <button class="salvar-senha-btn">Salvar Senha</button>
+                    <button class="cancelar-senha-btn">Cancelar</button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer class="footer">
