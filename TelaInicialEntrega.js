@@ -18,3 +18,16 @@ buttonsWrapper.addEventListener("click", e => {
       }
     }
   });
+
+
+  document.querySelectorAll('.aceitar').forEach(button => {
+    button.addEventListener('click', function() {
+        this.closest('.pedidoNum').remove(); // Remove o pedido da lista
+    });
+});
+
+document.querySelectorAll('.rejeitar').forEach(button => {
+    button.addEventListener('click', function() {
+        this.closest('.pedidoNum').remove(); // Remove o pedido da lista
+    });
+});

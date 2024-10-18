@@ -30,7 +30,7 @@ a {
   position: relative;
   overflow: hidden;
 }
-.box-empresa-de-coleta {
+.box-estabelecimentos {
   background: #abd94a;
   border-radius: 5px;
   width: 325px;
@@ -42,11 +42,11 @@ a {
   transition: transform 0.3s ease;
 }
 
-.box-empresa-de-coleta:hover {
+.box-estabelecimentos:hover {
   transform: scale(1.1);
 }
 
-.empresacoleta {
+.estabelecimentos {
   width: 125px;
   height: 122.06px;
   position: absolute;
@@ -54,7 +54,7 @@ a {
   top: 40px;
   object-fit: cover;
 }
-.txtempresacoleta {
+.txtestabelecimentos {
   color: #287326;
   text-align: center;
   font-family: var(--heading-font-family, "Inter-SemiBold", sans-serif);
@@ -63,12 +63,12 @@ a {
   letter-spacing: var(--heading-letter-spacing, -0.02em);
   font-weight: var(--heading-font-weight, 600);
   position: absolute;
-  left: 74px;
+  left: 44px;
   top: 205px;
   width: 177px;
 }
 
-.box-trocadepontos {
+.box-minhasentregas {
   background: #abd94a;
   border-radius: 5px;
   width: 325px;
@@ -80,11 +80,11 @@ a {
   transition: transform 0.3s ease;
 }
 
-.box-trocadepontos:hover {
+.box-minhasentregas:hover {
   transform: scale(1.1);  
 }
 
-.troca {
+.minhasentregas {
   width: 125px;
   height: 125px;
   position: absolute;
@@ -92,7 +92,7 @@ a {
   top: 43px;
   object-fit: cover;
 }
-.txttrocadepontos {
+.txtminhasentregas {
   color: #287326;
   text-align: center;
   font-family: var(--heading-font-family, "Inter-SemiBold", sans-serif);
@@ -101,7 +101,7 @@ a {
   letter-spacing: var(--heading-letter-spacing, -0.02em);
   font-weight: var(--heading-font-weight, 600);
   position: absolute;
-  left: 61px;
+  left: 52px;
   top: 214px;
 }
 .box-pedidos {
@@ -362,62 +362,6 @@ a {
   border-color: #287326;
 }
 
-/*SECTION TROCA DE PONTOS*/
-.section-troca-de-pontos,
-.section-troca-de-pontos * {
-  box-sizing: border-box;
-}
-.section-troca-de-pontos {
-  padding: 60px;
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-  align-items: center;
-  justify-content: center;
-  height: 710px;
-  position: relative;
-  overflow: hidden;
-}
-.box-troca {
-  display: flex;
-  flex-direction: row;
-  gap: 60px;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-}
-.box-troca-pontos {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex: 1;
-  position: relative;
-}
-.tt {
-  color: #287326;
-  text-align: center;
-  font-family: "Roboto-Bold", sans-serif;
-  font-size: 40px;
-  line-height: 48px;
-  font-weight: 700;
-  position: relative;
-  align-self: stretch;
-}
-.desc {
-  color: #287326;
-  text-align: center;
-  font-family: "Roboto-Regular", sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-  position: relative;
-  align-self: stretch;
-}
-
 .btn-vermais {
   display: flex;
   flex-direction: column;
@@ -441,3 +385,125 @@ a {
   font-weight: 500;
   border-color: #218838;
 }
+
+/*SECTION PEDIDOS LISTAS*/
+
+/* Centraliza o container */
+.container {
+  width: 80%;
+  margin: 0 auto; /* Centraliza horizontalmente */
+  text-align: center; /* Centraliza o texto */
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.pedidos-lista {
+  display: flex;
+  overflow-x: scroll;
+  gap: 15px;
+  padding: 10px 0;
+}
+
+.pedidoNum {
+  min-width: 250px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  flex-shrink: 0;
+}
+
+.pedidoNum h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.pedidoNum p {
+  margin: 5px 0;
+}
+
+.botoes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button.aceitar {
+  background-color: #4caf50;
+  color: white;
+}
+
+button.rejeitar {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Efeito de hover nos botões */
+button:hover {
+  opacity: 0.8;
+}
+
+/*SECTION PEDIDOS ACEITOS*/
+
+.pedidos-aceitos {
+  display: flex;
+  overflow-x: scroll;
+  gap: 15px;
+  padding: 10px 0;
+}
+
+.pedidoAct {
+  min-width: 250px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  flex-shrink: 0;
+}
+
+.pedidoAct h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.pedidoAct p {
+  margin: 5px 0;
+}
+
+.botoes-act {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+button.entregue {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #2196F3;
+  color: white;
+  font-size: 14px;
+}
+
+/* Efeito de hover nos botões */
+button.entregue:hover {
+  opacity: 0.8;
+}
+

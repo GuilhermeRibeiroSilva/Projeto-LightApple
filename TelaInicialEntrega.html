@@ -44,7 +44,8 @@
                                     </div>
                                     <div class="pedido-acoes">
                                         <button class="btn-aceitar" onclick="aceitarPedido('pedido-1')">Aceitar</button>
-                                        <button class="btn-rejeitar" onclick="rejeitarPedido('pedido-1')">Rejeitar</button>
+                                        <button class="btn-rejeitar"
+                                            onclick="rejeitarPedido('pedido-1')">Rejeitar</button>
                                     </div>
                                 </div>
                                 <div class="pedido-box" id="pedido-2">
@@ -57,7 +58,8 @@
                                     </div>
                                     <div class="pedido-acoes">
                                         <button class="btn-aceitar" onclick="aceitarPedido('pedido-2')">Aceitar</button>
-                                        <button class="btn-rejeitar" onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
+                                        <button class="btn-rejeitar"
+                                            onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
                                     </div>
                                 </div>
                                 <div class="pedido-box" id="pedido-2">
@@ -70,15 +72,16 @@
                                     </div>
                                     <div class="pedido-acoes">
                                         <button class="btn-aceitar" onclick="aceitarPedido('pedido-2')">Aceitar</button>
-                                        <button class="btn-rejeitar" onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
+                                        <button class="btn-rejeitar"
+                                            onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                             
+
+
                 <div class="user-menu">
                     <img src="imagens/Avatar.png" class="user-pic" onclick="toggleMenu()">
                     <div class="sub-menu-wrap" id="subMenu">
@@ -120,15 +123,15 @@
     <main>
         <section class="section-minimenu">
             <a href="#">
-                <div class="box-empresa-de-coleta">
-                    <img class="empresacoleta" src="imagens/empresacoleta.png" />
-                    <div class="txtempresacoleta">EMPRESAS DE COLETA</div>
+                <div class="box-estabelecimentos">
+                    <img class="estabelecimentos" src="imagens/Estabelecimentos.png" />
+                    <div class="txtestabelecimentos">ESTABELECIMENTOS</div>
                 </div>
             </a>
             <a href="#">
-                <div class="box-trocadepontos">
-                    <img class="troca" src="imagens/troca.png" />
-                    <div class="txttrocadepontos">TROCAR PONTOS</div>
+                <div class="box-minhasentregas">
+                    <img class="minhasentregas" src="imagens/Pacote.png" />
+                    <div class="txtminhasentregas">MINHAS ENTREGAS</div>
                 </div>
             </a>
             <a href="#">
@@ -140,40 +143,40 @@
         </section>
         <section class="section-empresa-coleta">
             <div class="box-empresadecoleta">
-                <div class="tt">Empresas de Coleta</div>
-                <div class="desc">Algumas em empresas cadastradas no nosso site</div>
+                <div class="tt">Estabelecimenos</div>
+                <div class="desc">Algumas em estabeelecimentos cadastradas no nosso site</div>
             </div>
             <div class="empresas">
                 <div class="emp-coleta">
                     <div class="box-cards">
                         <div class="card">
-                            <img src="imagens/empresa-biocoleta.png">
+                            <img src="imagens/ROOP.png">
                             <div class="texto">
-                                <h1>EcoPonto</h1>
+                                <h1>ROOP</h1>
                             </div>
                         </div>
                         <div class="card">
-                            <img src="imagens/empresa-ecoponto.png">
+                            <img src="imagens/Cond.png">
                             <div class="texto">
-                                <h1>BioColeta</h1>
+                                <h1>Cond. Laranjeiras</h1>
                             </div>
                         </div>
                         <div class="card">
-                            <img src="imagens/empresa-verdeponto.png">
+                            <img src="imagens/Rest.png">
                             <div class="texto">
-                                <h1>VerdePonto</h1>
+                                <h1>Chiniyaki</h1>
                             </div>
                         </div>
                         <div class="card">
-                            <img src="imagens/empresa-biocoleta.png">
+                            <img src="imagens/Cond.png">
                             <div class="texto">
-                                <h1>Ecourbis Ambiental</h1>
+                                <h1>Cond. Laranjeiras</h1>
                             </div>
                         </div>
                         <div class="card">
-                            <img src="imagens/empresa-ecoponto.png">
+                            <img src="imagens/ROOP.png">
                             <div class="texto">
-                                <h1>Essencis Soluções </h1>
+                                <h1>ROOP</h1>
                             </div>
                         </div>
                         <div class="card">
@@ -190,70 +193,129 @@
                     <button class="second"></button>
                 </div>
             </div>
-            <button class="btn-vermais"><a href="#">Ver Mais Empresas</a></button>
+            <button class="btn-vermais"><a href="#">Ver Mais Estabelecimenos</a></button>
         </section>
-        <section class="section-anuncio">
-            <div class="cont-img-anuncio">
-                <div class="box-img-anuncio">
-                    <img class="anuncio" src="imagens/anuncio.png" />
-                </div>
-            </div>
-            <div class="box-anuncio">
-                <div class="tt2">NÃO FEZ SEU PEDIDO AINDA?</div>
-                <div class="desc2">Faça seu pedido para ganhar pontos de reciclagem.</div>
-                <button class="btn-criarpedido"><a href="#">Criar Pedido</a></button>
-            </div>
-        </section>
-        <section class="section-troca-de-pontos">
-            <div class="box-troca">
-                <div class="box-troca-pontos">
-                    <div class="tt">Troca de Pontos</div>
-                    <div class="desc">Alguns produtos para troca de pontos</div>
-                </div>
-            </div>
-            <div class="empresas">
-                <div class="emp-coleta">
-                    <div class="box-cards">
-                        <div class="card">
-                            <img src="imagens/copos.jpg">
-                            <div class="texto">
-                                <h1>Copos</h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="imagens/cupon.png">
-                            <div class="texto">
-                                <h1>Cupons</h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="imagens/chaveiro.jpg">
-                            <div class="texto">
-                                <h1>Chaveiros</h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="">
-                            <div class="texto">
-                                <h1>Ecourbis Ambiental</h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="">
-                            <div class="texto">
-                                <h1>Essencis Soluções </h1>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="">
-                            <div class="texto">
-                                <h1></h1>
-                            </div>
+        <section>
+            <div class="container">
+                <h2>Pedidos Disponíveis</h2>
+                <div class="pedidos-lista">
+                    <div class="pedidoNum">
+                        <h3>PEDIDO #001</h3>
+                        <p><strong>Nome do Local:</strong> Restaurante A</p>
+                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
+                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
+                        <p><strong>Peso:</strong> 2kg</p>
+                        <p><strong>Valor:</strong> R$ 25,00</p>
+                        <div class="botoes">
+                            <button class="aceitar">Aceitar</button>
+                            <button class="rejeitar">Rejeitar</button>
                         </div>
                     </div>
+                    <div class="pedidoNum">
+                        <h3>PEDIDO #001</h3>
+                        <p><strong>Nome do Local:</strong> Restaurante A</p>
+                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
+                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
+                        <p><strong>Peso:</strong> 2kg</p>
+                        <p><strong>Valor:</strong> R$ 25,00</p>
+                        <div class="botoes">
+                            <button class="aceitar">Aceitar</button>
+                            <button class="rejeitar">Rejeitar</button>
+                        </div>
+                    </div>
+                    <div class="pedidoNum">
+                        <h3>PEDIDO #001</h3>
+                        <p><strong>Nome do Local:</strong> Restaurante A</p>
+                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
+                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
+                        <p><strong>Peso:</strong> 2kg</p>
+                        <p><strong>Valor:</strong> R$ 25,00</p>
+                        <div class="botoes">
+                            <button class="aceitar">Aceitar</button>
+                            <button class="rejeitar">Rejeitar</button>
+                        </div>
+                    </div>
+                    <div class="pedidoNum">
+                        <h3>PEDIDO #001</h3>
+                        <p><strong>Nome do Local:</strong> Restaurante A</p>
+                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
+                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
+                        <p><strong>Peso:</strong> 2kg</p>
+                        <p><strong>Valor:</strong> R$ 25,00</p>
+                        <div class="botoes">
+                            <button class="aceitar">Aceitar</button>
+                            <button class="rejeitar">Rejeitar</button>
+                        </div>
+                    </div>
+                    <div class="pedidoNum">
+                        <h3>PEDIDO #001</h3>
+                        <p><strong>Nome do Local:</strong> Restaurante A</p>
+                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
+                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
+                        <p><strong>Peso:</strong> 2kg</p>
+                        <p><strong>Valor:</strong> R$ 25,00</p>
+                        <div class="botoes">
+                            <button class="aceitar">Aceitar</button>
+                            <button class="rejeitar">Rejeitar</button>
+                        </div>
+                    </div>
+                    <div class="pedidoNum">
+                        <h3>PEDIDO #001</h3>
+                        <p><strong>Nome do Local:</strong> Restaurante A</p>
+                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
+                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
+                        <p><strong>Peso:</strong> 2kg</p>
+                        <p><strong>Valor:</strong> R$ 25,00</p>
+                        <div class="botoes">
+                            <button class="aceitar">Aceitar</button>
+                            <button class="rejeitar">Rejeitar</button>
+                        </div>
+                    </div>
+                    <div class="pedidoNum">
+                        <h3>PEDIDO #001</h3>
+                        <p><strong>Nome do Local:</strong> Restaurante A</p>
+                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
+                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
+                        <p><strong>Peso:</strong> 2kg</p>
+                        <p><strong>Valor:</strong> R$ 25,00</p>
+                        <div class="botoes">
+                            <button class="aceitar">Aceitar</button>
+                            <button class="rejeitar">Rejeitar</button>
+                        </div>
+                    </div>
+                    <!-- Mais pedidos podem ser adicionados aqui -->
                 </div>
             </div>
-            <button class="btn-vermais"><a href="#">Ver Produtos</a></button>
+        </section>
+        <section>
+            <div class="container">
+                <h2>Pedidos Aceitos</h2>
+                <div class="pedidos-aceitos">
+                    <div class="pedidoAct">
+
+                        <h3>Nome do Local: Restaurante A</h3>
+                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
+                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
+                        <p><strong>Peso:</strong> 2kg</p>
+                        <p><strong>Valor:</strong> R$ 25,00</p>
+                        <div class="botoes-act">
+                            <button class="entregue">Marcar como Entregue</button>
+                        </div>
+                    </div>
+                    <div class="pedidoAct">
+                        <h3>Nome do Local: Supermercado B</h3>
+                        <p><strong>Partida:</strong> Rua 3, Nº 75</p>
+                        <p><strong>Chegada:</strong> Rua 20, Nº 250</p>
+                        <p><strong>Peso:</strong> 5kg</p>
+                        <p><strong>Valor:</strong> R$ 40,00</p>
+                        <div class="botoes-act">
+                            <button class="entregue">Marcar como Entregue</button>
+                        </div>
+                    </div>
+                    <!-- Mais pedidos aceitos podem ser adicionados aqui -->
+                </div>
+            </div>
+            
         </section>
     </main>
     <footer class="footer">
