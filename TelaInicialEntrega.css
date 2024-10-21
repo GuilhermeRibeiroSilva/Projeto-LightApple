@@ -24,12 +24,14 @@ a {
 .section-minimenu * {
   box-sizing: border-box;
 }
+
 .section-minimenu {
   height: 422px;
   margin-left: 7%;
   position: relative;
   overflow: hidden;
 }
+
 .box-estabelecimentos {
   background: #abd94a;
   border-radius: 5px;
@@ -54,6 +56,7 @@ a {
   top: 40px;
   object-fit: cover;
 }
+
 .txtestabelecimentos {
   color: #287326;
   text-align: center;
@@ -81,7 +84,7 @@ a {
 }
 
 .box-minhasentregas:hover {
-  transform: scale(1.1);  
+  transform: scale(1.1);
 }
 
 .minhasentregas {
@@ -92,6 +95,7 @@ a {
   top: 43px;
   object-fit: cover;
 }
+
 .txtminhasentregas {
   color: #287326;
   text-align: center;
@@ -104,6 +108,7 @@ a {
   left: 52px;
   top: 214px;
 }
+
 .box-pedidos {
   background: #abd94a;
   border-radius: 5px;
@@ -117,7 +122,7 @@ a {
 }
 
 .box-pedidos:hover {
-  transform: scale(1.1);  
+  transform: scale(1.1);
 }
 
 .pedido {
@@ -128,6 +133,7 @@ a {
   top: 52px;
   object-fit: cover;
 }
+
 .txtpedidos {
   color: #287326;
   text-align: center;
@@ -147,6 +153,7 @@ a {
 .section-empresa-coleta * {
   box-sizing: border-box;
 }
+
 .section-empresa-coleta {
   padding: 60px;
   display: flex;
@@ -160,36 +167,38 @@ a {
 }
 
 .box-empresadecoleta {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex: 1;
-    position: relative;
-  }
-  .tt {
-    color: #287326;
-    text-align: center;
-    font-family: "Roboto-Bold", sans-serif;
-    font-size: 40px;
-    line-height: 48px;
-    font-weight: 700;
-    position: relative;
-    align-self: stretch;
-  }
-  .desc {
-    color: #287326;
-    text-align: center;
-    font-family: "Roboto-Regular", sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    position: relative;
-    align-self: stretch;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
 
-  /*CARDS PARA EMPRESA DE COLETA E TROCA DE PONTO*/
+.tt {
+  color: #287326;
+  text-align: center;
+  font-family: "Roboto-Bold", sans-serif;
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+  position: relative;
+  align-self: stretch;
+}
+
+.desc {
+  color: #287326;
+  text-align: center;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+
+/*CARDS PARA EMPRESA DE COLETA E TROCA DE PONTO*/
 
 .empresas {
   align-items: center;
@@ -205,7 +214,8 @@ a {
   overflow: hidden;
   width: 55em;
 }
-.emp-coleta > .box-cards {
+
+.emp-coleta>.box-cards {
   display: flex;
   grid-gap: 1em;
   transition: all 1s ease-in-out;
@@ -215,23 +225,28 @@ a {
   border-radius: 0.5em;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.253);
 }
-.card > img {
+
+.card>img {
   border-top-right-radius: inherit;
   border-top-left-radius: inherit;
   display: block;
   width: 17.5em;
 }
-.card > .texto {
+
+.card>.texto {
   background: #abd94a;
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
   padding: 1em;
   text-align: center;
 }
-.card > .texto > h1, .card > .texto > h3 {
+
+.card>.texto>h1,
+.card>.texto>h3 {
   margin: 0.35em 0;
 }
-.card > .texto > h1 {
+
+.card>.texto>h1 {
   color: #218838;
   font-size: 1.25rem;
   line-height: 1;
@@ -240,21 +255,23 @@ a {
 .map {
   margin-top: 1em;
 }
-.map > button {
+
+.map>button {
   all: unset;
   background: #abd94a;
   cursor: pointer;
   margin: 0 0.125em;
   position: relative;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   border-radius: 100%;
   height: 1em;
   width: 1em;
 }
-.map > button.active:after {
+
+.map>button.active:after {
   background: #218838;
   content: "";
   left: 50%;
@@ -265,13 +282,14 @@ a {
   height: 0.5em;
   width: 0.5em;
 }
-  
+
 /*SECTION-ANUNCIO*/
 
 .section-anuncio,
 .section-anuncio * {
   box-sizing: border-box;
 }
+
 .section-anuncio {
   padding: 60px 170px 60px 170px;
   display: flex;
@@ -284,6 +302,7 @@ a {
   position: relative;
   overflow: hidden;
 }
+
 .cont-img-anuncio {
   display: flex;
   flex-direction: row;
@@ -295,12 +314,14 @@ a {
   position: relative;
   overflow: hidden;
 }
+
 .box-img-anuncio {
   background: rgb(255, 255, 255);
   align-self: stretch;
   flex: 1;
   position: relative;
 }
+
 .anuncio {
   width: 348px;
   height: 290px;
@@ -309,6 +330,7 @@ a {
   top: 0.5px;
   object-fit: cover;
 }
+
 .box-anuncio {
   display: flex;
   flex-direction: column;
@@ -318,6 +340,7 @@ a {
   flex: 1;
   position: relative;
 }
+
 .tt2 {
   color: #287326;
   text-align: left;
@@ -328,6 +351,7 @@ a {
   position: relative;
   align-self: stretch;
 }
+
 .desc2 {
   color: #287326;
   text-align: left;
@@ -338,6 +362,7 @@ a {
   position: relative;
   align-self: stretch;
 }
+
 .btn-criarpedido {
   display: flex;
   flex-direction: column;
@@ -388,18 +413,20 @@ a {
 
 /*SECTION PEDIDOS LISTAS*/
 
+.PedDisp {
+  margin-top: 4%;
+}
+
 /* Centraliza o container */
 .container {
   width: 80%;
-  margin: 0 auto; /* Centraliza horizontalmente */
-  text-align: center; /* Centraliza o texto */
+  margin: 0 auto;
+  /* Centraliza horizontalmente */
+  text-align: center;
+  /* Centraliza o texto */
   padding: 20px;
 }
 
-h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-}
 
 .pedidos-lista {
   display: flex;
@@ -409,8 +436,8 @@ h2 {
 }
 
 .pedidoNum {
-  min-width: 250px;
-  background-color: #f9f9f9;
+  min-width: 220px;
+  background-color: #abd94a;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -422,10 +449,12 @@ h2 {
   font-size: 18px;
   margin-bottom: 10px;
   text-align: center;
+  color: #218838;
 }
 
 .pedidoNum p {
   margin: 5px 0;
+  color: #218838;
 }
 
 .botoes {
@@ -443,7 +472,7 @@ button {
 }
 
 button.aceitar {
-  background-color: #4caf50;
+  background-color: #287326;
   color: white;
 }
 
@@ -457,7 +486,17 @@ button:hover {
   opacity: 0.8;
 }
 
+#no-available-orders {
+  color: #218838;
+  font-weight: bold;
+}
+
 /*SECTION PEDIDOS ACEITOS*/
+
+.PedAcei {
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
 
 .pedidos-aceitos {
   display: flex;
@@ -466,9 +505,21 @@ button:hover {
   padding: 10px 0;
 }
 
+.ttped {
+  margin-bottom: 2%;
+  color: #287326;
+  text-align: center;
+  font-family: "Roboto-Bold", sans-serif;
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+  position: relative;
+  align-self: stretch;
+}
+
 .pedidoAct {
-  min-width: 250px;
-  background-color: #f9f9f9;
+  min-width: 230px;
+  background-color: #abd94a;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -480,10 +531,12 @@ button:hover {
   font-size: 18px;
   margin-bottom: 10px;
   text-align: center;
+  color: #218838;
 }
 
 .pedidoAct p {
   margin: 5px 0;
+  color: #218838;
 }
 
 .botoes-act {
@@ -497,7 +550,7 @@ button.entregue {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #2196F3;
+  background-color: #287326;
   color: white;
   font-size: 14px;
 }
@@ -507,3 +560,7 @@ button.entregue:hover {
   opacity: 0.8;
 }
 
+#no-accepted-orders {
+  color: #218838;
+  font-weight: bold;
+}
