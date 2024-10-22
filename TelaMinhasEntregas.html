@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LightApple</title>
-  <link rel="stylesheet" href="TelaEstabelecimentos.css">
+  <link rel="stylesheet" href="TelaMinhasEntregas.css">
   <link rel="stylesheet" href="navmenu(entrega).css">
   <link rel="stylesheet" href="footer.css">
 </head>
@@ -120,108 +120,88 @@
             </nav>
         </div>
     </header>
-  <section class="section-txt">
-    <h1 class="estabelecimentos">Estabelecimentos</h1>
-  </section>
-  <main>
-      <div class="accordion" id="accordionPanelsStayOpenExample">
+    <main>
 
-        <input type="search" name="" id="flitersearch">
+        <div id="map"></div>
 
-        <!-- Filtro de Distância -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingDistancia">Distância Máxima</h2>
-          <div id="panelsStayOpen-collapseDistancia" class="accordion-collapse collapse show"
-            aria-labelledby="headingDistancia">
-            <div class="accordion-body">
-              <label for="distanciaRange">Distância máxima (km): <span id="currentDistancia">0 km</span></label>
-              <input type="range" class="form-range" min="0" max="5000" value="5000" id="distanciaRange" />
+        <div class="products-grid">
+            <div class="product" data-info='{"id": "001", "produto": "ROOP", "localPartida": "XY", "quantidade": "15 kg", "data": "15/05/2024", "status": "PENDENTE"}'  data-route='[{"lat":-23.5505,"lng":-46.6333},{"lat":-23.5656,"lng":-46.6542}]'> 
+                <h3>Pedido #001</h3>
+                <p>ROOP</p>
+                <p>Local de Partida: XY</p>
+                <p>Local de Partida: X</p>
+                <p>Qtd: 15 kg</p>
+                <P>15/05/2024</P>
+                <p>PENDENTE</p>
+                <button class="show-route">Mostrar Percurso</button>
+                <span class="info">&#8505;</span>
             </div>
-          </div>
-        </div>
-
-        <!-- Filtro de Estrelas com Input Range -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingFive">Avaliações</h2>
-          <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show" aria-labelledby="headingFive">
-            <div class="accordion-body">
-              <!-- Slider para Avaliações de Estrelas -->
-              <label for="avaliacaoRange">Avaliação mínima: <span id="avaliacaoValor">3</span> &#9733;</label>
-              <input type="range" class="form-range" min="1" max="5" value="1" id="avaliacaoRange" />
+            <div class="product" data-info='{"id": "001", "produto": "ROOP", "localPartida": "XY", "quantidade": "15 kg", "data": "15/05/2024", "status": "PENDENTE"}'  data-route='[{"lat":-23.5505,"lng":-46.6333},{"lat":-23.5656,"lng":-46.6542}]'> 
+                <h3>Pedido #001</h3>
+                <p>ROOP</p>
+                <p>Local de Partida: XY</p>
+                <p>Local de Partida: X</p>
+                <p>Qtd: 15 kg</p>
+                <P>15/05/2024</P>
+                <p>PENDENTE</p>
+                <button class="show-route">Mostrar Percurso</button>
+                <span class="info">&#8505;</span>
             </div>
-          </div>
+            <div class="product" data-info='{"id": "001", "produto": "ROOP", "localPartida": "XY", "quantidade": "15 kg", "data": "15/05/2024", "status": "PENDENTE"}'  data-route='[{"lat":-23.5505,"lng":-46.6333},{"lat":-23.5656,"lng":-46.6542}]'> 
+                <h3>Pedido #001</h3>
+                <p>ROOP</p>
+                <p>Local de Partida: XY</p>
+                <p>Local de Partida: X</p>
+                <p>Qtd: 15 kg</p>
+                <P>15/05/2024</P>
+                <p>PENDENTE</p>
+                <button class="show-route">Mostrar Percurso</button>
+                <span class="info">&#8505;</span>
+            </div>
+            <div class="product" data-info='{"id": "001", "produto": "ROOP", "localPartida": "XY", "quantidade": "15 kg", "data": "15/05/2024", "status": "PENDENTE"}'  data-route='[{"lat":-23.5505,"lng":-46.6333},{"lat":-23.5656,"lng":-46.6542}]'> 
+                <h3>Pedido #001</h3>
+                <p>ROOP</p>
+                <p>Local de Partida: XY</p>
+                <p>Local de Partida: X</p>
+                <p>Qtd: 15 kg</p>
+                <P>15/05/2024</P>
+                <p>PENDENTE</p>
+                <button class="show-route">Mostrar Percurso</button>
+                <span class="info">&#8505;</span>
+            </div>
+            <div class="product" data-info='{"id": "001", "produto": "ROOP", "localPartida": "XY", "quantidade": "15 kg", "data": "15/05/2024", "status": "PENDENTE"}'  data-route='[{"lat":-23.5505,"lng":-46.6333},{"lat":-23.5656,"lng":-46.6542}]'> 
+                <h3>Pedido #001</h3>
+                <p>ROOP</p>
+                <p>Local de Partida: XY</p>
+                <p>Local de Partida: X</p>
+                <p>Qtd: 15 kg</p>
+                <P>15/05/2024</P>
+                <p>PENDENTE</p>
+                <button class="show-route">Mostrar Percurso</button>
+                <span class="info">&#8505;</span>
+            </div>
+            <div class="product" data-info='{"id": "001", "produto": "ROOP", "localPartida": "XY", "quantidade": "15 kg", "data": "15/05/2024", "status": "PENDENTE"}'  data-route='[{"lat":-23.5505,"lng":-46.6333},{"lat":-23.5656,"lng":-46.6542}]'> 
+                <h3>Pedido #001</h3>
+                <p>ROOP</p>
+                <p>Local de Partida: XY</p>
+                <p>Local de Partida: X</p>
+                <p>Qtd: 15 kg</p>
+                <P>15/05/2024</P>
+                <p>PENDENTE</p>
+                <button class="show-route">Mostrar Percurso</button>
+                <span class="info">&#8505;</span>
+            </div>
+                                                
         </div>
-
-      </div>
-
-      <div class="products-grid">
-        <div class="product" data-distancia="2" data-avaliacao="3">
-          <img src="imagens/Cond.png">
-          <h3>Cond. laran</h3>
-          <p>2km</p>
-          <p>3.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
+        <!-- Modal que aparecerá ao clicar no ícone de info -->
+        <div id="modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3>Informações do Pedido</h3>
+                <p id="modal-info"></p>
+            </div>
         </div>
-        <div class="product" ata-distancia="75" data-avaliacao="2">
-          <img src="imagens/Rest.png">
-          <h3>Rest. rete</h3>
-          <p>75km</p>
-          <p>2.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" ata-distancia="35" data-avaliacao="1">
-          <img src="imagens/ROOP.png">
-          <h3>Roop</h3>
-          <p>35km</p>
-          <p>1.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" data-distancia="2" data-avaliacao="3">
-          <img src="imagens/Cond.png">
-          <h3>Cond. laran</h3>
-          <p>2km</p>
-          <p>3.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" ata-distancia="75" data-avaliacao="2">
-          <img src="imagens/Rest.png">
-          <h3>Rest. rete</h3>
-          <p>75km</p>
-          <p>2.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" ata-distancia="35" data-avaliacao="1">
-          <img src="imagens/ROOP.png">
-          <h3>Roop</h3>
-          <p>35km</p>
-          <p>1.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" ata-distancia="35" data-avaliacao="1">
-          <img src="imagens/ROOP.png">
-          <h3>Roop</h3>
-          <p>35km</p>
-          <p>1.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" ata-distancia="75" data-avaliacao="2">
-          <img src="imagens/Rest.png">
-          <h3>Rest. rete</h3>
-          <p>75km</p>
-          <p>2.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        <div class="product" data-distancia="2" data-avaliacao="3">
-          <img src="imagens/Cond.png">
-          <h3>Cond. laran</h3>
-          <p>2km</p>
-          <p>3.0 &#9733</p>
-          <span class="favoritar nao-favoritado">&#x2665;</span>
-        </div>
-        
-      </div>
-      
-  </main>
+    </main>
   <div class="pagination">
           <button class="prev" disabled>Previous</button>
           <button class="page-number active">1</button>
@@ -262,8 +242,12 @@
       </div>
     </div>
   </footer>
-  <script src="TelaEstabelecimentos.js"></script>
+  <script src="TelaMinhasEntregas.js"></script>
   <script src="navmenu(entrega).js"></script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWI8iDJqaPTGH7R0E9G9UEodWP-JCJe34&callback=initMap">
+  </script>
+
 </body>
 
 </html>

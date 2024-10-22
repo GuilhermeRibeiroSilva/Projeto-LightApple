@@ -26,14 +26,14 @@ a {
 }
 .section-txt {
   background: #ffffff;
-  height: 160px;
+  height: 100px;
   width: 100%;
   position: relative;
   overflow: hidden;
   padding-left: 30px;
 }
 
-.empresas-de-coleta {
+.estabelecimentos {
   color: #218838;
   font-family: "Inter-Regular", sans-serif;
   font-size: 48px;

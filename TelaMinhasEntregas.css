@@ -1,0 +1,260 @@
+@charset "UTF-8";
+
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html,
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(255, 255, 255);
+  overflow-x: hidden;
+}
+
+a {
+  color: #218838;
+  text-decoration: none;
+}
+
+/*SECTION TXT*/
+.section-txt,
+.section-txt * {
+  box-sizing: border-box;
+}
+.section-txt {
+  background: #ffffff;
+  height: 100px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  padding-left: 30px;
+}
+
+.meus_pedidos {
+  color: #218838;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 48px;
+  line-height: 140%;
+  font-weight: 400;
+  margin: 0;
+  text-align: center;
+  padding-top: 18px;
+}
+
+/*Maps e produtos*/
+/* Alterar a estrutura para exibir o mapa à esquerda */
+main {
+    display: flex;
+    padding: 20px;
+  }
+  
+  /* Estilos do mapa */
+  #map {
+    width: 400px; /* Largura do mapa */
+    height: 500px; /* Altura do mapa */
+    margin-right: 20px; /* Espaçamento entre o mapa e a grid de produtos */
+    border: 2px solid #218838;
+    border-radius: 10px;
+  }
+  
+  /* Grid agora com 2 colunas de produtos */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas de produtos */
+    gap: 20px; /* Espaço entre os produtos */
+    flex-grow: 1;
+  }
+  
+  /* Restante dos estilos do produto */
+  .product {
+    position: relative;
+    border: 1px solid #218838;
+    border-radius: 10px;
+    background-color: #abd94a;
+    color: #218838;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  
+  button.show-route {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #218838;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button.show-route:hover {
+    background-color: #287326;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  /* Ajustes para dispositivos móveis */
+  @media (max-width: 768px) {
+    main {
+      flex-direction: column;
+    }
+  
+    .products-grid {
+      grid-template-columns: 1fr; /* Em telas menores, 1 produto por linha */
+    }
+  
+    #map {
+      width: 100%;
+      height: 300px;
+    }
+  }
+
+  
+/* Estilo ao passar o mouse sobre o produto */
+.product:hover {
+  transform: scale(1.05); /* Aumenta o tamanho do produto ao passar o mouse */
+}
+
+/* Estilos das imagens dos produtos */
+.product img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+/* Estilos dos títulos e preços dos produtos */
+.product h3 {
+  font-size: 18px;
+  margin: 6px 0;
+}
+
+.product p {
+  font-size: 16px;
+  color: #218838;
+  margin: 10px 0;
+}
+
+.star {
+  color: #218838;
+}
+
+.info {
+  position: absolute;
+  top: 80%;
+  right: 20px;
+  font-size: 35px;
+  cursor: pointer;
+  color: transparent;
+  text-shadow: 0 0 0 #218838;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  margin-top: 25px;        /* Espaçamento entre a grid de produtos e a paginação */
+  margin-bottom: 45px;     /* Espaçamento da paginação para o final da página */
+  padding-left: 19%;
+}
+button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+}
+
+button.active {
+  background-color: #218838;
+  color: #abd94a;
+}
+
+button[disabled] {
+  background-color: #fff;
+  cursor: not-allowed;
+}
+
+/* Modal escondido por padrão */
+.hidden {
+  display: none;
+}
+
+/* Fundo semi-transparente que cobre toda a tela */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+  z-index: 5; /* Certifique-se de que fica abaixo do modal */
+  display: none; /* Inicia escondido */
+}
+
+/* Estilo básico do modal */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  padding: 20px;
+  border-radius: 10px;
+  display: none; /* Escondido por padrão */
+}
+
+/* Estilo do botão de fechar */
+.modal .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* Organizar informações dentro do modal */
+#modal-info p {
+  margin: 8px 0; /* Margem entre os parágrafos */
+  font-size: 14px;
+}
+
+/* Desfocar o conteúdo do main */
+.modal-open main {
+  filter: blur(5px);
+  pointer-events: none; /* Desabilitar cliques no conteúdo de fundo */
+}
+
+/* Exibir o modal */
+.modal-active .modal,
+.modal-active .modal-overlay {
+  display: block; /* Mostrar modal e overlay */
+}
+
+
+/* Ajustes para dispositivos móveis */
+@media (max-width: 768px) {
+  main {
+      flex-direction: column; /* Coloca o filtro acima dos produtos em telas pequenas */
+  }
+
+  .accordion {
+      width: 100%;
+      margin-bottom: 20px;
+  }
+
+  .products-grid {
+      grid-template-columns: repeat(2, 1fr); /* Reduz a grid para 2 colunas em telas menores */
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+      grid-template-columns: 1fr; /* Em telas bem pequenas, usa apenas 1 coluna */
+  }
+}
