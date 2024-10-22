@@ -33,7 +33,7 @@ a {
   padding-left: 30px;
 }
 
-.meus_pedidos {
+.Minhas_Entregas {
   color: #218838;
   font-family: "Inter-Regular", sans-serif;
   font-size: 48px;
@@ -50,15 +50,32 @@ main {
     display: flex;
     padding: 20px;
   }
+
+  .map-dst {
+    padding: 0px;
+  }
   
   /* Estilos do mapa */
   #map {
-    width: 400px; /* Largura do mapa */
+    width: 520px; /* Largura do mapa */
     height: 500px; /* Altura do mapa */
-    margin-right: 20px; /* Espaçamento entre o mapa e a grid de produtos */
+    margin-right: 20px;
+    margin-bottom: 20px; 
     border: 2px solid #218838;
     border-radius: 10px;
   }
+
+  #route-details {
+    width: 482px; /* Largura do mapa */
+    height: 18%; /* Altura do mapa */
+    margin-right: 20px;
+    padding: 20px;
+    border: 2px solid #218838;
+    border-radius: 10px;
+    display: none;
+    color: #218838;
+  }
+
   
   /* Grid agora com 2 colunas de produtos */
   .products-grid {
@@ -81,12 +98,14 @@ main {
   }
   
   button.show-route {
+    height: 33px;
     margin-top: 10px;
     padding: 5px 10px;
     background-color: #218838;
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
   }
   
   button.show-route:hover {
@@ -114,10 +133,6 @@ main {
   }
 
   
-/* Estilo ao passar o mouse sobre o produto */
-.product:hover {
-  transform: scale(1.05); /* Aumenta o tamanho do produto ao passar o mouse */
-}
 
 /* Estilos das imagens dos produtos */
 .product img {
@@ -201,12 +216,13 @@ button[disabled] {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 300px;
-  background-color: white;
+  background-color: #abd94a;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10;
   padding: 20px;
   border-radius: 10px;
   display: none; /* Escondido por padrão */
+  color: #287326;
 }
 
 /* Estilo do botão de fechar */
