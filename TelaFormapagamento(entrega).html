@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LightApple</title>
+    <link rel="stylesheet" href="TelaFormapagamento(entrega).css">
+    <link rel="stylesheet" href="navmenu(entrega).css">
+    <link rel="stylesheet" href="footer.css">
+</head>
+
+<body>
+    <header>
+        <div class="hero">
+            <nav>
+                <a href="#"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
+                <a href="#">
+                    <h2 class="lightapple-titulo">LightApple</h2>
+                </a>
+                <ul>
+                    <li><a href="#" class="inicio">Inicio</a></li>
+                    <li><a href="#" class="empresa-coleta">Estabelecimentos</a></li>
+                    <li><a href="#" class="trocar-pontos">Minhas Entregas</a></li>
+                    <li><a href="#" class="pedidos">Histórico</a></li>
+                </ul>
+                <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
+                <div class="pedido-menu">
+                    <img src="imagens/Clipboard.png" class="ped-pic" onclick="toggleMenuPed()">
+                    <div class="sub-menu-ped-wrap" id="criarPed">
+                        <div class="sub-menu-ped">
+                            <div class="ped-info">
+                                <img src="imagens/LightApple-Logo.png">
+                                <h3>Pedidos Disponíveis</h3>
+                            </div>
+                            <div class="lista-pedidos" id="lista-pedidos">
+                                <div class="pedido-box" id="pedido-1">
+                                    <div class="pedido-detalhes">
+                                        <h4>Empresa X</h4>
+                                        <p><strong>Partida:</strong> Rua A</p>
+                                        <p><strong>Chegada:</strong> Rua B</p>
+                                        <p><strong>Peso:</strong> 10kg</p>
+                                        <p><strong>Valor:</strong> R$ 50,00</p>
+                                    </div>
+                                    <div class="pedido-acoes">
+                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-1')">Aceitar</button>
+                                        <button class="btn-rejeitar"
+                                            onclick="rejeitarPedido('pedido-1')">Rejeitar</button>
+                                    </div>
+                                </div>
+                                <div class="pedido-box" id="pedido-2">
+                                    <div class="pedido-detalhes">
+                                        <h4>Empresa Y</h4>
+                                        <p><strong>Partida:</strong> Rua C</p>
+                                        <p><strong>Chegada:</strong> Rua D</p>
+                                        <p><strong>Peso:</strong> 15kg</p>
+                                        <p><strong>Valor:</strong> R$ 70,00</p>
+                                    </div>
+                                    <div class="pedido-acoes">
+                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-2')">Aceitar</button>
+                                        <button class="btn-rejeitar"
+                                            onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
+                                    </div>
+                                </div>
+                                <div class="pedido-box" id="pedido-2">
+                                    <div class="pedido-detalhes">
+                                        <h4>Empresa Y</h4>
+                                        <p><strong>Partida:</strong> Rua C</p>
+                                        <p><strong>Chegada:</strong> Rua D</p>
+                                        <p><strong>Peso:</strong> 15kg</p>
+                                        <p><strong>Valor:</strong> R$ 70,00</p>
+                                    </div>
+                                    <div class="pedido-acoes">
+                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-2')">Aceitar</button>
+                                        <button class="btn-rejeitar"
+                                            onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="user-menu">
+                    <img src="imagens/Avatar.png" class="user-pic" onclick="toggleMenu()">
+                    <div class="sub-menu-wrap" id="subMenu">
+                        <div class="sub-menu">
+                            <div class="user-info">
+                                <img src="imagens/Avatar.png">
+                                <h3>Joana</h3>
+                            </div>
+                            <a href="#" class="sub-menu-link">
+                                <p>Meu Perfil</p>
+                                <span></span>
+                            </a>
+                            <hr>
+                            <a href="#" class="sub-menu-link">
+                                <p>Favoritos</p>
+                                <span></span>
+                            </a>
+                            <hr>
+                            <a href="#" class="sub-menu-link">
+                                <p>Receitas/Pagamentos</p>
+                                <span></span>
+                            </a>
+                            <hr>
+                            <a href="#" class="sub-menu-link">
+                                <p>Ajuda</p>
+                                <span></span>
+                            </a>
+                            <hr>
+                            <a href="#" class="sub-menu-link">
+                                <p>Sair</p>
+                                <span></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <section class="section-txt">
+        <h1 class="formas_pagamento">Formas Pagamento</h1>
+    </section>
+    <main>
+        <div class="card-container">
+            <div class="sidebar-container">
+                <!-- Card de saldo -->
+                <div id="saldo-card" class="card">
+                    <h3>Saldo</h3>
+                    <p>R$ 1.500,00</p>
+                </div>
+
+                <!-- Card para saque -->
+                <div id="saque-card" class="card">
+                    <h3>Realizar Saque</h3>
+                    <form class="saque-form">
+                        <label for="tipo-saque">Tipo de Saque</label>
+                        <select id="tipo-saque">
+                            <option value="pix">PIX</option>
+                            <option value="conta-bancaria">Conta Bancária</option>
+                        </select>
+
+                        <!-- Se selecionar conta bancária, pode mostrar opções adicionais -->
+                        <div id="conta-bancaria-opcao" style="display: none;">
+                            <label for="selecionar-conta">Selecione a Conta</label>
+                            <select id="selecionar-conta">
+                                <option value="adicione">Adicione uma conta bancária para selecionar</option>
+                            </select>
+                        </div>
+
+                        <label for="valor-saque">Valor a Sacar</label>
+                        <input type="text" id="valor-saque" placeholder="Digite o valor">
+
+                        <label for="cpf">CPF</label>
+                        <input type="text" id="cpf" placeholder="Digite seu CPF">
+
+                        <button type="button" id="confirmar-saque-btn">Confirmar Saque</button>
+                    </form>
+                </div>
+
+                <!-- Card de informações de saques -->
+                <div id="info-saques-card" class="card">
+                    <h3>Informações de Saques</h3>
+                    
+                </div>
+            </div>
+
+            <!-- Card de Formas de Pagamento Salvas -->
+            <div class="card" id="salvos-card">
+                <h2>Minhas Formas de Pagamento</h2>
+                <ul id="formas-pagamento-lista">
+                    <!-- Formas de pagamento salvas aparecerão aqui -->
+                </ul>
+            </div>
+
+            <!-- Card de Adicionar Nova Forma de Pagamento -->
+            <div class="card" id="adicionar-card">
+                <h2>Forma de Pagamento</h2>
+
+                <!-- Formulário para adicionar Conta Bancária -->
+                <form id="adicionar-conta-form" class="pagamento-form" >
+                    <label for="nome-titular">Nome do Titular:</label>
+                    <input type="text" id="nome-titular" required pattern="[A-Za-z\s]+" title="Apenas letras são permitidas"  autocomplete="off">
+
+                    <label for="banco">Banco:</label>
+                    <input type="text" id="banco" required pattern="[A-Za-z\s]+" title="Apenas letras são permitidas" autocomplete="off">
+
+                    <label for="agencia">Agência:</label>
+                    <input type="text" id="agencia" required pattern="\d{5}" title="A agência deve conter exatamente 5 dígitos" maxlength="5" autocomplete="off">
+
+                    <label for="conta">Conta Corrente:</label>
+                    <input type="text" id="conta"  required pattern="\d{6,10}" title="A conta deve conter entre 6 a 10 dígitos" maxlength="10" autocomplete="off"> 
+                </form>
+
+                <button type="button" id="adicionar-pagamento-btn">Adicionar Forma de Pagamento</button>
+            </div>
+
+        </div>
+    </main>
+    <footer class="footer">
+        <img class="light-apple-logo" src="imagens/LightApple-Logo.png" />
+        <div class="copy-2024-light-apple">&copy; 2024 LightApple</div>
+        <div class="box-social">
+            <a href="#"><img class="twitter" src="imagens/Twitter.png" /></a>
+            <a href="#"><img class="instagram" src="imagens/Instagram.png" /></a>
+            <a href="#"><img class="facebook" src="imagens/Facebook.png" /></a>
+            <a href="#"><img class="linkedin" src="imagens/Linkedin.png" /></a>
+        </div>
+        <div class="box-info">
+            <div class="titulo-lightapple">
+                <div class="titulo-txt">
+                    <div class="tt3">LightApple</div>
+                </div>
+            </div>
+            <div class="sobre">
+                <a href="#">
+                    <div class="txt-sobre">Sobre</div>
+                </a>
+            </div>
+            <div class="fale-conosco">
+                <a href="#">
+                    <div class="txt-fale-conosco">Fale Conosco</div>
+                </a>
+            </div>
+            <div class="termos-de-uso">
+                <a href="#">
+                    <div class="txt-termos">Termos de Uso</div>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script src="TelaFormapagamento(entrega).js"></script>
+    <script src="navmenu(entrega).js"></script>
+</body>
+
+</html>

@@ -1,0 +1,289 @@
+@charset "UTF-8";
+
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html,
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(255, 255, 255);
+  overflow-x: hidden;
+}
+
+a {
+  color: #218838;
+  text-decoration: none;
+}
+
+/*SECTION TXT*/
+.section-txt,
+.section-txt * {
+  box-sizing: border-box;
+}
+.section-txt {
+  background: #ffffff;
+  height: 100px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  padding-left: 30px;
+}
+
+.formas_pagamento {
+  color: #218838;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 48px;
+  line-height: 140%;
+  font-weight: 400;
+  margin: 0;
+  text-align: center;
+  padding-top: 18px;
+}
+
+
+/*FORMAS DE PAGAMENTO*/
+
+/* Estilo para o container dos cards */
+.card-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  padding: 20px;
+  margin-bottom: 80px;
+}
+
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+    width: 30%; /* Ajuste o tamanho conforme necessário */
+    padding-left: 20px;
+  }
+
+/* Estilo para cada card */
+.card {
+  border: 1px solid #218838;
+  border-radius: 8px;
+  padding: 20px;
+  width: 30%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #218838;
+}
+
+/* Estilo para os formulários */
+.pagamento-form {
+    display: none;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #saldo-card p{
+    color: #218838;
+  }
+  
+ /* Tamanho fixo para o card de adicionar nova forma de pagamento */
+  #adicionar-card {
+    max-height: 410px; /* Tamanho fixo para manter o card consistente */
+  }
+  
+  /* Estilo para o h2 */
+  #adicionar-card h2 {
+    text-align: center;
+    color: #218838;
+    margin-bottom: 20px; /* Espaçamento entre o título e os radio buttons */
+  }
+  
+  /* Espaçamento entre labels e inputs */
+  .pagamento-form label {
+    color: #218838;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .pagamento-form input {
+    border: 1px solid #218838;
+    padding: 8px;
+    border-radius: 4px;
+    color: #333;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0px; /* Espaçamento entre o input e o próximo label */
+  }
+  
+  /* Estilo para alinhar CVV e Validade lado a lado */
+  .form-row {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .form-group {
+    flex: 1;
+  }
+  
+  /* Estilo do botão */
+  #adicionar-pagamento-btn {
+    background-color: #218838;
+    color: #ABD94A;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  #adicionar-pagamento-btn:hover {
+    background-color: #4CAF50;
+  }
+  
+  /* Estilo para os itens da lista de formas de pagamento */
+  .forma-pagamento-adicionada {
+    border: 1px solid #218838;
+    background-color: #ABD94A;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+    position: relative;
+  }
+  
+  .forma-pagamento-adicionada p {
+    color: #218838;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+  
+  /* Estilo do botão Excluir */
+  .excluir-btn {
+    background-color: #218838;
+    color: #ABD94A;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    position: absolute;
+    left: 330px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .excluir-btn:hover {
+    background-color: #4CAF50;
+  }
+
+  /* Estilo do card de saldo */
+#saldo-card {
+    background-color: #ffffff;
+    width: 90%;
+    margin-bottom: 15px;
+  }
+  
+  #saldo-card h3 {
+    color: #218838;
+    text-align: center;
+  }
+  
+  #saldo-card p {
+    font-size: 24px;
+    text-align: center;
+    color: #333;
+  }
+  
+  /* Estilo do card de saque */
+  #saque-card {
+    background-color: #ffffff;
+    width: 90%;
+    margin-bottom: 15px;
+  }
+  
+  #saque-card h3 {
+    color: #218838;
+    text-align: center;
+  }
+
+  li {
+    list-style-type: none
+  }
+  
+  .saque-form label {
+    color: #218838;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .saque-form input,
+  .saque-form select {
+    border: 1px solid #218838;
+    padding: 8px;
+    border-radius: 4px;
+    color: #333;
+    font-size: 14px;
+    width: 96%;
+    margin-bottom: 20px;
+  }
+  
+  #confirmar-saque-btn {
+    background-color: #218838;
+    color: #ABD94A;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  #confirmar-saque-btn:hover {
+    background-color: #4CAF50;
+  }
+  
+  /* Estilo do card de informações de saques */
+  #info-saques-card {
+    background-color: #ffffff;
+    width: 90%;
+    margin-bottom: 15px;
+  }
+  
+  #info-saques-card h3 {
+    color: #218838;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .saque-info {
+    border: 1px solid #218838;
+    background-color: #ABD94A;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .saque-info p {
+    color: #218838;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .saque-status {
+    color: #218838;
+    font-weight: bold;
+  }
+  
+  
+  
+  
+  
+
+

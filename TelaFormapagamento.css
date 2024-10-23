@@ -26,7 +26,7 @@ a {
 }
 .section-txt {
   background: #ffffff;
-  height: 132px;
+  height: 100px;
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -53,6 +53,7 @@ a {
   justify-content: space-around;
   gap: 20px;
   padding: 20px;
+  margin-bottom: 50px;
 }
 
 /* Estilo para cada card */
@@ -69,6 +70,23 @@ h2 {
   color: #218838;
 }
 
+li {
+  list-style-type: none;
+}
+
+/* Tamanho fixo para o card de adicionar nova forma de pagamento */
+#adicionar-card {
+  max-height: 367px; /* Tamanho fixo para manter o card consistente */
+}
+
+/* Estilo para o h2 */
+#adicionar-card h2 {
+  text-align: center;
+  color: #218838;
+  margin-bottom: 20px; /* Espaçamento entre o título e os radio buttons */
+}
+
+
 /* Estilo do formulário */
 #adicionar-pagamento-form {
   display: flex;
@@ -77,30 +95,45 @@ h2 {
   margin-top: 20px;
 }
 
-/* Estilo para CVV e Validade lado a lado */
+/* Estilo para os formulários */
+.pagamento-form {
+  display: none;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Estilo para os labels e inputs */
+.pagamento-form label {
+  color: #218838;
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.pagamento-form input {
+  border: 1px solid #218838;
+  padding: 8px;
+  border-radius: 4px;
+  color: #333;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#tipo-pagamento-form {
+  margin-top: 20px;
+}
+
+/* Estilo para alinhar CVV e Validade lado a lado */
 .form-row {
   display: flex;
   gap: 10px;
 }
 
 .form-group {
-  width: 50%;
-}
-
-/* Estilo para inputs e labels */
-#adicionar-pagamento-form label {
-  color: #218838;
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-#adicionar-pagamento-form input {
-  border: 1px solid #218838;
-  padding: 8px;
-  border-radius: 4px;
-  color: #333;
-  font-size: 14px;
-  margin-bottom: 15px;
+  flex: 1; /* Deixa os dois campos (validade e CVV) com a mesma largura */
 }
 
 /* Estilo do botão */
@@ -112,17 +145,11 @@ h2 {
   cursor: pointer;
   border-radius: 5px;
   width: 100%;
+  margin-top: 20px;
 }
 
 #adicionar-pagamento-btn:hover {
   background-color: #4CAF50;
-}
-
-/* Espaçamento entre o h2 e o cartão adicionado */
-#formas-pagamento-lista {
-  margin-top: 20px;
-  list-style: none;
-  padding: 0;
 }
 
 /* Estilo para os itens da lista de formas de pagamento */
@@ -131,8 +158,8 @@ h2 {
   background-color: #ABD94A;
   border-radius: 8px;
   padding: 10px;
-  margin-bottom: 15px; /* Espaçamento entre os cartões */
-  position: relative; /* Para controlar o posicionamento do botão */
+  margin-bottom: 15px;
+  position: relative;
 }
 
 .forma-pagamento-adicionada p {
@@ -141,7 +168,7 @@ h2 {
   font-size: 14px;
 }
 
-/* Botão Excluir centralizado no lado esquerdo */
+/* Estilo do botão Excluir */
 .excluir-btn {
   background-color: #218838;
   color: #ABD94A;
@@ -152,13 +179,14 @@ h2 {
   position: absolute;
   left: 330px;
   top: 50%;
-  transform: translateY(-50%); /* Centralizar verticalmente */
+  transform: translateY(-50%);
 }
 
 .excluir-btn:hover {
   background-color: #4CAF50;
 }
-  
+
+
   
   
 
