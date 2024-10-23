@@ -33,7 +33,7 @@ a {
   padding-left: 30px;
 }
 
-.meus_pedidos {
+.historico {
   color: #218838;
   font-family: "Inter-Regular", sans-serif;
   font-size: 48px;
@@ -167,7 +167,7 @@ input[type="date"] {
 
 .info {
   position: absolute;
-  top: 80%;
+  top: 75%;
   right: 20px;
   font-size: 35px;
   cursor: pointer;
@@ -225,7 +225,7 @@ button[disabled] {
   transform: translate(-50%, -50%);
   width: 300px;
   background-color: #abd94a;
-  color: #abd94a;
+  color: #218838;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10;
   padding: 20px;

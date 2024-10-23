@@ -173,7 +173,7 @@ main {
   justify-content: center; /* Centraliza horizontalmente */
   margin-top: 25px;        /* Espaçamento entre a grid de produtos e a paginação */
   margin-bottom: 45px;     /* Espaçamento da paginação para o final da página */
-  padding-left: 19%;
+  padding-left: 39%;
 }
 button {
   padding: 8px 12px;

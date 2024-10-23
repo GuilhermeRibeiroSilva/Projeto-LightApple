@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LightApple</title>
-    <link rel="stylesheet" href="TelaMinhasEntregas.css">
+    <link rel="stylesheet" href="TelaHistorico(entrega).css">
     <link rel="stylesheet" href="navmenu(entrega).css">
     <link rel="stylesheet" href="footer.css">
 </head>
@@ -121,73 +121,136 @@
         </div>
     </header>
     <section class="section-txt">
-        <h1 class="Minhas_Entregas">Minhas Entregas</h1>
+        <h1 class="historico">Historico</h1>
     </section>
     <main>
+        <div class="accordion" id="accordionPanelsStayOpenExample">
 
-        <div class="map-dst">
-            <div id="map"></div>
-            <div id="route-details" class="route-details-panel"></div>
+            <input type="search" name="" id="flitersearch">
+
+            <!-- Filtro de Status Pedidos -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingStatus">Status do Pedido</h2>
+                <div id="collapseStatus" class="accordion-collapse collapse show" aria-labelledby="headingStatus">
+                    <div class="accordion-body">
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="status-link text-dark">Todos</a></li>
+                            <li><a href="#" class="status-link text-dark">Abertos</a></li>
+                            <li><a href="#" class="status-link text-dark">Pendentes</a></li>
+                            <li><a href="#" class="status-link text-dark">Fechados</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtro de Data de Pedido -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingData">Data de Pedido</h2>
+                <div id="collapseData" class="accordion-collapse collapse show" aria-labelledby="headingData">
+                    <div class="accordion-body">
+                        <label for="orderDate">Data do Pedido:</label>
+                        <input type="date" id="orderDate" class="form-control">
+                    </div>
+                </div>
+            </div>
+
         </div>
+
         <div class="products-grid">
-            <div class="product"
-                data-info='{"id": "#001", "estabelecimento": "ROOP", "localPartida": "XY", "localChegada": "Rua B" , "quantidade": "15 kg", "data": "15/05/2024", "status": "PENDENTE"}'  data-route='{"start": {"lat": -12.962968179147097, "lng": -38.49832109059965}, "end": {"lat": -12.948315422878128, "lng": -38.413367775255864}}' >
+            <div class="product" data-status="Pendentes" data-data="2024-05-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "localChegada": "X",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }' >
                 <h3>Pedido #001</h3>
                 <p>ROOP</p>
                 <p>Qtd: 15 kg</p>
                 <P>15/05/2024</P>
                 <p>PENDENTE</p>
-                <button class="show-route"  >Mostrar Rota</button>
                 <span class="info">&#8505;</span>
             </div>
-            <div class="product"
-                data-info='{"id": "#001", "estabelecimento": "ROOP", "localPartida": "XY", "localChegada": "Rua B" , "quantidade": "15 kg", "data": "15/05/2024", "status": "PENDENTE"}' data-route='{"start": {"lat": -12.9714, "lng": -38.5014}, "end": {"lat": -12.9833, "lng": -38.5167}}' >
-                <h3>Pedido #001</h3>
+            <div class="product" data-status="Abertos" data-data="2024-05-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "localChegada": "X",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
+                <h3>Pedido #002</h3>
                 <p>ROOP</p>
                 <p>Qtd: 15 kg</p>
                 <P>15/05/2024</P>
-                <p>PENDENTE</p>
-                <button class="show-route">Mostrar Rota</button>
+                <p>ABERTO</p>
                 <span class="info">&#8505;</span>
             </div>
-            <div class="product"
-                data-info='{"id": "#001", "estabelecimento": "ROOP", "localPartida": "XY", "localChegada": "Rua B" , "quantidade": "15 kg", "data": "15/05/2024", "status": "PENDENTE"}' data-route='{"start": {"lat": -12.9714, "lng": -38.5014}, "end": {"lat": -12.9833, "lng": -38.5167}}' >
-                <h3>Pedido #001</h3>
+            <div class="product" data-status="Fechados" data-data="2022-08-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "localChegada": "X",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
+                <h3>Pedido #003</h3>
                 <p>ROOP</p>
                 <p>Qtd: 15 kg</p>
-                <P>15/05/2024</P>
-                <p>PENDENTE</p>
-                <button class="show-route">Mostrar Rota</button>
+                <P>15/08/2022</P>
+                <p>FECHADO</p>
                 <span class="info">&#8505;</span>
             </div>
-            <div class="product"
-                data-info='{"id": "#001", "estabelecimento": "ROOP", "localPartida": "XY", "localChegada": "Rua B" , "quantidade": "15 kg", "data": "15/05/2024", "status": "PENDENTE"}' data-route='{"start": {"lat": -12.9714, "lng": -38.5014}, "end": {"lat": -12.9833, "lng": -38.5167}}' >
-                <h3>Pedido #001</h3>
+            <div class="product" data-status="Abertos" data-data="2022-08-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "localChegada": "X",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
+                <h3>Pedido #004</h3>
                 <p>ROOP</p>
                 <p>Qtd: 15 kg</p>
-                <P>15/05/2024</P>
-                <p>PENDENTE</p>
-                <button class="show-route">Mostrar Rota</button>
+                <P>15/08/2022</P>
+                <p>ABERTO</p>
                 <span class="info">&#8505;</span>
             </div>
-            <div class="product"
-                data-info='{"id": "#001", "estabelecimento": "ROOP", "localPartida": "XY", "localChegada": "Rua B" , "quantidade": "15 kg", "data": "15/05/2024", "status": "PENDENTE"}' data-route='{"start": {"lat": -12.9714, "lng": -38.5014}, "end": {"lat": -12.9833, "lng": -38.5167}}' >
-                <h3>Pedido #001</h3>
+            <div class="product" data-status="Pendentes" data-data="2020-12-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "localChegada": "X",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
+                <h3>Pedido #005</h3>
                 <p>ROOP</p>
                 <p>Qtd: 15 kg</p>
-                <P>15/05/2024</P>
+                <P>15/12/2020</P>
                 <p>PENDENTE</p>
-                <button class="show-route">Mostrar Rota</button>
                 <span class="info">&#8505;</span>
             </div>
-            <div class="product"
-                data-info='{"id": "#001", "estabelecimento": "ROOP", "localPartida": "XY", "localChegada": "Rua B" , "quantidade": "15 kg", "data": "15/05/2024", "status": "PENDENTE"}' data-route='{"start": {"lat": -12.9714, "lng": -38.5014}, "end": {"lat": -12.9833, "lng": -38.5167}}' >
-                <h3>Pedido #001</h3>
+            <div class="product" data-status="Fechados" data-data="2020-12-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "localChegada": "X",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
+                <h3>Pedido #006</h3>
                 <p>ROOP</p>
                 <p>Qtd: 15 kg</p>
-                <P>15/05/2024</P>
-                <p>PENDENTE</p>
-                <button class="show-route" >Mostrar Rota</button>
+                <P>15/12/2020</P>
+                <p>FECHADO</p>
                 <span class="info">&#8505;</span>
             </div>
 
@@ -241,12 +304,8 @@
             </div>
         </div>
     </footer>
-    <script src="TelaMinhasEntregas.js"></script>
+    <script src="TelaHistorico(entrega).js"></script>
     <script src="navmenu(entrega).js"></script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAppxfGYLdYhP8lVimrq43dP6Gso9Y-si4&callback=initMap">
-        </script>
-
 </body>
 
 </html>
