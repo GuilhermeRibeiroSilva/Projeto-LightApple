@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LightApple</title>
-    <link rel="stylesheet" href="TelaInicialEntrega.css">
-    <link rel="stylesheet" href="navmenu(entrega).css">
+    <link rel="stylesheet" href="TelaInicialColeta.css">
+    <link rel="stylesheet" href="navmenu(coleta).css">
     <link rel="stylesheet" href="footer.css">
 </head>
 
@@ -21,7 +21,7 @@
                 <ul>
                     <li><a href="#" class="inicio">Inicio</a></li>
                     <li><a href="#" class="empresa-coleta">Estabelecimentos</a></li>
-                    <li><a href="#" class="trocar-pontos">Minhas Entregas</a></li>
+                    <li><a href="#" class="trocar-pontos">Pedidos</a></li>
                     <li><a href="#" class="pedidos">Histórico</a></li>
                 </ul>
                 <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
@@ -31,51 +31,10 @@
                         <div class="sub-menu-ped">
                             <div class="ped-info">
                                 <img src="imagens/LightApple-Logo.png">
-                                <h3>Pedidos Disponíveis</h3>
+                                <h3>Pedidos</h3>
                             </div>
-                            <div class="lista-pedidos" id="lista-pedidos">
-                                <div class="pedido-box" id="pedido-1">
-                                    <div class="pedido-detalhes">
-                                        <h4>Empresa X</h4>
-                                        <p><strong>Partida:</strong> Rua A</p>
-                                        <p><strong>Chegada:</strong> Rua B</p>
-                                        <p><strong>Peso:</strong> 10kg</p>
-                                        <p><strong>Valor:</strong> R$ 50,00</p>
-                                    </div>
-                                    <div class="pedido-acoes">
-                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-1')">Aceitar</button>
-                                        <button class="btn-rejeitar"
-                                            onclick="rejeitarPedido('pedido-1')">Rejeitar</button>
-                                    </div>
-                                </div>
-                                <div class="pedido-box" id="pedido-2">
-                                    <div class="pedido-detalhes">
-                                        <h4>Empresa Y</h4>
-                                        <p><strong>Partida:</strong> Rua C</p>
-                                        <p><strong>Chegada:</strong> Rua D</p>
-                                        <p><strong>Peso:</strong> 15kg</p>
-                                        <p><strong>Valor:</strong> R$ 70,00</p>
-                                    </div>
-                                    <div class="pedido-acoes">
-                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-2')">Aceitar</button>
-                                        <button class="btn-rejeitar"
-                                            onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
-                                    </div>
-                                </div>
-                                <div class="pedido-box" id="pedido-2">
-                                    <div class="pedido-detalhes">
-                                        <h4>Empresa Y</h4>
-                                        <p><strong>Partida:</strong> Rua C</p>
-                                        <p><strong>Chegada:</strong> Rua D</p>
-                                        <p><strong>Peso:</strong> 15kg</p>
-                                        <p><strong>Valor:</strong> R$ 70,00</p>
-                                    </div>
-                                    <div class="pedido-acoes">
-                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-2')">Aceitar</button>
-                                        <button class="btn-rejeitar"
-                                            onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
-                                    </div>
-                                </div>
+                            <div class="lista-pedidos" id="dropdown-pedidos-list">
+                                <!-- Pedidos do dropdown serão gerados aqui -->
                             </div>
                         </div>
                     </div>
@@ -96,17 +55,7 @@
                             </a>
                             <hr>
                             <a href="#" class="sub-menu-link">
-                                <p>Favoritos</p>
-                                <span></span>
-                            </a>
-                            <hr>
-                            <a href="#" class="sub-menu-link">
-                                <p>Receitas/Pagamentos</p>
-                                <span></span>
-                            </a>
-                            <hr>
-                            <a href="#" class="sub-menu-link">
-                                <p>Ajuda</p>
+                                <p>Estatísticas</p>
                                 <span></span>
                             </a>
                             <hr>
@@ -114,6 +63,7 @@
                                 <p>Sair</p>
                                 <span></span>
                             </a>
+                        
                         </div>
                     </div>
                 </div>
@@ -129,15 +79,15 @@
                 </div>
             </a>
             <a href="#">
-                <div class="box-minhasentregas">
-                    <img class="minhasentregas" src="imagens/Pacote.png" />
-                    <div class="txtminhasentregas">MINHAS ENTREGAS</div>
+                <div class="box-pedidos">
+                    <img class="pedido" src="imagens/Pacote.png" />
+                    <div class="txtpedidos">PEDIDOS</div>
                 </div>
             </a>
             <a href="#">
-                <div class="box-pedidos">
-                    <img class="pedido" src="imagens/pedido.png" />
-                    <div class="txtpedidos">PEDIDOS</div>
+                <div class="box-historico">
+                    <img class="historico" src="imagens/pedido.png" />
+                    <div class="txthistorico">HISTÓRICO</div>
                 </div>
             </a>
         </section>
@@ -197,107 +147,14 @@
         </section>
         <section class="PedDisp">
             <div class="container">
-                <h2 class="ttped">Pedidos Disponíveis</h2>
-                <p id="no-available-orders" style="display:none; color: #287326; text-align: center;">Aguardar, não há pedidos disponíveis.</p>
+                <h2 class="ttped">Pedidos</h2>
+                <p id="no-available-orders" style="display:none; color: #287326; text-align: center;">Aguardar, não há pedidos.</p>
                 <div class="pedidos-lista" id="available-orders-list">
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <!-- Mais pedidos podem ser adicionados aqui -->
+                    <!-- Pedidos da seção serão gerados aqui -->
                 </div>
             </div>
         </section>
-        <section class="PedAcei">
-            <div class="container">
-                <div class="ttped">Pedidos Aceitos</div>
-                <p id="no-accepted-orders">Nenhum pedido aceito ainda. Aceite um pedido para aparecer aqui.</p>
-                <div class="pedidos-aceitos" id="accepted-orders-list">
-                    <!-- Pedidos aceitos serão adicionados aqui -->
-                </div>
-            </div>
-            
-        </section>
+        
     </main>
     <footer class="footer">
         <img class="light-apple-logo" src="imagens/LightApple-Logo.png" />
@@ -331,8 +188,8 @@
             </div>
         </div>
     </footer>
-    <script src="TelaInicialEntrega.js"></script>
-    <script src="navmenu(entrega).js"></script>
+    <script src="TelaInicialColeta.js"></script>
+    <script src="navmenu(coleta).js"></script>
 </body>
 
 </html>

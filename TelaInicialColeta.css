@@ -71,7 +71,7 @@ a {
   width: 177px;
 }
 
-.box-minhasentregas {
+.box-pedidos {
   background: #abd94a;
   border-radius: 5px;
   width: 325px;
@@ -83,54 +83,16 @@ a {
   transition: transform 0.3s ease;
 }
 
-.box-minhasentregas:hover {
-  transform: scale(1.1);
-}
-
-.minhasentregas {
-  width: 125px;
-  height: 125px;
-  position: absolute;
-  left: 100px;
-  top: 43px;
-  object-fit: cover;
-}
-
-.txtminhasentregas {
-  color: #287326;
-  text-align: center;
-  font-family: var(--heading-font-family, "Inter-SemiBold", sans-serif);
-  font-size: var(--heading-font-size, 24px);
-  line-height: var(--heading-line-height, 120%);
-  letter-spacing: var(--heading-letter-spacing, -0.02em);
-  font-weight: var(--heading-font-weight, 600);
-  position: absolute;
-  left: 52px;
-  top: 214px;
-}
-
-.box-pedidos {
-  background: #abd94a;
-  border-radius: 5px;
-  width: 325px;
-  height: 289px;
-  position: absolute;
-  left: 831px;
-  top: 67px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-
 .box-pedidos:hover {
   transform: scale(1.1);
 }
 
 .pedido {
-  width: 115px;
-  height: 122.6px;
+  width: 125px;
+  height: 125px;
   position: absolute;
-  left: 105px;
-  top: 52px;
+  left: 100px;
+  top: 43px;
   object-fit: cover;
 }
 
@@ -143,7 +105,45 @@ a {
   letter-spacing: var(--heading-letter-spacing, -0.02em);
   font-weight: var(--heading-font-weight, 600);
   position: absolute;
-  left: 111px;
+  left: 108px;
+  top: 214px;
+}
+
+.box-historico {
+  background: #abd94a;
+  border-radius: 5px;
+  width: 325px;
+  height: 289px;
+  position: absolute;
+  left: 831px;
+  top: 67px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.box-historico:hover {
+  transform: scale(1.1);
+}
+
+.historico{
+  width: 115px;
+  height: 122.6px;
+  position: absolute;
+  left: 105px;
+  top: 52px;
+  object-fit: cover;
+}
+
+.txthistorico {
+  color: #287326;
+  text-align: center;
+  font-family: var(--heading-font-family, "Inter-SemiBold", sans-serif);
+  font-size: var(--heading-font-size, 24px);
+  line-height: var(--heading-line-height, 120%);
+  letter-spacing: var(--heading-letter-spacing, -0.02em);
+  font-weight: var(--heading-font-weight, 600);
+  position: absolute;
+  left: 100px;
   top: 220px;
 }
 
@@ -283,110 +283,6 @@ a {
   width: 0.5em;
 }
 
-/*SECTION-ANUNCIO*/
-
-.section-anuncio,
-.section-anuncio * {
-  box-sizing: border-box;
-}
-
-.section-anuncio {
-  padding: 60px 170px 60px 170px;
-  display: flex;
-  flex-direction: row;
-  margin-left: 5%;
-  margin-right: 6%;
-  gap: 60px;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.cont-img-anuncio {
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex: 1;
-  height: 290px;
-  position: relative;
-  overflow: hidden;
-}
-
-.box-img-anuncio {
-  background: rgb(255, 255, 255);
-  align-self: stretch;
-  flex: 1;
-  position: relative;
-}
-
-.anuncio {
-  width: 348px;
-  height: 290px;
-  position: absolute;
-  left: 13%;
-  top: 0.5px;
-  object-fit: cover;
-}
-
-.box-anuncio {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex: 1;
-  position: relative;
-}
-
-.tt2 {
-  color: #287326;
-  text-align: left;
-  font-family: "Roboto-Bold", sans-serif;
-  font-size: 40px;
-  line-height: 48px;
-  font-weight: 700;
-  position: relative;
-  align-self: stretch;
-}
-
-.desc2 {
-  color: #287326;
-  text-align: left;
-  font-family: "Roboto-Regular", sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-  position: relative;
-  align-self: stretch;
-}
-
-.btn-criarpedido {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-  background: #abd94a;
-  border-radius: 8px;
-  padding: 12px;
-  align-items: center;
-  justify-content: center;
-  width: 240px;
-  color: #287326;
-  text-align: left;
-  font-family: "Roboto-Medium", sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 500;
-  border-color: #287326;
-}
-
 .btn-vermais {
   display: flex;
   flex-direction: column;
@@ -459,7 +355,7 @@ a {
 
 .botoes {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-top: 15px;
 }
 
@@ -471,13 +367,8 @@ button {
   font-size: 14px;
 }
 
-button.aceitar {
+button.recebido {
   background-color: #287326;
-  color: white;
-}
-
-button.rejeitar {
-  background-color: #f44336;
   color: white;
 }
 
@@ -491,20 +382,6 @@ button:hover {
   font-weight: bold;
 }
 
-/*SECTION PEDIDOS ACEITOS*/
-
-.PedAcei {
-  margin-top: 5%;
-  margin-bottom: 5%;
-}
-
-.pedidos-aceitos {
-  display: flex;
-  overflow-x: scroll;
-  gap: 15px;
-  padding: 10px 0;
-}
-
 .ttped {
   margin-bottom: 2%;
   color: #287326;
@@ -515,52 +392,4 @@ button:hover {
   font-weight: 700;
   position: relative;
   align-self: stretch;
-}
-
-.pedidoAct {
-  min-width: 230px;
-  background-color: #abd94a;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  flex-shrink: 0;
-}
-
-.pedidoAct h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  text-align: center;
-  color: #218838;
-}
-
-.pedidoAct p {
-  margin: 5px 0;
-  color: #218838;
-}
-
-.botoes-act {
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
-}
-
-button.entregue {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #287326;
-  color: white;
-  font-size: 14px;
-}
-
-/* Efeito de hover nos botões */
-button.entregue:hover {
-  opacity: 0.8;
-}
-
-#no-accepted-orders {
-  color: #218838;
-  font-weight: bold;
 }
