@@ -33,7 +33,7 @@ a {
   padding-left: 30px;
 }
 
-.estabelecimentos {
+.meus_pedidos {
   color: #218838;
   font-family: "Inter-Regular", sans-serif;
   font-size: 48px;
@@ -44,15 +44,6 @@ a {
   padding-top: 18px;
 }
 
-.empresas-cadastradas {
-  color: #218838;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 24px;
-  line-height: 140%;
-  font-weight: 400;
-  text-align: center;
-  margin: 10px 0 0 0;
-}
 
 /*FILTRO E EMPRESA DE COLETA*/
 
@@ -111,9 +102,25 @@ main {
   position: relative;
 }
 
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+input[type="date"] {
+    border-radius: 3px;
+  border-style: solid;
+  border-color: #287326;
+  color: #218838;
+  width: 105px;
+  height: 20px;
+}
+
 /* Produtos em grid de 3 colunas */
 .products-grid {
   display: grid;
+  margin-left: 106px;
   grid-template-columns: repeat(3, 1fr); /* 3 colunas de produtos */
   gap: 20px; /* Espaço entre os produtos */
   flex-grow: 1; /* Faz a grid expandir para ocupar o espaço disponível */
@@ -124,6 +131,8 @@ main {
   position: relative;
   border: 1px solid #218838;
   border-radius: 10px;
+  width: 70%;
+  background-color: #abd94a;
   color: #218838;
   padding: 15px;
   text-align: center;
@@ -158,30 +167,15 @@ main {
   color: #218838;
 }
 
-.favoritar {
+.info {
   position: absolute;
-  top: 88%;
-  right: 14px;
-  font-size: 45px;
+  top: 80%;
+  right: 20px;
+  font-size: 35px;
   cursor: pointer;
   color: transparent;
-  text-shadow: 0 0 0 grey;
+  text-shadow: 0 0 0 #218838;
   transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.favoritado {
-  color: red; /* Quando o coração estiver favoritado, ele ficará vermelho */
-  text-shadow: none; /* Remove a borda do coração */
-}
-
-.nao-favoritado {
-  color: transparent; /* O coração não será preenchido */
-  text-shadow: 0 0 0 grey; /* Aplica borda cinza para dar a aparência de coração vazio */
-}
-
-/* Aumenta o coração ao passar o mouse */
-.favoritar:hover {
-  transform: scale(1.2);
 }
 
 .pagination {
@@ -189,9 +183,9 @@ main {
   justify-content: center; /* Centraliza horizontalmente */
   margin-top: 25px;        /* Espaçamento entre a grid de produtos e a paginação */
   margin-bottom: 45px;     /* Espaçamento da paginação para o final da página */
-  padding-left: 19%;
+  padding-left: 0%;
 }
-.pagination > button {
+button {
   padding: 8px 12px;
   border: 1px solid #ccc;
   background-color: white;
@@ -203,11 +197,70 @@ button.active {
   color: #abd94a;
 }
 
-.prev[disabled] {
+button[disabled] {
   background-color: #fff;
   cursor: not-allowed;
 }
 
+/* Modal escondido por padrão */
+.hidden {
+  display: none;
+}
+
+/* Fundo semi-transparente que cobre toda a tela */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+  z-index: 5; /* Certifique-se de que fica abaixo do modal */
+  display: none; /* Inicia escondido */
+}
+
+/* Estilo básico do modal */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background-color: #abd94a;
+  color: #218838;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  padding: 20px;
+  border-radius: 10px;
+  display: none; /* Escondido por padrão */
+}
+
+/* Estilo do botão de fechar */
+.modal .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* Organizar informações dentro do modal */
+#modal-info p {
+  margin: 8px 0; /* Margem entre os parágrafos */
+  font-size: 14px;
+}
+
+/* Desfocar o conteúdo do main */
+.modal-open main {
+  filter: blur(5px);
+  pointer-events: none; /* Desabilitar cliques no conteúdo de fundo */
+}
+
+/* Exibir o modal */
+.modal-active .modal,
+.modal-active .modal-overlay {
+  display: block; /* Mostrar modal e overlay */
+}
 
 
 /* Ajustes para dispositivos móveis */

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LightApple</title>
-    <link rel="stylesheet" href="TelaEstabelecimentos(coleta).css">
+    <link rel="stylesheet" href="TelaHistorico(coleta).css">
     <link rel="stylesheet" href="navmenu(coleta).css">
     <link rel="stylesheet" href="footer.css">
 </head>
@@ -71,115 +71,157 @@
         </div>
     </header>
     <section class="section-txt">
-        <h1 class="estabelecimentos">Estabelecimentos</h1>
-      </section>
-      <main>
-          <div class="accordion" id="accordionPanelsStayOpenExample">
-    
+        <h1 class="historico">Historico</h1>
+    </section>
+    <main>
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+
             <input type="search" name="" id="flitersearch">
-    
-            <!-- Filtro de Distância -->
+
+            <!-- Filtro de Status Pedidos -->
             <div class="accordion-item">
-              <h2 class="accordion-header" id="headingDistancia">Distância Máxima</h2>
-              <div id="panelsStayOpen-collapseDistancia" class="accordion-collapse collapse show"
-                aria-labelledby="headingDistancia">
-                <div class="accordion-body">
-                  <label for="distanciaRange">Distância máxima (km): <span id="currentDistancia">0 km</span></label>
-                  <input type="range" class="form-range" min="0" max="5000" value="5000" id="distanciaRange" />
+                <h2 class="accordion-header" id="headingStatus">Status do Pedido</h2>
+                <div id="collapseStatus" class="accordion-collapse collapse show" aria-labelledby="headingStatus">
+                    <div class="accordion-body">
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="status-link text-dark">Todos</a></li>
+                            <li><a href="#" class="status-link text-dark">Abertos</a></li>
+                            <li><a href="#" class="status-link text-dark">Pendentes</a></li>
+                            <li><a href="#" class="status-link text-dark">Fechados</a></li>
+                        </ul>
+                    </div>
                 </div>
-              </div>
             </div>
-    
-            <!-- Filtro de Estrelas com Input Range -->
+
+            <!-- Filtro de Data de Pedido -->
             <div class="accordion-item">
-              <h2 class="accordion-header" id="headingFive">Avaliações</h2>
-              <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show" aria-labelledby="headingFive">
-                <div class="accordion-body">
-                  <!-- Slider para Avaliações de Estrelas -->
-                  <label for="avaliacaoRange">Avaliação mínima: <span id="avaliacaoValor">3</span> &#9733;</label>
-                  <input type="range" class="form-range" min="1" max="5" value="1" id="avaliacaoRange" />
+                <h2 class="accordion-header" id="headingData">Data de Pedido</h2>
+                <div id="collapseData" class="accordion-collapse collapse show" aria-labelledby="headingData">
+                    <div class="accordion-body">
+                        <label for="orderDate">Data do Pedido:</label>
+                        <input type="date" id="orderDate" class="form-control">
+                    </div>
                 </div>
-              </div>
             </div>
-    
-          </div>
-    
-          <div class="products-grid">
-            <div class="product" data-distancia="2" data-avaliacao="3">
-              <img src="imagens/Cond.png">
-              <h3>Cond. laran</h3>
-              <p>2km</p>
-              <p>3.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
+
+        </div>
+
+        <div class="products-grid">
+            <div class="product" data-status="Pendentes" data-data="2024-05-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "localChegada": "X",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }' >
+                <h3>Pedido #001</h3>
+                <p>ROOP</p>
+                <p>Qtd: 15 kg</p>
+                <P>15/05/2024</P>
+                <p>PENDENTE</p>
+                <span class="info">&#8505;</span>
             </div>
-            <div class="product" ata-distancia="75" data-avaliacao="2">
-              <img src="imagens/Rest.png">
-              <h3>Rest. rete</h3>
-              <p>75km</p>
-              <p>2.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
+            <div class="product" data-status="Abertos" data-data="2024-05-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "localChegada": "X",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
+                <h3>Pedido #002</h3>
+                <p>ROOP</p>
+                <p>Qtd: 15 kg</p>
+                <P>15/05/2024</P>
+                <p>ABERTO</p>
+                <span class="info">&#8505;</span>
             </div>
-            <div class="product" ata-distancia="35" data-avaliacao="1">
-              <img src="imagens/ROOP.png">
-              <h3>Roop</h3>
-              <p>35km</p>
-              <p>1.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
+            <div class="product" data-status="Fechados" data-data="2022-08-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "localChegada": "X",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
+                <h3>Pedido #003</h3>
+                <p>ROOP</p>
+                <p>Qtd: 15 kg</p>
+                <P>15/08/2022</P>
+                <p>FECHADO</p>
+                <span class="info">&#8505;</span>
             </div>
-            <div class="product" data-distancia="2" data-avaliacao="3">
-              <img src="imagens/Cond.png">
-              <h3>Cond. laran</h3>
-              <p>2km</p>
-              <p>3.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
+            <div class="product" data-status="Abertos" data-data="2022-08-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "localChegada": "X",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
+                <h3>Pedido #004</h3>
+                <p>ROOP</p>
+                <p>Qtd: 15 kg</p>
+                <P>15/08/2022</P>
+                <p>ABERTO</p>
+                <span class="info">&#8505;</span>
             </div>
-            <div class="product" ata-distancia="75" data-avaliacao="2">
-              <img src="imagens/Rest.png">
-              <h3>Rest. rete</h3>
-              <p>75km</p>
-              <p>2.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
+            <div class="product" data-status="Pendentes" data-data="2020-12-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "localChegada": "X",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
+                <h3>Pedido #005</h3>
+                <p>ROOP</p>
+                <p>Qtd: 15 kg</p>
+                <P>15/12/2020</P>
+                <p>PENDENTE</p>
+                <span class="info">&#8505;</span>
             </div>
-            <div class="product" ata-distancia="35" data-avaliacao="1">
-              <img src="imagens/ROOP.png">
-              <h3>Roop</h3>
-              <p>35km</p>
-              <p>1.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
+            <div class="product" data-status="Fechados" data-data="2020-12-15" data-info='{
+            "id": "#001",
+            "produto": "ROOP",
+            "localPartida": "XY",
+            "localChegada": "X",
+            "quantidade": "15 kg",
+            "data": "15/05/2024",
+            "status": "PENDENTE"
+        }'>
+                <h3>Pedido #006</h3>
+                <p>ROOP</p>
+                <p>Qtd: 15 kg</p>
+                <P>15/12/2020</P>
+                <p>FECHADO</p>
+                <span class="info">&#8505;</span>
             </div>
-            <div class="product" ata-distancia="35" data-avaliacao="1">
-              <img src="imagens/ROOP.png">
-              <h3>Roop</h3>
-              <p>35km</p>
-              <p>1.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
+
+        </div>
+        <!-- Modal que aparecerá ao clicar no ícone de info -->
+        <div id="modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3>Informações do Pedido</h3>
+                <p id="modal-info"></p>
             </div>
-            <div class="product" ata-distancia="75" data-avaliacao="2">
-              <img src="imagens/Rest.png">
-              <h3>Rest. rete</h3>
-              <p>75km</p>
-              <p>2.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" data-distancia="2" data-avaliacao="3">
-              <img src="imagens/Cond.png">
-              <h3>Cond. laran</h3>
-              <p>2km</p>
-              <p>3.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            
-          </div>
-          
-      </main>
-      <div class="pagination">
-              <button class="prev" disabled>Previous</button>
-              <button class="page-number active">1</button>
-              <span>...</span>
-              <button class="page-number">2</button>
-              <button class="page-number">3</button>
-              <button class="next">Next</button>
-            </div>
+        </div>
+    </main>
+    <div class="pagination">
+        <button class="prev" disabled>Previous</button>
+        <button class="page-number active">1</button>
+        <span>...</span>
+        <button class="page-number">2</button>
+        <button class="page-number">3</button>
+        <button class="next">Next</button>
+    </div>
     <footer class="footer">
         <img class="light-apple-logo" src="imagens/LightApple-Logo.png" />
         <div class="copy-2024-light-apple">&copy; 2024 LightApple</div>
@@ -212,7 +254,7 @@
             </div>
         </div>
     </footer>
-    <script src="TelaEstabelecimentos(coleta).js"></script>
+    <script src="TelaHistorico(coleta).js"></script>
     <script src="navmenu(coleta).js"></script>
     <script>
         // Função para carregar pedidos do LocalStorage

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LightApple</title>
-    <link rel="stylesheet" href="TelaEstabelecimentos(coleta).css">
+    <link rel="stylesheet" href="TelaEstatistica.css">
     <link rel="stylesheet" href="navmenu(coleta).css">
     <link rel="stylesheet" href="footer.css">
 </head>
@@ -63,123 +63,74 @@
                                 <p>Sair</p>
                                 <span></span>
                             </a>
-                        
+
                         </div>
                     </div>
                 </div>
             </nav>
         </div>
     </header>
-    <section class="section-txt">
-        <h1 class="estabelecimentos">Estabelecimentos</h1>
-      </section>
-      <main>
-          <div class="accordion" id="accordionPanelsStayOpenExample">
-    
-            <input type="search" name="" id="flitersearch">
-    
-            <!-- Filtro de Distância -->
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingDistancia">Distância Máxima</h2>
-              <div id="panelsStayOpen-collapseDistancia" class="accordion-collapse collapse show"
-                aria-labelledby="headingDistancia">
-                <div class="accordion-body">
-                  <label for="distanciaRange">Distância máxima (km): <span id="currentDistancia">0 km</span></label>
-                  <input type="range" class="form-range" min="0" max="5000" value="5000" id="distanciaRange" />
+    <main>
+        <!-- Section for profile photo and user information -->
+        <section class="section-profile">
+            <div class="profile-left">
+                <div class="profile-pic"></div>
+                <div class="profile-info">
+                    <h2>Empresa XYZ</h2>
+                    <p>Membro desde: Janeiro de 2023</p>
+                    <p>Estatísticas da empresa</p>
                 </div>
-              </div>
             </div>
-    
-            <!-- Filtro de Estrelas com Input Range -->
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingFive">Avaliações</h2>
-              <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show" aria-labelledby="headingFive">
-                <div class="accordion-body">
-                  <!-- Slider para Avaliações de Estrelas -->
-                  <label for="avaliacaoRange">Avaliação mínima: <span id="avaliacaoValor">3</span> &#9733;</label>
-                  <input type="range" class="form-range" min="1" max="5" value="1" id="avaliacaoRange" />
+            <div class="profile-right">
+                <button type="button" id="editar-perfil-btn">Editar Perfil</button>
+            </div>
+        </section>
+
+        <!-- Estatísticas da Empresa -->
+        <div class="section-estatisticas">
+            <h3>Estatísticas da Empresa</h3>
+
+            <!-- Cards de estatísticas rápidas com gráficos abaixo -->
+            <div class="estatisticas-grid">
+                <!-- Total de Receitas -->
+                <div class="estatistica-item">
+                    <h4>Total de Receitas</h4>
+                    <p id="totalReceitas">R$ 0</p>
+                    <div class="grafico-item">
+                        <canvas id="graficoReceitas"></canvas>
+                    </div>
                 </div>
-              </div>
+
+                <!-- Total de KG de Lixo Coletado -->
+                <div class="estatistica-item">
+                    <h4>Total de KG de Lixo Coletado</h4>
+                    <p id="totalKgLixo">0 KG</p>
+                    <div class="grafico-item">
+                        <canvas id="graficoKgLixo"></canvas>
+                    </div>
+                </div>
+
+                <!-- Média de KG por Pedido -->
+                <div class="estatistica-item">
+                    <h4>Média de KG por Pedido</h4>
+                    <p id="mediaKgPedido">0 KG</p>
+                    <div class="grafico-item">
+                        <canvas id="mediaKgChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Total de Pedidos -->
+                <div class="estatistica-item">
+                    <h4>Total de Pedidos</h4>
+                    <p id="totalPedidos">0</p>
+                    <div class="grafico-item">
+                        <canvas id="totalPedidosChart"></canvas>
+                    </div>
+                </div>
             </div>
-    
-          </div>
-    
-          <div class="products-grid">
-            <div class="product" data-distancia="2" data-avaliacao="3">
-              <img src="imagens/Cond.png">
-              <h3>Cond. laran</h3>
-              <p>2km</p>
-              <p>3.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" ata-distancia="75" data-avaliacao="2">
-              <img src="imagens/Rest.png">
-              <h3>Rest. rete</h3>
-              <p>75km</p>
-              <p>2.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" ata-distancia="35" data-avaliacao="1">
-              <img src="imagens/ROOP.png">
-              <h3>Roop</h3>
-              <p>35km</p>
-              <p>1.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" data-distancia="2" data-avaliacao="3">
-              <img src="imagens/Cond.png">
-              <h3>Cond. laran</h3>
-              <p>2km</p>
-              <p>3.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" ata-distancia="75" data-avaliacao="2">
-              <img src="imagens/Rest.png">
-              <h3>Rest. rete</h3>
-              <p>75km</p>
-              <p>2.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" ata-distancia="35" data-avaliacao="1">
-              <img src="imagens/ROOP.png">
-              <h3>Roop</h3>
-              <p>35km</p>
-              <p>1.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" ata-distancia="35" data-avaliacao="1">
-              <img src="imagens/ROOP.png">
-              <h3>Roop</h3>
-              <p>35km</p>
-              <p>1.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" ata-distancia="75" data-avaliacao="2">
-              <img src="imagens/Rest.png">
-              <h3>Rest. rete</h3>
-              <p>75km</p>
-              <p>2.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" data-distancia="2" data-avaliacao="3">
-              <img src="imagens/Cond.png">
-              <h3>Cond. laran</h3>
-              <p>2km</p>
-              <p>3.0 &#9733</p>
-              <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            
-          </div>
-          
-      </main>
-      <div class="pagination">
-              <button class="prev" disabled>Previous</button>
-              <button class="page-number active">1</button>
-              <span>...</span>
-              <button class="page-number">2</button>
-              <button class="page-number">3</button>
-              <button class="next">Next</button>
-            </div>
+        </div>
+
+    </main>
     <footer class="footer">
         <img class="light-apple-logo" src="imagens/LightApple-Logo.png" />
         <div class="copy-2024-light-apple">&copy; 2024 LightApple</div>
@@ -212,17 +163,18 @@
             </div>
         </div>
     </footer>
-    <script src="TelaEstabelecimentos(coleta).js"></script>
+    <script src="TelaEstatistica.js"></script>
     <script src="navmenu(coleta).js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Função para carregar pedidos do LocalStorage
         function carregarPedidos() {
             const pedidosJSON = localStorage.getItem('pedidos');
             const pedidos = pedidosJSON ? JSON.parse(pedidosJSON) : [];
-    
+
             const dropdownPedidosList = document.getElementById('dropdown-pedidos-list');
             dropdownPedidosList.innerHTML = ''; // Limpa a lista antes de adicionar
-    
+
             // Adiciona cada pedido ao dropdown
             pedidos.forEach(pedido => {
                 const pedidoHTML = `
@@ -241,34 +193,34 @@
                 dropdownPedidosList.insertAdjacentHTML('beforeend', pedidoHTML);
             });
         }
-    
+
         // Função para remover o pedido do LocalStorage e do DOM
         function removerPedido(id) {
             const pedidosJSON = localStorage.getItem('pedidos');
             let pedidos = pedidosJSON ? JSON.parse(pedidosJSON) : [];
-    
+
             // Remove o pedido com o ID específico
             pedidos = pedidos.filter(pedido => pedido.id !== id);
-    
+
             // Atualiza o LocalStorage com a lista modificada
             localStorage.setItem('pedidos', JSON.stringify(pedidos));
-    
+
             // Remove o pedido do DOM
             const pedidoElement = document.getElementById(`pedido-${id}`);
             if (pedidoElement) {
                 pedidoElement.remove();
             }
         }
-    
+
         // Função para marcar o pedido como recebido
         function marcarRecebido(id) {
             removerPedido(id);
         }
-    
+
         // Chama a função ao carregar a página
         carregarPedidos();
     </script>
-    
+
 </body>
 
 </html>
