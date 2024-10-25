@@ -371,7 +371,7 @@ nav ul li a {
     align-self: stretch;
     flex-shrink: 0;
     position: relative;
-    height: 150px;
+    min-height: 240px;
 }
 
 .tt-sust {
@@ -396,12 +396,12 @@ nav ul li a {
     position: relative;
 }
 
-.box-info {
-    display: flex;
+.box-information {
+    display: contents;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    position: absolute;
+    margin-top: 30px;
 }
 
 .tt-3 {

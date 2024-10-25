@@ -199,3 +199,687 @@ nav {
   .sub-menu-link:hover p {
     font-weight: 600;
   }
+
+  /*SECTION-INTRO*/
+
+  .section-intro,
+.section-intro * {
+  box-sizing: border-box;
+}
+.section-intro {
+  background: var(--background-color-primary, #ffffff);
+  padding: 112px 64px 112px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+.box-fale-cnsc {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 768px;
+  position: relative;
+}
+.box-flcnsc {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.box-tt-desc {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.tt {
+  color: #287326;
+  text-align: left;
+  font-family: var(--heading-desktop-h1-font-family, "Roboto-Bold", sans-serif);
+  font-size: var(--heading-desktop-h1-font-size, 56px);
+  line-height: var(--heading-desktop-h1-line-height, 120%);
+  font-weight: var(--heading-desktop-h1-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+}
+.desc {
+  color: #287326;
+  text-align: left;
+  font-family: var(
+    --text-medium-normal-font-family,
+    "Roboto-Regular",
+    sans-serif
+  );
+  font-size: var(--text-medium-normal-font-size, 18px);
+  line-height: var(--text-medium-normal-line-height, 150%);
+  font-weight: var(--text-medium-normal-font-weight, 400);
+  position: relative;
+  align-self: stretch;
+}
+.botoes-fale-conosco {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.btn-enviar {
+  background: #abd94a;
+  border-style: solid;
+  border-color: #287326;
+  border-radius: 5px;
+  border-width: 1px;
+  padding: 12px 24px 12px 24px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.button {
+  color: #287326;
+  text-align: left;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 150%;
+  font-weight: 400;
+  position: relative;
+}
+.btn-voltar {
+  border-style: solid;
+  border-color: #287326;
+  border-radius: 5px;
+  border-width: 1px;
+  padding: 12px 24px 12px 24px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/*SECTION-FORM-FALE-CONOSCO*/
+
+.section-form-fale-conosco,
+.section-form-fale-conosco * {
+  box-sizing: border-box;
+}
+.section-form-fale-conosco {
+  background: var(--background-color-primary, #ffffff);
+  padding: 112px 64px 112px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+.box-intro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 768px;
+  position: relative;
+}
+.tt-contato {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.tt-2 {
+  color: #287326;
+  text-align: center;
+  font-family: var(
+    --heading-desktop-tagline-font-family,
+    "Roboto-SemiBold",
+    sans-serif
+  );
+  font-size: var(--heading-desktop-tagline-font-size, 16px);
+  line-height: var(--heading-desktop-tagline-line-height, 150%);
+  font-weight: var(--heading-desktop-tagline-font-weight, 600);
+  position: relative;
+}
+.box-tt-desc-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.tt-3 {
+  color: #287326;
+  text-align: center;
+  font-family: var(--heading-desktop-h2-font-family, "Roboto-Bold", sans-serif);
+  font-size: var(--heading-desktop-h2-font-size, 48px);
+  line-height: var(--heading-desktop-h2-line-height, 120%);
+  font-weight: var(--heading-desktop-h2-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+}
+.desc-2 {
+  color: #287326;
+  text-align: center;
+  font-family: var(
+    --text-medium-normal-font-family,
+    "Roboto-Regular",
+    sans-serif
+  );
+  font-size: var(--text-medium-normal-font-size, 18px);
+  line-height: var(--text-medium-normal-line-height, 150%);
+  font-weight: var(--text-medium-normal-font-weight, 400);
+  position: relative;
+  align-self: stretch;
+}
+.form-falecnsc {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 560px;
+  position: relative;
+}
+.box-nome {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.tt-nome {
+  color: #287326;
+  text-align: left;
+  font-family: var(
+    --text-regular-normal-font-family,
+    "Roboto-Regular",
+    sans-serif
+  );
+  font-size: var(--text-regular-normal-font-size, 16px);
+  line-height: var(--text-regular-normal-line-height, 150%);
+  font-weight: var(--text-regular-normal-font-weight, 400);
+  position: relative;
+  align-self: stretch;
+}
+.nome {
+  border-style: solid;
+  border-color: #287326;
+  border-width: 1px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.box-email {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.tt-email {
+  color: #287326;
+  text-align: left;
+  font-family: var(
+    --text-regular-normal-font-family,
+    "Roboto-Regular",
+    sans-serif
+  );
+  font-size: var(--text-regular-normal-font-size, 16px);
+  line-height: var(--text-regular-normal-line-height, 150%);
+  font-weight: var(--text-regular-normal-font-weight, 400);
+  position: relative;
+  align-self: stretch;
+}
+.inpt-email {
+  border-style: solid;
+  border-color: #287326;
+  border-width: 1px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.box-mensagem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.tt-mensagem {
+  color: #287326;
+  text-align: left;
+  font-family: var(
+    --text-regular-normal-font-family,
+    "Roboto-Regular",
+    sans-serif
+  );
+  font-size: var(--text-regular-normal-font-size, 16px);
+  line-height: var(--text-regular-normal-line-height, 150%);
+  font-weight: var(--text-regular-normal-font-weight, 400);
+  position: relative;
+  align-self: stretch;
+}
+.mensagem {
+  border-style: solid;
+  border-color: #287326;
+  border-width: 1px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 180px;
+  position: relative;
+}
+.type-your-message {
+  color: var(--color-neutral-neutral, #666666);
+  text-align: left;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 150%;
+  font-weight: 400;
+  position: relative;
+  flex: 1;
+}
+.line-1 {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: var(--border-primary, #000000);
+  border-width: 1px 0 0 0;
+  flex-shrink: 0;
+  width: 2.83px;
+  height: 0px;
+  position: absolute;
+  right: -0.83px;
+  bottom: 3.76px;
+  transform-origin: 0 0;
+  transform: rotate(135deg) scale(1, 1);
+}
+.line-2 {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: var(--border-primary, #000000);
+  border-width: 1px 0 0 0;
+  flex-shrink: 0;
+  width: 8.49px;
+  height: 0px;
+  position: absolute;
+  right: -6.49px;
+  bottom: 8px;
+  transform-origin: 0 0;
+  transform: rotate(135deg) scale(1, 1);
+}
+.act-termo {
+  padding: 0px 0px 16px 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 37px;
+  position: relative;
+}
+.checkbox {
+  background: var(--color-neutral-white, #ffffff);
+  border-style: solid;
+  border-color: #287326;
+  border-width: 1px;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.label {
+  color: #287326;
+  text-align: left;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 150%;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.btn-enviar-2 {
+  background: #abd94a;
+  border-style: solid;
+  border-color: #287326;
+  border-radius: 5px;
+  border-width: 1px;
+  padding: 12px 24px 12px 24px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 99px;
+  position: relative;
+}
+.button {
+  color: #287326;
+  text-align: left;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 150%;
+  font-weight: 400;
+  position: relative;
+}
+
+
+/*SECTION-CONTATO*/
+
+.section-contato,
+.section-contato * {
+  box-sizing: border-box;
+}
+.section-contato {
+  background: var(--background-color-primary, #ffffff);
+  padding: 112px 64px 112px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  align-items: center;
+  justify-content: flex-start;
+  height: 417px;
+  position: relative;
+  overflow: hidden;
+}
+.box-contato {
+  display: flex;
+  flex-direction: row;
+  gap: 80px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.box-tt-desc-4 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+.tt-contato {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.tt-8 {
+  color: #287326;
+  text-align: left;
+  font-family: var(
+    --heading-desktop-tagline-font-family,
+    "Roboto-SemiBold",
+    sans-serif
+  );
+  font-size: var(--heading-desktop-tagline-font-size, 16px);
+  line-height: var(--heading-desktop-tagline-line-height, 150%);
+  font-weight: var(--heading-desktop-tagline-font-weight, 600);
+  position: relative;
+}
+.box-entre-ctt {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.tt-9 {
+  color: #287326;
+  text-align: left;
+  font-family: var(--heading-desktop-h2-font-family, "Roboto-Bold", sans-serif);
+  font-size: var(--heading-desktop-h2-font-size, 48px);
+  line-height: var(--heading-desktop-h2-line-height, 120%);
+  font-weight: var(--heading-desktop-h2-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+}
+.desc-7 {
+  color: #287326;
+  text-align: left;
+  font-family: var(
+    --text-medium-normal-font-family,
+    "Roboto-Regular",
+    sans-serif
+  );
+  font-size: var(--text-medium-normal-font-size, 18px);
+  line-height: var(--text-medium-normal-line-height, 150%);
+  font-weight: var(--text-medium-normal-font-weight, 400);
+  position: relative;
+  align-self: stretch;
+}
+.row-tpcontato {
+  padding: 8px 0px 8px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 500px;
+  position: relative;
+}
+.box-ctt-email {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.email {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+.contact-info-email {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+.tt-10 {
+  color: #287326;
+  text-align: left;
+  font-family: var(--heading-desktop-h6-font-family, "Roboto-Bold", sans-serif);
+  font-size: var(--heading-desktop-h6-font-size, 20px);
+  line-height: var(--heading-desktop-h6-line-height, 140%);
+  font-weight: var(--heading-desktop-h6-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+}
+.desc-8 {
+  color: #287326;
+  text-align: left;
+  font-family: var(
+    --text-regular-link-font-family,
+    "Roboto-Regular",
+    sans-serif
+  );
+  font-size: var(--text-regular-link-font-size, 16px);
+  line-height: var(--text-regular-link-line-height, 150%);
+  font-weight: var(--text-regular-link-font-weight, 400);
+  text-decoration: underline;
+  position: relative;
+  align-self: stretch;
+}
+.box-ctt-telefone {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.tel {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+.contact-info-telefone {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+.tt-11 {
+  color: #287326;
+  text-align: left;
+  font-family: var(--heading-desktop-h6-font-family, "Roboto-Bold", sans-serif);
+  font-size: var(--heading-desktop-h6-font-size, 20px);
+  line-height: var(--heading-desktop-h6-line-height, 140%);
+  font-weight: var(--heading-desktop-h6-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+}
+.desc-9 {
+  color: #287326;
+  text-align: left;
+  font-family: var(
+    --text-regular-link-font-family,
+    "Roboto-Regular",
+    sans-serif
+  );
+  font-size: var(--text-regular-link-font-size, 16px);
+  line-height: var(--text-regular-link-line-height, 150%);
+  font-weight: var(--text-regular-link-font-weight, 400);
+  text-decoration: underline;
+  position: relative;
+  align-self: stretch;
+}
+.box-ctt-endereco {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.loc {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+.contact-info-endereco {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+.tt-12 {
+  color: #287326;
+  text-align: left;
+  font-family: var(--heading-desktop-h6-font-family, "Roboto-Bold", sans-serif);
+  font-size: var(--heading-desktop-h6-font-size, 20px);
+  line-height: var(--heading-desktop-h6-line-height, 140%);
+  font-weight: var(--heading-desktop-h6-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+}
+.desc-10 {
+  color: #287326;
+  text-align: left;
+  font-family: var(
+    --text-regular-normal-font-family,
+    "Roboto-Regular",
+    sans-serif
+  );
+  font-size: var(--text-regular-normal-font-size, 16px);
+  line-height: var(--text-regular-normal-line-height, 150%);
+  font-weight: var(--text-regular-normal-font-weight, 400);
+  position: relative;
+  align-self: stretch;
+}
