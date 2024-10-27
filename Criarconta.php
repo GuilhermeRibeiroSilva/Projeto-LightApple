@@ -73,8 +73,6 @@
             </div>
 
         </section>
-        </div>
-        </section>
     </main>
     <script src="criarconta.js"></script>
 

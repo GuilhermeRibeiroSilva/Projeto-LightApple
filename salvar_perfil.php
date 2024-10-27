@@ -1,6 +1,6 @@
 <?php
 // Conectar ao banco de dados
-$conn = new mysqli("servidor", "usuario", "senha", "banco_de_dados");
+$conn = new mysqli("localhost", "root", "", "light_apple");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $_GET['id'];

@@ -1,4 +1,6 @@
 <?php
+session_start(); // Inicia a sessão
+
 header('Content-Type: application/json'); // Define o tipo de conteúdo como JSON
 
 // Captura os dados JSON enviados pelo JavaScript
@@ -64,7 +66,7 @@ try {
 
     // Prepara a consulta para inserir os dados no banco de dados
     $sql = "INSERT INTO usuarios (nome, cpf, dataNascimento, telefone, endereco, email, senha, tipoConta) 
-VALUES (:nome, :cpf, :dataNascimento, :telefone, :endereco, :email, :senha, :tipoConta)";
+            VALUES (:nome, :cpf, :dataNascimento, :telefone, :endereco, :email, :senha, :tipoConta)";
     $stmt = $conn->prepare($sql);
 
     // Bind das variáveis
@@ -77,10 +79,17 @@ VALUES (:nome, :cpf, :dataNascimento, :telefone, :endereco, :email, :senha, :tip
     $stmt->bindParam(':senha', $senhaHashed);
     $stmt->bindParam(':tipoConta', $tipoConta);
 
-
     // Executa a consulta e verifica se foi bem-sucedida
     if ($stmt->execute()) {
-        echo json_encode(["success" => true]);
+        // Se a inserção foi bem-sucedida, faça o login automaticamente
+        $_SESSION['user_id'] = $conn->lastInsertId(); // Salva o ID do novo usuário na sessão
+
+        // Envia resposta para redirecionar com o tipo de conta
+        echo json_encode([
+            "success" => true,
+            "tipoConta" => $tipoConta // Adiciona o tipo de conta à resposta
+        ]);
+        exit(); // Saia após enviar a resposta
     } else {
         echo json_encode(["success" => false, "error" => "Erro ao criar a conta."]);
     }

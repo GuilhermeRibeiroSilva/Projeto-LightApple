@@ -1,3 +1,6 @@
+<?php
+session_start(); // Inicia a sessão
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -5,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LightApple</title>
-    <link rel="stylesheet" href="TelaMeuPerfil.css">
+    <link rel="stylesheet" href="TelaInicialCliente.css">
     <link rel="stylesheet" href="navmenu(cliente).css">
     <link rel="stylesheet" href="footer.css">
 </head>
@@ -69,7 +72,7 @@
                     <div class="sub-menu-cart-wrap" id="cartDropdown">
                         <div class="sub-menu-cart">
                             <div class="cart-items">
-
+                                
                             </div>
                             <button class="checkout-btn">Finalizar Compra</button>
                         </div>
@@ -88,8 +91,8 @@
                                 <span></span>
                             </p>
                             <hr>
-                            <a href="#" class="sub-menu-link">
-                                <p>Meu Perfil</p>
+                            <a href="TelaMeuPerfil.php" class="sub-menu-link">
+                                    <p>Meu Perfil</p>
                                 <span></span>
                             </a>
                             <hr>
@@ -123,79 +126,145 @@
             </nav>
         </div>
     </header>
-
     <main>
-        <!-- Section for profile photo and user information -->
-        <section class="section-profile">
-            <div class="profile-left">
-                <img src="imagens/Avatar.png" alt="Foto de Perfil" class="profile-pic">
-                <div class="profile-info">
-                    <h2>Joana</h2>
-                    <p>Membro desde: Janeiro de 2023</p>
-                    <p>Informações Pessoais</p>
+        <section class="section-minimenu">
+            <a href="#">
+                <div class="box-empresa-de-coleta">
+                    <img class="empresacoleta" src="imagens/empresacoleta.png" />
+                    <div class="txtempresacoleta">EMPRESAS DE COLETA</div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="box-trocadepontos">
+                    <img class="troca" src="imagens/troca.png" />
+                    <div class="txttrocadepontos">TROCAR PONTOS</div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="box-pedidos">
+                    <img class="pedido" src="imagens/pedido.png" />
+                    <div class="txtpedidos">PEDIDOS</div>
+                </div>
+            </a>
+        </section>
+        <section class="section-empresa-coleta">
+            <div class="box-empresadecoleta">
+                <div class="tt">Empresas de Coleta</div>
+                <div class="desc">Algumas em empresas cadastradas no nosso site</div>
+            </div>
+            <div class="empresas">
+                <div class="emp-coleta">
+                    <div class="box-cards">
+                        <div class="card">
+                            <img src="imagens/empresa-biocoleta.png">
+                            <div class="texto">
+                                <h1>EcoPonto</h1>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="imagens/empresa-ecoponto.png">
+                            <div class="texto">
+                                <h1>BioColeta</h1>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="imagens/empresa-verdeponto.png">
+                            <div class="texto">
+                                <h1>VerdePonto</h1>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="imagens/empresa-biocoleta.png">
+                            <div class="texto">
+                                <h1>Ecourbis Ambiental</h1>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="imagens/empresa-ecoponto.png">
+                            <div class="texto">
+                                <h1>Essencis Soluções </h1>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="">
+                            <div class="texto">
+                                <h1></h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map">
+                    <button class="active first"></button>
+                    <button class="second"></button>
                 </div>
             </div>
-            <div class="profile-right">
-                <button type="button" id="editar-perfil-btn">Editar Perfil</button>
+            <button class="btn-vermais"><a href="#">Ver Mais Empresas</a></button>
+        </section>
+        <section class="section-anuncio">
+            <div class="cont-img-anuncio">
+                <div class="box-img-anuncio">
+                    <img class="anuncio" src="imagens/anuncio.png" />
+                </div>
+            </div>
+            <div class="box-anuncio">
+                <div class="tt2">NÃO FEZ SEU PEDIDO AINDA?</div>
+                <div class="desc2">Faça seu pedido para ganhar pontos de reciclagem.</div>
+                <button class="btn-criarpedido"><a href="#">Criar Pedido</a></button>
             </div>
         </section>
-
-        <!-- Section for personal information -->
-        <section class="section-personal-info">
-            <h3>Informações Pessoais</h3>
-            <form id="profile-info-form">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" value="Joana Silva" readonly>
-
-                <label for="cpf">CPF:</label>
-                <input type="text" id="cpf" name="cpf" value="123.456.789-00" readonly>
-
-                <label for="data-nascimento">Data de Nascimento:</label>
-                <input type="date" id="data-nascimento" name="data-nascimento" value="1990-05-15" readonly>
-
-                <label for="telefone">Telefone:</label>
-                <input type="tel" id="telefone" name="telefone" value="(11) 98765-4321" readonly>
-
-                <label for="endereco">Endereço:</label>
-                <input type="text" id="endereco" name="endereco" value="Rua Exemplo, 123" readonly>
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="joana@email.com" readonly>
-
-                <label for="senha">Senha:</label>
-                <div class="senha-section">
-                    <input type="password" id="senha" name="senha" value="********" readonly>
-                    <button type="button" class="trocar-senha-btn">Trocar Senha</button>
-                </div>
-
-                <label for="tipo-conta">Tipo de Conta:</label>
-                <select id="tipo-conta" name="tipo-conta" disabled>
-                    <option value="cliente" selected>Cliente</option>
-                    <option value="condominio">Condomínio</option>
-                    <option value="estabelecimento">Estabelecimento</option>
-                    <option value="empresa-coleta">Empresa de Coleta</option>
-                    <option value="transportadora">Transportadora</option>
-                    <option value="motoboy">Motoboy</option>
-                </select>
-            </form>
-        </section>
-        <!-- Overlay para o card de troca de senha -->
-        <div class="overlay" style="display: none;">
-            <div class="senha-card">
-                <label for="nova-senha">Nova Senha</label>
-                <input type="password" id="nova-senha" class="input-padrao">
-
-                <label for="confirmar-senha">Confirmar Nova Senha</label>
-                <input type="password" id="confirmar-senha" class="input-padrao">
-
-                <div class="button-container">
-                    <button class="salvar-senha-btn">Salvar Senha</button>
-                    <button class="cancelar-senha-btn">Cancelar</button>
+        <section class="section-troca-de-pontos">
+            <div class="box-troca">
+                <div class="box-troca-pontos">
+                    <div class="tt">Troca de Pontos</div>
+                    <div class="desc">Alguns produtos para troca de pontos</div>
                 </div>
             </div>
-        </div>
+            <div class="empresas">
+                <div class="emp-coleta">
+                    <div class="box-cards">
+                        <div class="card">
+                            <img src="imagens/copos.jpg">
+                            <div class="texto">
+                                <h1>Copos</h1>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="imagens/cupon.png">
+                            <div class="texto">
+                                <h1>Cupons</h1>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="imagens/chaveiro.jpg">
+                            <div class="texto">
+                                <h1>Chaveiros</h1>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="">
+                            <div class="texto">
+                                <h1>Ecourbis Ambiental</h1>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="">
+                            <div class="texto">
+                                <h1>Essencis Soluções </h1>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="">
+                            <div class="texto">
+                                <h1></h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-vermais"><a href="#">Ver Produtos</a></button>
+        </section>
     </main>
-
     <footer class="footer">
         <img class="light-apple-logo" src="imagens/LightApple-Logo.png" />
         <div class="copy-2024-light-apple">&copy; 2024 LightApple</div>
@@ -228,7 +297,7 @@
             </div>
         </div>
     </footer>
-    <script src="TelaMeuPerfil.js"></script>
+    <script src="TelaInicialCliente.js"></script>
     <script src="navmenu(cliente).js"></script>
 </body>
 

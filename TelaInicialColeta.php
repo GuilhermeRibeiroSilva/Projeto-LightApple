@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+session_start(); // Inicia a sessão
+?><!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -49,7 +51,7 @@
                                 <img src="imagens/Avatar.png">
                                 <h3>Joana</h3>
                             </div>
-                            <a href="#" class="sub-menu-link">
+                            <a href="TelaMeuperfil(coleta).php" class="sub-menu-link">
                                 <p>Meu Perfil</p>
                                 <span></span>
                             </a>

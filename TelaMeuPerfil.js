@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (data.success) {
                     const usuario = data.usuario;
                     formInputs.forEach(input => {
-                        if (input.type !== "button") {
-                            input.value = usuario[input.name]; // Assumindo que os inputs têm o atributo name correspondente ao campo no banco de dados
+                        if (input.name && usuario.hasOwnProperty(input.name)) {
+                            input.value = usuario[input.name];
                         }
                     });
                 } else {
@@ -42,6 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => console.error("Erro:", error));
     }
+
+    // Carregar os dados do perfil ao inicializar a página
+    const userId = ""; // Defina o ID do usuário aqui
+    loadProfileData(userId);
 
     // Função para habilitar a edição do perfil
     function enableProfileEditing() {
@@ -57,8 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para salvar o perfil no banco de dados
     function saveProfile() {
-        const userId = ""; 
-
         const formData = {};
         formInputs.forEach(input => {
             formData[input.name] = input.value; // Captura os dados do formulário
@@ -117,13 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cancelEditing();
     });
 
-    // Carregar os dados do perfil ao inicializar a página
-    const userId = ""; 
-    loadProfileData(userId);
-});
-
-// Código para troca de senha (já existente)
-document.addEventListener("DOMContentLoaded", function () {
+    // Código para troca de senha (já existente)
     const trocarSenhaBtn = document.querySelector(".trocar-senha-btn");
     const overlay = document.querySelector(".overlay");
     const salvarSenhaBtn = document.querySelector(".salvar-senha-btn");
@@ -136,14 +132,14 @@ document.addEventListener("DOMContentLoaded", function () {
     function showPasswordCard() {
         novaSenhaInput.value = "";
         confirmarSenhaInput.value = "";
-        overlay.style.display = "flex"; 
-        document.body.style.overflow = "hidden"; 
+        overlay.style.display = "flex";
+        document.body.style.overflow = "hidden";
     }
 
     // Função para esconder o card de troca de senha
     function hidePasswordCard() {
-        overlay.style.display = "none"; 
-        document.body.style.overflow = ""; 
+        overlay.style.display = "none";
+        document.body.style.overflow = "";
     }
 
     // Evento de clique no botão "Trocar Senha"
@@ -155,9 +151,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const confirmarSenha = confirmarSenhaInput.value.trim();
 
         if (novaSenha === confirmarSenha && novaSenha !== "") {
-            senhaInput.value = novaSenha; 
+            senhaInput.value = novaSenha;
             // Aqui você deve adicionar lógica para atualizar a senha no banco de dados
-            hidePasswordCard(); 
+            hidePasswordCard();
         } else {
             alert("As senhas não coincidem ou estão vazias.");
         }
