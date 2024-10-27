@@ -51,17 +51,24 @@ document.querySelector("form").addEventListener("submit", function (event) {
         if (jsonResponse.success) {
             // Redireciona com base no tipo de conta
             const tipoConta = dadosFormulario.tipoConta;
-            let paginaInicial = "TelaIncialCliente.html";
+            let paginaInicial = "";
+    
+            // Verifica o tipo de conta e define a página inicial correspondente
             if (tipoConta === "empresa de coleta") {
                 paginaInicial = "TelaInicialColeta.html";
             } else if (tipoConta === "Transportadora" || tipoConta === "Motoboys") {
                 paginaInicial = "TelaInicialEntrega.html";
+            } else if (tipoConta === "pessoal" || tipoConta === "condominios" || tipoConta === "estabelecimentos") {
+                paginaInicial = "TelaInicialCliente.html"; 
             }
+    
+            // Redireciona para a página inicial
             window.location.href = paginaInicial;
         } else {
             alert(jsonResponse.error || "Erro ao criar conta. Por favor, tente novamente.");
         }
     })
+    
     .catch(error => {
         console.error("Erro:", error);
         alert("Erro ao criar conta. Por favor, tente novamente.");

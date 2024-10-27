@@ -24,54 +24,81 @@ document.addEventListener("DOMContentLoaded", function () {
     const formElement = document.getElementById("profile-info-form");
     formElement.parentNode.insertBefore(buttonContainer, formElement.nextSibling);
 
+    // Função para carregar os dados do perfil do usuário
+    function loadProfileData(userId) {
+        fetch(`http://localhost/LightApple/carregar_perfil.php?id=${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const usuario = data.usuario;
+                    formInputs.forEach(input => {
+                        if (input.type !== "button") {
+                            input.value = usuario[input.name]; // Assumindo que os inputs têm o atributo name correspondente ao campo no banco de dados
+                        }
+                    });
+                } else {
+                    alert("Erro ao carregar dados do perfil.");
+                }
+            })
+            .catch(error => console.error("Erro:", error));
+    }
+
     // Função para habilitar a edição do perfil
     function enableProfileEditing() {
-        // Esconder o botão "Editar Perfil"
         editProfileBtn.style.display = "none";
-
-        // Habilitar inputs do formulário, incluindo o campo de seleção
         formInputs.forEach(input => {
-            input.readOnly = false; // Remove readonly para editar
+            input.readOnly = false;
             if (input.tagName === "SELECT") {
-                input.disabled = false; // Remove disabled para permitir seleção
+                input.disabled = false;
             }
         });
-
-        // Exibir os botões de salvar e cancelar
         buttonContainer.style.display = "flex";
     }
 
-    // Função para salvar o perfil
+    // Função para salvar o perfil no banco de dados
     function saveProfile() {
-        // Desabilitar inputs do formulário após salvar
+        const userId = ""; 
+
+        const formData = {};
         formInputs.forEach(input => {
-            input.readOnly = true; // Reativa o readonly
-            if (input.tagName === "SELECT") {
-                input.disabled = true; // Reativa disabled no campo de seleção
-            }
+            formData[input.name] = input.value; // Captura os dados do formulário
         });
 
-        // Ocultar os botões de salvar e cancelar
-        buttonContainer.style.display = "none";
-
-        // Reexibir o botão "Editar Perfil"
-        editProfileBtn.style.display = "inline-block";
+        fetch(`http://localhost/LightApple/salvar_perfil.php?id=${userId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Perfil salvo com sucesso!");
+                    formInputs.forEach(input => {
+                        input.readOnly = true;
+                        if (input.tagName === "SELECT") {
+                            input.disabled = true;
+                        }
+                    });
+                    buttonContainer.style.display = "none";
+                    editProfileBtn.style.display = "inline-block";
+                } else {
+                    alert("Erro ao salvar perfil: " + data.error);
+                }
+            })
+            .catch(error => console.error("Erro:", error));
     }
 
     // Função para cancelar a edição
     function cancelEditing() {
-        // Reverter os valores do formulário para os valores originais, se necessário
         formInputs.forEach(input => {
-            input.readOnly = true; // Reativa o readonly
+            input.readOnly = true;
             if (input.tagName === "SELECT") {
-                input.disabled = true; // Reativa disabled no campo de seleção
+                input.disabled = true;
             }
         });
-
-        // Ocultar os botões de salvar e cancelar
         buttonContainer.style.display = "none";
-
-        // Reexibir o botão "Editar Perfil"
         editProfileBtn.style.display = "inline-block";
     }
 
@@ -79,20 +106,23 @@ document.addEventListener("DOMContentLoaded", function () {
     editProfileBtn.addEventListener("click", enableProfileEditing);
 
     // Evento de clique no botão "Salvar"
-    salvarPerfilBtn.addEventListener("click", function(event) {
-        event.preventDefault(); // Evita o envio do formulário
+    salvarPerfilBtn.addEventListener("click", function (event) {
+        event.preventDefault();
         saveProfile();
     });
 
     // Evento de clique no botão "Cancelar"
-    cancelarPerfilBtn.addEventListener("click", function(event) {
-        event.preventDefault(); // Evita o envio do formulário
+    cancelarPerfilBtn.addEventListener("click", function (event) {
+        event.preventDefault();
         cancelEditing();
     });
+
+    // Carregar os dados do perfil ao inicializar a página
+    const userId = ""; 
+    loadProfileData(userId);
 });
 
-
-
+// Código para troca de senha (já existente)
 document.addEventListener("DOMContentLoaded", function () {
     const trocarSenhaBtn = document.querySelector(".trocar-senha-btn");
     const overlay = document.querySelector(".overlay");
@@ -104,18 +134,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para mostrar o card de troca de senha
     function showPasswordCard() {
-        // Limpa os campos de senha antes de exibir o card
         novaSenhaInput.value = "";
         confirmarSenhaInput.value = "";
-
-        overlay.style.display = "flex"; // Exibe o overlay e o card
-        document.body.style.overflow = "hidden"; // Desabilita a rolagem
+        overlay.style.display = "flex"; 
+        document.body.style.overflow = "hidden"; 
     }
 
     // Função para esconder o card de troca de senha
     function hidePasswordCard() {
-        overlay.style.display = "none"; // Esconde o overlay e o card
-        document.body.style.overflow = ""; // Reabilita a rolagem
+        overlay.style.display = "none"; 
+        document.body.style.overflow = ""; 
     }
 
     // Evento de clique no botão "Trocar Senha"
@@ -123,12 +151,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Evento de clique no botão "Salvar Senha"
     salvarSenhaBtn.addEventListener("click", function () {
-        const novaSenha = novaSenhaInput.value.trim(); // Remove espaços em branco
-        const confirmarSenha = confirmarSenhaInput.value.trim(); // Remove espaços em branco
+        const novaSenha = novaSenhaInput.value.trim();
+        const confirmarSenha = confirmarSenhaInput.value.trim();
 
         if (novaSenha === confirmarSenha && novaSenha !== "") {
-            senhaInput.value = novaSenha; // Atualiza o campo de senha no perfil
-            hidePasswordCard(); // Esconde o card após salvar
+            senhaInput.value = novaSenha; 
+            // Aqui você deve adicionar lógica para atualizar a senha no banco de dados
+            hidePasswordCard(); 
         } else {
             alert("As senhas não coincidem ou estão vazias.");
         }
@@ -137,7 +166,3 @@ document.addEventListener("DOMContentLoaded", function () {
     // Evento de clique no botão "Cancelar"
     cancelarSenhaBtn.addEventListener("click", hidePasswordCard);
 });
-
-
-
-
