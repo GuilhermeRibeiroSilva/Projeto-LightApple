@@ -1,20 +1,19 @@
 <?php
-session_start(); // Inicia a sessão
+session_start();
 
 // Conexão com o banco de dados
-$host = 'localhost'; // Altere para o seu host
-$dbname = 'light_apple'; // Altere para o nome do seu banco de dados
-$username = 'root'; // Altere para o seu usuário do banco
-$password = ''; // Altere para a sua senha do banco
+$host = 'localhost';
+$dbname = 'light_apple';
+$username = 'root';
+$password = '';
 
 try {
-    // Estabelecendo a conexão
     $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Verifica se o usuário está logado
     if (!isset($_SESSION['user_id'])) {
-        header("Location: login.php"); // Redireciona para a página de login se não estiver logado
+        header("Location: entar.php");
         exit();
     }
 
@@ -26,8 +25,7 @@ try {
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$usuario) {
-        // Se o usuário não for encontrado, redireciona ou mostra uma mensagem
-        header("Location: error.php"); // Redireciona para uma página de erro
+        header("Location: error.php");
         exit();
     }
 } catch (PDOException $e) {
@@ -57,26 +55,47 @@ try {
                 </a>
                 <ul>
                     <li><a href="#" class="inicio">Inicio</a></li>
-                    <li><a href="#" class="empresa-coleta">Empresa de Coleta</a></li>
-                    <li><a href="#" class="trocar-pontos">Trocar Pontos</a></li>
-                    <li><a href="#" class="pedidos">Pedidos</a></li>
+                    <li><a href="#" class="empresa-coleta">Estabelecimentos</a></li>
+                    <li><a href="#" class="trocar-pontos">Pedidos</a></li>
+                    <li><a href="#" class="pedidos">Histórico</a></li>
                 </ul>
+                <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
+                <div class="pedido-menu">
+                    <img src="imagens/Clipboard.png" class="ped-pic" onclick="toggleMenuPed()">
+                    <div class="sub-menu-ped-wrap" id="criarPed">
+                        <div class="sub-menu-ped">
+                            <div class="ped-info">
+                                <img src="imagens/LightApple-Logo.png">
+                                <h3>Pedidos</h3>
+                            </div>
+                            <div class="lista-pedidos" id="dropdown-pedidos-list">
+                                <!-- Pedidos do dropdown serão gerados aqui -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="user-menu">
                     <img src="imagens/Avatar.png" class="user-pic" onclick="toggleMenu()">
                     <div class="sub-menu-wrap" id="subMenu">
                         <div class="sub-menu">
                             <div class="user-info">
                                 <img src="imagens/Avatar.png">
-                                <h3><?php echo htmlspecialchars($usuario['nome']); ?></h3> <!-- Exibe o nome do usuário -->
+                                <h3><?php echo htmlspecialchars($usuario['nome']); ?></h3> <!-- Exibindo o nome do usuário -->
                             </div>
-                            <p id="points">Meus Pontos: 50000 P</p>
-                            <hr>
-                            <a href="meu_perfil.php" class="sub-menu-link">
+                            <a href="#" class="sub-menu-link">
                                 <p>Meu Perfil</p>
+                                <span></span>
                             </a>
                             <hr>
-                            <a href="sair.php" class="sub-menu-link">
+                            <a href="#" class="sub-menu-link">
+                                <p>Estatísticas</p>
+                                <span></span>
+                            </a>
+                            <hr>
+                            <a href="logout.php" class="sub-menu-link"> <!-- Assumindo que você tem um script de logout -->
                                 <p>Sair</p>
+                                <span></span>
                             </a>
                         </div>
                     </div>
@@ -86,12 +105,14 @@ try {
     </header>
 
     <main>
+        <!-- Section for profile photo and user information -->
         <section class="section-profile">
             <div class="profile-left">
                 <img src="imagens/Avatar.png" alt="Foto de Perfil" class="profile-pic">
                 <div class="profile-info">
                     <h2><?php echo htmlspecialchars($usuario['nome']); ?></h2>
-                    <p>Membro desde: <?php echo date("F Y", strtotime($usuario['data_nascimento'])); ?></p>
+                    <p>Membro desde: Janeiro de 2023</p>
+                    <p>Informações Pessoais</p>
                 </div>
             </div>
             <div class="profile-right">
@@ -102,15 +123,15 @@ try {
         <section class="section-personal-info">
             <h3>Informações Pessoais</h3>
             <form id="profile-info-form">
+                <input type="hidden" id="user-id" value="<?php echo htmlspecialchars($userId); ?>">
                 <label for="nome">Nome:</label>
                 <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($usuario['nome']); ?>" readonly>
 
                 <label for="cpf">CPF:</label>
                 <input type="text" id="cpf" name="cpf" value="<?php echo htmlspecialchars($usuario['cpf']); ?>" readonly>
 
-                <label for="data-nascimento">Data de Nascimento:</label>
-                <input type="date" id="data-nascimento" name="data-nascimento"
-                    value="<?php echo htmlspecialchars($usuario['data_nascimento']); ?>" readonly>
+                <label for="dataNascimento">Data de Nascimento:</label>
+                <input type="date" id="dataNascimento" name="dataNascimento" value="<?php echo htmlspecialchars($usuario['dataNascimento']); ?>" readonly>
 
                 <label for="telefone">Telefone:</label>
                 <input type="tel" id="telefone" name="telefone" value="<?php echo htmlspecialchars($usuario['telefone']); ?>" readonly>
@@ -123,19 +144,20 @@ try {
 
                 <label for="senha">Senha:</label>
                 <div class="senha-section">
-                    <input type="password" id="senha" name="senha" value="<?php echo htmlspecialchars($usuario['senha']); ?>" readonly>
+                    <input type="password" id="senha" name="senha" placeholder="*****" readonly> <!-- Não exibir a senha -->
                     <button type="button" class="trocar-senha-btn">Trocar Senha</button>
                 </div>
 
-                <label for="tipo-conta">Tipo de Conta:</label>
-                <select id="tipo-conta" name="tipo-conta" disabled>
-                    <option value="cliente" <?php if ($usuario['tipo_conta'] == 'cliente') echo 'selected'; ?>>Cliente</option>
-                    <option value="condominio" <?php if ($usuario['tipo_conta'] == 'condominio') echo 'selected'; ?>>Condomínio</option>
-                    <option value="estabelecimento" <?php if ($usuario['tipo_conta'] == 'estabelecimento') echo 'selected'; ?>>Estabelecimento</option>
-                    <option value="empresa-coleta" <?php if ($usuario['tipo_conta'] == 'empresa-coleta') echo 'selected'; ?>>Empresa de Coleta</option>
-                    <option value="transportadora" <?php if ($usuario['tipo_conta'] == 'transportadora') echo 'selected'; ?>>Transportadora</option>
-                    <option value="motoboy" <?php if ($usuario['tipo_conta'] == 'motoboy') echo 'selected'; ?>>Motoboy</option>
+                <label for="tipoConta">Tipo de Conta:</label>
+                <select id="tipoConta" name="tipoConta" disabled>
+                    <option value="cliente" <?php if ($usuario['tipoConta'] == 'cliente') echo 'selected'; ?>>Cliente</option>
+                    <option value="condominio" <?php if ($usuario['tipoConta'] == 'condominio') echo 'selected'; ?>>Condomínio</option>
+                    <option value="estabelecimento" <?php if ($usuario['tipoConta'] == 'estabelecimento') echo 'selected'; ?>>Estabelecimento</option>
+                    <option value="empresa-coleta" <?php if ($usuario['tipoConta'] == 'empresa-coleta') echo 'selected'; ?>>Empresa de Coleta</option>
+                    <option value="transportadora" <?php if ($usuario['tipoConta'] == 'transportadora') echo 'selected'; ?>>Transportadora</option>
+                    <option value="motoboy" <?php if ($usuario['tipoConta'] == 'motoboy') echo 'selected'; ?>>Motoboy</option>
                 </select>
+
             </form>
         </section>
 

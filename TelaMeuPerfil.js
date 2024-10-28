@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     const editProfileBtn = document.getElementById("editar-perfil-btn");
     const formInputs = document.querySelectorAll("#profile-info-form input, #profile-info-form select");
+    const userId = document.getElementById("user-id").value;
+    console.log("User ID JavaScript:", userId);
+
 
     // Criação dos botões de salvar e cancelar
     const buttonContainer = document.createElement("div");
@@ -17,10 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     buttonContainer.appendChild(salvarPerfilBtn);
     buttonContainer.appendChild(cancelarPerfilBtn);
 
-    // Inicialmente, os botões estão ocultos
     buttonContainer.style.display = "none";
-
-    // Adiciona os botões após o formulário
     const formElement = document.getElementById("profile-info-form");
     formElement.parentNode.insertBefore(buttonContainer, formElement.nextSibling);
 
@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Carregar os dados do perfil ao inicializar a página
-    const userId = ""; // Defina o ID do usuário aqui
     loadProfileData(userId);
 
     // Função para habilitar a edição do perfil
@@ -63,8 +62,12 @@ document.addEventListener("DOMContentLoaded", function () {
     function saveProfile() {
         const formData = {};
         formInputs.forEach(input => {
-            formData[input.name] = input.value; // Captura os dados do formulário
+            formData[input.name] = input.value;
         });
+
+        // Verificando o userId e os dados do formulário antes de enviar a requisição
+        console.log("User ID no fetch:", userId);
+        console.log("Dados do Formulário:", formData);
 
         fetch(`http://localhost/LightApple/salvar_perfil.php?id=${userId}`, {
             method: "POST",
@@ -75,22 +78,24 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
+                console.log("Resposta do servidor:", data); // Exibindo a resposta do servidor no console
                 if (data.success) {
-                    alert("Perfil salvo com sucesso!");
                     formInputs.forEach(input => {
                         input.readOnly = true;
                         if (input.tagName === "SELECT") {
                             input.disabled = true;
                         }
                     });
-                    buttonContainer.style.display = "none";
-                    editProfileBtn.style.display = "inline-block";
+                    buttonContainer.style.display = "none"; // Esconde o botão "Salvar" automaticamente
+                    editProfileBtn.style.display = "inline-block"; // Exibe o botão "Editar Perfil" novamente
                 } else {
                     alert("Erro ao salvar perfil: " + data.error);
                 }
             })
             .catch(error => console.error("Erro:", error));
     }
+
+
 
     // Função para cancelar a edição
     function cancelEditing() {
@@ -119,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cancelEditing();
     });
 
-    // Código para troca de senha (já existente)
+    // Código para troca de senha
     const trocarSenhaBtn = document.querySelector(".trocar-senha-btn");
     const overlay = document.querySelector(".overlay");
     const salvarSenhaBtn = document.querySelector(".salvar-senha-btn");
@@ -159,6 +164,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Evento de clique no botão "Cancelar"
+    // Evento de clique no botão "Cancelar" no card de senha
     cancelarSenhaBtn.addEventListener("click", hidePasswordCard);
 });
