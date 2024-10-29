@@ -171,6 +171,7 @@ form {
 label {
   display: block;
   margin-bottom: 5px;
+  color: #218838;
 }
 
 input,
@@ -178,7 +179,7 @@ select {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #218838;
   border-radius: 3px;
 }
 
@@ -222,6 +223,34 @@ select {
 }
 
 #cpf {
+  background: #ffffff;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: #287326;
+  border-width: 1px;
+  padding: 8px 12px 8px 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+#label-cnpj {
+  color: #287326;
+  text-align: left;
+  font-family: "Roboto-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  position: relative;
+  align-self: stretch;
+}
+
+#cnpj {
   background: #ffffff;
   border-radius: 6px;
   border-style: solid;
@@ -372,6 +401,7 @@ select {
   display: flex;
   flex-direction: row;
   gap: 4px;
+  margin-bottom: 25px;
   align-items: center;
   justify-content: flex-start;
   align-self: stretch;
@@ -417,7 +447,6 @@ select {
   display: flex;
   flex-direction: row;
   gap: 4px;
-  margin-bottom: 25px;
   align-items: center;
   justify-content: flex-start;
   align-self: stretch;

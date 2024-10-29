@@ -144,7 +144,7 @@ try {
 
                 <label for="senha">Senha:</label>
                 <div class="senha-section">
-                    <input type="password" id="senha" name="senha" placeholder="*****" readonly> <!-- Não exibir a senha -->
+                    <input type="password" id="senha" name="senha" placeholder="*****" readonly>
                     <button type="button" class="trocar-senha-btn">Trocar Senha</button>
                 </div>
 

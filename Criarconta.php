@@ -33,9 +33,23 @@
                     <label for="nome" class="txtnome">Nome</label>
                     <input type="text" id="nome" name="nome" required>
 
+                    <label for="tipoConta" class="txttconta">Tipo de Conta</label>
+                    <select id="tipoConta" name="tipoConta" required>
+                        <option value="" disabled selected>Tipo da Conta</option>
+                        <option value="pessoal">Cliente</option>
+                        <option value="condominios">Condomínios</option>
+                        <option value="estabelecimentos">Estabelecimentos</option>
+                        <option value="empresa de coleta">Empresa de Coleta</option>
+                        <option value="Transportadora">Transportadora</option>
+                        <option value="Motoboys">Motoboys</option>
+                    </select>
+
                     <label for="cpf" class="txtcpf">CPF</label>
                     <input type="text" id="cpf" name="cpf" pattern="\d{11}" maxlength="11"
                         title="O CPF deve ter exatamente 11 dígitos numéricos" required>
+
+                    <label for="cnpj" id="label-cnpj" style="display: none;">CNPJ:</label>
+                    <input type="text" id="cnpj" name="cnpj" style="display: none;">
 
                     <label for="dataNascimento" class="txtdatanasc">Data de Nascimento</label>
                     <input type="date" id="dataNascimento" name="dataNascimento" max="9999-12-31" required>
@@ -56,17 +70,6 @@
 
                     <label for="confirmarSenha" class="txtsenha">Confirmar Senha</label>
                     <input type="password" id="confirmarSenha" name="confirmarSenha" minlength="8" required>
-
-                    <label for="tipoConta" class="txttconta">Tipo de Conta</label>
-                    <select id="tipoConta" name="tipoConta" required>
-                        <option value="" disabled selected>Tipo da Conta</option>
-                        <option value="pessoal">Cliente</option>
-                        <option value="condominios">Condomínios</option>
-                        <option value="estabelecimentos">Estabelecimentos</option>
-                        <option value="empresa de coleta">Empresa de Coleta</option>
-                        <option value="Transportadora">Transportadora</option>
-                        <option value="Motoboys">Motoboys</option>
-                    </select>
 
                     <button type="submit">Criar Conta</button>
                 </form>

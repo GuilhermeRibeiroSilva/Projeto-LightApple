@@ -26,6 +26,7 @@ $email = $dados["email"] ?? null;
 $senha = $dados["senha"] ?? null;
 $confirmarSenha = $dados["confirmarSenha"] ?? null;
 $tipoConta = $dados["tipoConta"] ?? null;
+$cnpj = $dados["cnpj"] ?? null; // Captura o CNPJ
 
 // Validação de campos vazios
 $campos_vazios = [];
@@ -38,6 +39,11 @@ if (empty($email)) $campos_vazios[] = "email";
 if (empty($senha)) $campos_vazios[] = "senha";
 if (empty($confirmarSenha)) $campos_vazios[] = "confirmarSenha";
 if (empty($tipoConta)) $campos_vazios[] = "tipoConta";
+
+// Verifica se CNPJ deve ser validado (apenas para empresas)
+if (($tipoConta == 'empresa-coleta' || $tipoConta == 'transportadora') && empty($cnpj)) {
+    $campos_vazios[] = "CNPJ"; // Adiciona CNPJ à lista de campos vazios se não for fornecido
+}
 
 if (!empty($campos_vazios)) {
     echo json_encode(["success" => false, "error" => "Campos obrigatórios não podem estar vazios: " . implode(", ", $campos_vazios)]);
@@ -64,20 +70,21 @@ try {
     // Criptografa a senha antes de armazenar
     $senhaHashed = password_hash($senha, PASSWORD_DEFAULT);
 
-    // Prepara a consulta para inserir os dados no banco de dados
-    $sql = "INSERT INTO usuarios (nome, cpf, dataNascimento, telefone, endereco, email, senha, tipoConta) 
-            VALUES (:nome, :cpf, :dataNascimento, :telefone, :endereco, :email, :senha, :tipoConta)";
+    // Prepara a consulta para inserir os dados no banco de dados, incluindo o CNPJ
+    $sql = "INSERT INTO usuarios (nome, cpf, dataNascimento, telefone, endereco, email, senha, tipoConta, cnpj) 
+            VALUES (:nome, :cpf, :dataNascimento, :telefone, :endereco, :email, :senha, :tipoConta, :cnpj)";
     $stmt = $conn->prepare($sql);
 
     // Bind das variáveis
     $stmt->bindParam(':nome', $nome);
     $stmt->bindParam(':cpf', $cpf);
-    $stmt->bindParam(':dataNascimento', $dataNascimento); // Corrigido o nome da coluna
+    $stmt->bindParam(':dataNascimento', $dataNascimento);
     $stmt->bindParam(':telefone', $telefone);
     $stmt->bindParam(':endereco', $endereco);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':senha', $senhaHashed);
     $stmt->bindParam(':tipoConta', $tipoConta);
+    $stmt->bindParam(':cnpj', $cnpj); // Adiciona CNPJ ao bind, será null se não for empresa
 
     // Executa a consulta e verifica se foi bem-sucedida
     if ($stmt->execute()) {

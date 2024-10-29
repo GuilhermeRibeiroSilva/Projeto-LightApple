@@ -73,3 +73,26 @@ document.querySelector("form").addEventListener("submit", function (event) {
         alert("Erro ao criar conta. Por favor, tente novamente.");
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const tipoContaSelect = document.getElementById('tipoConta');
+    const cnpjInput = document.getElementById('cnpj');
+    const labelCnpj = document.getElementById('label-cnpj');
+    const cpfInput = document.getElementById('cpf'); // Supondo que você tenha um campo CPF
+
+    tipoContaSelect.addEventListener('change', function () {
+        if (tipoContaSelect.value === 'empresa de coleta' || tipoContaSelect.value === 'Transportadora' || tipoContaSelect.value === 'estabelecimentos') {
+            cnpjInput.style.display = 'block';
+            labelCnpj.style.display = 'block';
+            cpfInput.style.display = 'none';
+            labeltxtCpf.style.display = 'none'; 
+        } else {
+            cnpjInput.style.display = 'none';
+            labelCnpj.style.display = 'none';
+            cpfInput.style.display = 'block'; 
+            labeltxtCpf.style.display = 'block';
+        }
+    });
+});
+
+
