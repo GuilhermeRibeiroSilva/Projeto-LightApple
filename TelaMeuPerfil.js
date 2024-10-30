@@ -36,12 +36,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             // Bloquear edição do tipo de conta
                             if (input.name === "tipoConta") {
-                                input.disabled = true; // Desabilita o select de tipoConta
+                                input.disabled = true;
                             }
                         }
                     });
-                    // Chame a função para atualizar os campos com base no tipo de conta
-                    updateFieldsBasedOnAccountType();
+                    updateFieldsBasedOnAccountType(); // Atualizar campos
                 } else {
                     alert("Erro ao carregar dados do perfil.");
                 }
@@ -56,9 +55,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function enableProfileEditing() {
         editProfileBtn.style.display = "none";
         formInputs.forEach(input => {
-            input.readOnly = false;
-            if (input.tagName === "SELECT") {
-                input.disabled = false;
+            if (input.name !== "tipoConta") { // Garante que tipoConta não seja habilitado
+                input.readOnly = false;
+                if (input.tagName === "SELECT") {
+                    input.disabled = false;
+                }
             }
         });
         buttonContainer.style.display = "flex";
@@ -71,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
             formData[input.name] = input.value;
         });
 
-        // Verificando o userId e os dados do formulário antes de enviar a requisição
         console.log("User ID no fetch:", userId);
         console.log("Dados do Formulário:", formData);
 
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
-                console.log("Resposta do servidor:", data); // Exibindo a resposta do servidor no console
+                console.log("Resposta do servidor:", data);
                 if (data.success) {
                     formInputs.forEach(input => {
                         input.readOnly = true;
@@ -92,8 +92,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             input.disabled = true;
                         }
                     });
-                    buttonContainer.style.display = "none"; // Esconde o botão "Salvar" automaticamente
-                    editProfileBtn.style.display = "inline-block"; // Exibe o botão "Editar Perfil" novamente
+                    buttonContainer.style.display = "none";
+                    editProfileBtn.style.display = "inline-block";
                 } else {
                     alert("Erro ao salvar perfil: " + data.error);
                 }
@@ -119,25 +119,26 @@ document.addEventListener("DOMContentLoaded", function () {
         const cpfField = document.getElementById("cpf");
         const dataNascimentoField = document.getElementById("dataNascimento");
         const cnpjField = document.getElementById("cnpj");
-
+    
+        // Verificar se os elementos existem antes de acessar o `classList`
+        if (cpfField) cpfField.classList.remove("exibir");
+        if (dataNascimentoField) dataNascimentoField.classList.remove("exibir");
+        if (cnpjField) cnpjField.classList.remove("exibir");
+    
         if (tipoConta === "cliente") {
-            cpfField.parentElement.style.display = "block";
-            dataNascimentoField.parentElement.style.display = "block";
-            cnpjField.parentElement.style.display = "none"; // Oculte o campo CNPJ
+            if (cpfField) cpfField.classList.add("exibir");
+            if (dataNascimentoField) dataNascimentoField.classList.add("exibir");
         } else {
-            cpfField.parentElement.style.display = "none"; // Oculte o campo CPF
-            dataNascimentoField.parentElement.style.display = "none"; // Oculte a data de nascimento
-            cnpjField.parentElement.style.display = "block"; // Mostre o campo CNPJ
+            if (cnpjField) cnpjField.classList.add("exibir");
         }
     }
+    
 
     // Chame a função na inicialização da página
     updateFieldsBasedOnAccountType();
 
     // Evento de clique no botão "Editar Perfil"
-    editProfileBtn.addEventListener("click", function () {
-        enableProfileEditing();
-    });
+    editProfileBtn.addEventListener("click", enableProfileEditing);
 
     // Evento de clique no botão "Salvar"
     salvarPerfilBtn.addEventListener("click", function (event) {
@@ -156,11 +157,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const overlay = document.querySelector(".overlay");
     const salvarSenhaBtn = document.querySelector(".salvar-senha-btn");
     const cancelarSenhaBtn = document.querySelector(".cancelar-senha-btn");
-    const senhaInput = document.getElementById("senha");
     const novaSenhaInput = document.getElementById("nova-senha");
     const confirmarSenhaInput = document.getElementById("confirmar-senha");
 
-    // Função para mostrar o card de troca de senha
     function showPasswordCard() {
         novaSenhaInput.value = "";
         confirmarSenhaInput.value = "";
@@ -168,22 +167,18 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.style.overflow = "hidden";
     }
 
-    // Função para esconder o card de troca de senha
     function hidePasswordCard() {
         overlay.style.display = "none";
         document.body.style.overflow = "";
     }
 
-    // Evento de clique no botão "Trocar Senha"
     trocarSenhaBtn.addEventListener("click", showPasswordCard);
 
-    // Evento de clique no botão "Salvar Senha"
     salvarSenhaBtn.addEventListener("click", function () {
         const novaSenha = novaSenhaInput.value.trim();
         const confirmarSenha = confirmarSenhaInput.value.trim();
 
         if (novaSenha === confirmarSenha && novaSenha !== "") {
-            // Enviar nova senha para o servidor
             fetch(`http://localhost/LightApple/trocar_senha.php`, {
                 method: "POST",
                 headers: {
@@ -194,7 +189,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        senhaInput.value = novaSenha; // Atualizar o campo de senha
                         alert("Senha trocada com sucesso!");
                         hidePasswordCard();
                     } else {
@@ -207,6 +201,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Evento de clique no botão "Cancelar" no card de senha
     cancelarSenhaBtn.addEventListener("click", hidePasswordCard);
 });
