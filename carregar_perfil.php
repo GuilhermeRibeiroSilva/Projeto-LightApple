@@ -14,7 +14,7 @@ $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : (isset($_GET['id'
 
 if ($userId) {
     // Consulta ao banco de dados para buscar os dados do usuário
-    $query = "SELECT nome, cpf, dataNascimento, telefone, endereco, email, tipoConta FROM usuarios WHERE id = ?";
+    $query = "SELECT nome, cpf, cnpj, dataNascimento, telefone, endereco, email, tipoConta FROM usuarios WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $userId);
 

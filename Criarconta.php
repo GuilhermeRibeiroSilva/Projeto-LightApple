@@ -36,12 +36,12 @@
                     <label for="tipoConta" class="txttconta">Tipo de Conta</label>
                     <select id="tipoConta" name="tipoConta" required>
                         <option value="" disabled selected>Tipo da Conta</option>
-                        <option value="pessoal">Cliente</option>
+                        <option value="cliente">Cliente</option>
                         <option value="condominios">Condomínios</option>
                         <option value="estabelecimentos">Estabelecimentos</option>
                         <option value="empresa de coleta">Empresa de Coleta</option>
                         <option value="Transportadora">Transportadora</option>
-                        <option value="Motoboys">Motoboys</option>
+                        <option value="Entregadores">Entregador</option>
                     </select>
 
                     <label for="cpf" class="txtcpf">CPF</label>
@@ -49,7 +49,8 @@
                         title="O CPF deve ter exatamente 11 dígitos numéricos" required>
 
                     <label for="cnpj" id="label-cnpj" style="display: none;">CNPJ:</label>
-                    <input type="text" id="cnpj" name="cnpj" style="display: none;">
+                    <input type="text" id="cnpj" name="cnpj" pattern="\d{14}" maxlength="14"
+                    title="O CNPJ deve ter exatamente 14 dígitos numéricos" style="display: none;">
 
                     <label for="dataNascimento" class="txtdatanasc">Data de Nascimento</label>
                     <input type="date" id="dataNascimento" name="dataNascimento" max="9999-12-31" required>

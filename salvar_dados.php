@@ -31,8 +31,7 @@ $cnpj = $dados["cnpj"] ?? null; // Captura o CNPJ
 // Validação de campos vazios
 $campos_vazios = [];
 if (empty($nome)) $campos_vazios[] = "nome";
-if (empty($cpf)) $campos_vazios[] = "cpf";
-if (empty($dataNascimento)) $campos_vazios[] = "dataNascimento";
+if (empty($dataNascimento) && !in_array($tipoConta, ['empresa de coleta', 'Transportadora', 'estabelecimentos', 'condominios'])) $campos_vazios[] = "dataNascimento";
 if (empty($telefone)) $campos_vazios[] = "telefone";
 if (empty($endereco)) $campos_vazios[] = "endereco";
 if (empty($email)) $campos_vazios[] = "email";
@@ -40,9 +39,13 @@ if (empty($senha)) $campos_vazios[] = "senha";
 if (empty($confirmarSenha)) $campos_vazios[] = "confirmarSenha";
 if (empty($tipoConta)) $campos_vazios[] = "tipoConta";
 
-// Verifica se CNPJ deve ser validado (apenas para empresas)
-if (($tipoConta == 'empresa-coleta' || $tipoConta == 'transportadora') && empty($cnpj)) {
-    $campos_vazios[] = "CNPJ"; // Adiciona CNPJ à lista de campos vazios se não for fornecido
+// Validação do CPF e CNPJ dependendo do tipo de conta
+if (in_array($tipoConta, ['cliente', 'Entregadores'])) {
+    if (empty($cpf)) $campos_vazios[] = "CPF"; // CPF é obrigatório para esses tipos
+} elseif (in_array($tipoConta, ['empresa de coleta', 'Transportadora', 'condominios', 'estabelecimentos'])) {
+    if (empty($cnpj)) $campos_vazios[] = "CNPJ"; // CNPJ é obrigatório para esses tipos
+    $dataNascimento = null; // Ignora data de nascimento para esses tipos
+    $cpf = null;
 }
 
 if (!empty($campos_vazios)) {
@@ -51,13 +54,12 @@ if (!empty($campos_vazios)) {
 }
 
 // Conexão com o banco de dados
-$host = 'localhost'; // Altere para o seu host
-$dbname = 'light_apple'; // Altere para o nome do seu banco de dados
-$username = 'root'; // Altere para o seu usuário do banco
-$password = ''; // Altere para a sua senha do banco
+$host = 'localhost';
+$dbname = 'light_apple';
+$username = 'root';
+$password = '';
 
 try {
-    // Estabelecendo a conexão
     $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -75,7 +77,7 @@ try {
             VALUES (:nome, :cpf, :dataNascimento, :telefone, :endereco, :email, :senha, :tipoConta, :cnpj)";
     $stmt = $conn->prepare($sql);
 
-    // Bind das variáveis
+    // Vincula os parâmetros
     $stmt->bindParam(':nome', $nome);
     $stmt->bindParam(':cpf', $cpf);
     $stmt->bindParam(':dataNascimento', $dataNascimento);
@@ -84,23 +86,19 @@ try {
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':senha', $senhaHashed);
     $stmt->bindParam(':tipoConta', $tipoConta);
-    $stmt->bindParam(':cnpj', $cnpj); // Adiciona CNPJ ao bind, será null se não for empresa
+    $stmt->bindParam(':cnpj', $cnpj);
 
-    // Executa a consulta e verifica se foi bem-sucedida
+    // Executa a inserção e retorna a resposta
     if ($stmt->execute()) {
-        // Se a inserção foi bem-sucedida, faça o login automaticamente
-        $_SESSION['user_id'] = $conn->lastInsertId(); // Salva o ID do novo usuário na sessão
-
-        // Envia resposta para redirecionar com o tipo de conta
+        $_SESSION['user_id'] = $conn->lastInsertId();
         echo json_encode([
             "success" => true,
-            "tipoConta" => $tipoConta // Adiciona o tipo de conta à resposta
+            "tipoConta" => $tipoConta
         ]);
-        exit(); // Saia após enviar a resposta
+        exit();
     } else {
         echo json_encode(["success" => false, "error" => "Erro ao criar a conta."]);
     }
 } catch (PDOException $e) {
-    // Captura e exibe erro na conexão ou na execução da consulta
     echo json_encode(["success" => false, "error" => "Erro na conexão: " . $e->getMessage()]);
 }

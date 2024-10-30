@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Prepara e escapa os dados recebidos
     $nome = $conn->real_escape_string($data['nome'] ?? '');
     $cpf = $conn->real_escape_string($data['cpf'] ?? '');
+    $cnpj = $conn->real_escape_string($data['cnpj'] ?? ''); // Adicione esta linha
     $dataNascimento = $conn->real_escape_string($data['dataNascimento'] ?? '');
     $telefone = $conn->real_escape_string($data['telefone'] ?? '');
     $endereco = $conn->real_escape_string($data['endereco'] ?? '');
@@ -38,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipoConta = $conn->real_escape_string($data['tipoConta'] ?? '');
 
     // Prepara a consulta para atualização
-    $sql = "UPDATE usuarios SET nome = ?, cpf = ?, dataNascimento = ?, telefone = ?, endereco = ?, email = ?, tipoConta = ? WHERE id = ?";
+    $sql = "UPDATE usuarios SET nome = ?, cpf = ?, cnpj = ?, dataNascimento = ?, telefone = ?, endereco = ?, email = ?, tipoConta = ? WHERE id = ?"; // Adicione cnpj aqui
     $stmt = $conn->prepare($sql);
 
     if (!$stmt) {
@@ -47,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Liga os parâmetros e executa a consulta
-    $stmt->bind_param("sssssssi", $nome, $cpf, $dataNascimento, $telefone, $endereco, $email, $tipoConta, $userId);
+    $stmt->bind_param("ssssssssi", $nome, $cpf, $cnpj, $dataNascimento, $telefone, $endereco, $email, $tipoConta, $userId); // Adicione cnpj aqui
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true]);

@@ -13,18 +13,30 @@ document.querySelector("form").addEventListener("submit", function (event) {
         senha: formElements["senha"].value,
         confirmarSenha: formElements["confirmarSenha"].value,
         tipoConta: formElements["tipoConta"].value,
+        cnpj: formElements["cnpj"] ? formElements["cnpj"].value : null // Adiciona o CNPJ se estiver presente
     };
 
     // Validações adicionais
+    const tipoConta = dadosFormulario.tipoConta;
     const cpf = dadosFormulario.cpf;
+    const cnpj = dadosFormulario.cnpj;
     const telefone = dadosFormulario.telefone;
     const senha = dadosFormulario.senha;
 
-    if (cpf.length !== 11) {
-        alert("O CPF deve ter exatamente 11 dígitos.");
-        return; // Interrompe o envio se a validação falhar
+    // Validação condicional de CPF/CNPJ
+    if (tipoConta === "cliente" || tipoConta === "Entregadores") {
+        if (cpf.length !== 11) {
+            alert("O CPF deve ter exatamente 11 dígitos.");
+            return; // Interrompe o envio se a validação falhar
+        }
+    } else if (["empresa de coleta", "Transportadora", "estabelecimentos", "condominios"].includes(tipoConta)) {
+        if (cnpj.length !== 14) {
+            alert("O CNPJ deve ter exatamente 14 dígitos.");
+            return; // Interrompe o envio se a validação falhar
+        }
     }
 
+    // Validação do telefone e da senha
     if (telefone.length !== 11) {
         alert("O telefone deve ter exatamente 11 dígitos (incluindo o DDD).");
         return;
@@ -49,16 +61,15 @@ document.querySelector("form").addEventListener("submit", function (event) {
     .then(jsonResponse => {
         console.log(jsonResponse); // Veja a resposta do servidor
         if (jsonResponse.success) {
-            // Redireciona com base no tipo de conta
             const tipoConta = jsonResponse.tipoConta;
             let paginaInicial = "";
 
             // Verifica o tipo de conta e define a página inicial correspondente
             if (tipoConta === "empresa de coleta") {
                 paginaInicial = "TelaInicialColeta.php";
-            } else if (tipoConta === "Transportadora" || tipoConta === "Motoboys") {
+            } else if (["Transportadora", "Entregadores"].includes(tipoConta)) {
                 paginaInicial = "TelaInicialEntrega.php";
-            } else if (tipoConta === "pessoal" || tipoConta === "condominios" || tipoConta === "estabelecimentos") {
+            } else if (["cliente", "estabelecimentos", "condominios"].includes(tipoConta)) {
                 paginaInicial = "TelaInicialCliente.php"; 
             }
 
@@ -78,21 +89,31 @@ document.addEventListener('DOMContentLoaded', function () {
     const tipoContaSelect = document.getElementById('tipoConta');
     const cnpjInput = document.getElementById('cnpj');
     const labelCnpj = document.getElementById('label-cnpj');
-    const cpfInput = document.getElementById('cpf'); // Supondo que você tenha um campo CPF
+    const cpfInput = document.getElementById('cpf'); 
+    const labelCpf = document.querySelector('.txtcpf'); // Seleciona o label do CPF pela classe
+    const dataNascimentoInput = document.getElementById('dataNascimento');
+    const labelDataNascimento = document.querySelector('.txtdatanasc'); // Seleciona o label da data de nascimento pela classe
 
     tipoContaSelect.addEventListener('change', function () {
-        if (tipoContaSelect.value === 'empresa de coleta' || tipoContaSelect.value === 'Transportadora' || tipoContaSelect.value === 'estabelecimentos') {
+        if (["empresa de coleta", "Transportadora", "estabelecimentos", "condominios"].includes(tipoContaSelect.value)) {
+            // Exibe o campo de CNPJ e esconde o de CPF e data de nascimento
             cnpjInput.style.display = 'block';
             labelCnpj.style.display = 'block';
             cpfInput.style.display = 'none';
-            labeltxtCpf.style.display = 'none'; 
+            cpfInput.value = ''; 
+            labelCpf.style.display = 'none';
+            dataNascimentoInput.style.display = 'none';
+            dataNascimentoInput.disabled = true;
+            labelDataNascimento.style.display = 'none'; // Oculta o label de Data de Nascimento
         } else {
+            // Exibe o campo de CPF e data de nascimento, e esconde o de CNPJ
             cnpjInput.style.display = 'none';
             labelCnpj.style.display = 'none';
-            cpfInput.style.display = 'block'; 
-            labeltxtCpf.style.display = 'block';
+            cpfInput.style.display = 'block';
+            labelCpf.style.display = 'block';
+            dataNascimentoInput.style.display = 'block';
+            dataNascimentoInput.disabled = false;
+            labelDataNascimento.style.display = 'block'; // Mostra o label de Data de Nascimento
         }
     });
 });
-
-

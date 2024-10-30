@@ -49,7 +49,7 @@ try {
     <header>
         <div class="hero">
             <nav>
-                <a href="#"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
+                <a href="TelaInicialCliente.php"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
                 <a href="#">
                     <h2 class="lightapple-titulo">LightApple</h2>
                 </a>
@@ -124,14 +124,30 @@ try {
             <h3>Informações Pessoais</h3>
             <form id="profile-info-form">
                 <input type="hidden" id="user-id" value="<?php echo htmlspecialchars($userId); ?>">
+
                 <label for="nome">Nome:</label>
                 <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($usuario['nome']); ?>" readonly>
 
-                <label for="cpf">CPF:</label>
-                <input type="text" id="cpf" name="cpf" value="<?php echo htmlspecialchars($usuario['cpf']); ?>" readonly>
+                <label for="tipoConta">Tipo de Conta:</label>
+                <select id="tipoConta" name="tipoConta" disabled>
+                    <option value="cliente" <?php if ($usuario['tipoConta'] == 'cliente') echo 'selected'; ?>>Cliente</option>
+                    <option value="condominios" <?php if ($usuario['tipoConta'] == 'condominios') echo 'selected'; ?>>Condomínio</option>
+                    <option value="estabelecimentos" <?php if ($usuario['tipoConta'] == 'estabelecimentos') echo 'selected'; ?>>Estabelecimento</option>
+                    <option value="empresa de coleta" <?php if ($usuario['tipoConta'] == 'empresa de coleta') echo 'selected'; ?>>Empresa de Coleta</option>
+                    <option value="Transportadora" <?php if ($usuario['tipoConta'] == 'Transportadora') echo 'selected'; ?>>Transportadora</option>
+                    <option value="Entregadores" <?php if ($usuario['tipoConta'] == 'Entregadores') echo 'selected'; ?>>Entregador</option>
+                </select>
 
-                <label for="dataNascimento">Data de Nascimento:</label>
-                <input type="date" id="dataNascimento" name="dataNascimento" value="<?php echo htmlspecialchars($usuario['dataNascimento']); ?>" readonly>
+                <?php if ($usuario['tipoConta'] == 'cliente'): ?>
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" name="cpf" value="<?php echo htmlspecialchars($usuario['cpf']); ?>" readonly>
+
+                    <label for="dataNascimento">Data de Nascimento:</label>
+                    <input type="date" id="dataNascimento" name="dataNascimento" value="<?php echo htmlspecialchars($usuario['dataNascimento']); ?>" readonly>
+                <?php else: ?>
+                    <label for="cnpj">CNPJ:</label>
+                    <input type="text" id="cnpj" name="cnpj" value="<?php echo htmlspecialchars($usuario['cnpj']); ?>" readonly>
+                <?php endif; ?>
 
                 <label for="telefone">Telefone:</label>
                 <input type="tel" id="telefone" name="telefone" value="<?php echo htmlspecialchars($usuario['telefone']); ?>" readonly>
@@ -144,19 +160,9 @@ try {
 
                 <label for="senha">Senha:</label>
                 <div class="senha-section">
-                    <input type="password" id="senha" name="senha" placeholder="*****" readonly>
+                    <input type="password" id="senha" name="senha" value="<?php echo htmlspecialchars($usuario['senha']); ?>" placeholder="********" readonly>
                     <button type="button" class="trocar-senha-btn">Trocar Senha</button>
                 </div>
-
-                <label for="tipoConta">Tipo de Conta:</label>
-                <select id="tipoConta" name="tipoConta" disabled>
-                    <option value="cliente" <?php if ($usuario['tipoConta'] == 'cliente') echo 'selected'; ?>>Cliente</option>
-                    <option value="condominio" <?php if ($usuario['tipoConta'] == 'condominio') echo 'selected'; ?>>Condomínio</option>
-                    <option value="estabelecimento" <?php if ($usuario['tipoConta'] == 'estabelecimento') echo 'selected'; ?>>Estabelecimento</option>
-                    <option value="empresa-coleta" <?php if ($usuario['tipoConta'] == 'empresa-coleta') echo 'selected'; ?>>Empresa de Coleta</option>
-                    <option value="transportadora" <?php if ($usuario['tipoConta'] == 'transportadora') echo 'selected'; ?>>Transportadora</option>
-                    <option value="motoboy" <?php if ($usuario['tipoConta'] == 'motoboy') echo 'selected'; ?>>Motoboy</option>
-                </select>
 
             </form>
         </section>

@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const userId = document.getElementById("user-id").value;
     console.log("User ID JavaScript:", userId);
 
-
     // Criação dos botões de salvar e cancelar
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("button-container");
@@ -34,8 +33,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     formInputs.forEach(input => {
                         if (input.name && usuario.hasOwnProperty(input.name)) {
                             input.value = usuario[input.name];
+
+                            // Bloquear edição do tipo de conta
+                            if (input.name === "tipoConta") {
+                                input.disabled = true; // Desabilita o select de tipoConta
+                            }
                         }
                     });
+                    // Chame a função para atualizar os campos com base no tipo de conta
+                    updateFieldsBasedOnAccountType();
                 } else {
                     alert("Erro ao carregar dados do perfil.");
                 }
@@ -95,8 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Erro:", error));
     }
 
-
-
     // Função para cancelar a edição
     function cancelEditing() {
         formInputs.forEach(input => {
@@ -109,8 +113,31 @@ document.addEventListener("DOMContentLoaded", function () {
         editProfileBtn.style.display = "inline-block";
     }
 
+    // Função para exibir/ocultar campos com base no tipo de conta
+    function updateFieldsBasedOnAccountType() {
+        const tipoConta = document.getElementById("tipoConta").value;
+        const cpfField = document.getElementById("cpf");
+        const dataNascimentoField = document.getElementById("dataNascimento");
+        const cnpjField = document.getElementById("cnpj");
+
+        if (tipoConta === "cliente") {
+            cpfField.parentElement.style.display = "block";
+            dataNascimentoField.parentElement.style.display = "block";
+            cnpjField.parentElement.style.display = "none"; // Oculte o campo CNPJ
+        } else {
+            cpfField.parentElement.style.display = "none"; // Oculte o campo CPF
+            dataNascimentoField.parentElement.style.display = "none"; // Oculte a data de nascimento
+            cnpjField.parentElement.style.display = "block"; // Mostre o campo CNPJ
+        }
+    }
+
+    // Chame a função na inicialização da página
+    updateFieldsBasedOnAccountType();
+
     // Evento de clique no botão "Editar Perfil"
-    editProfileBtn.addEventListener("click", enableProfileEditing);
+    editProfileBtn.addEventListener("click", function () {
+        enableProfileEditing();
+    });
 
     // Evento de clique no botão "Salvar"
     salvarPerfilBtn.addEventListener("click", function (event) {
@@ -156,9 +183,25 @@ document.addEventListener("DOMContentLoaded", function () {
         const confirmarSenha = confirmarSenhaInput.value.trim();
 
         if (novaSenha === confirmarSenha && novaSenha !== "") {
-            senhaInput.value = novaSenha;
-            // Aqui você deve adicionar lógica para atualizar a senha no banco de dados
-            hidePasswordCard();
+            // Enviar nova senha para o servidor
+            fetch(`http://localhost/LightApple/trocar_senha.php`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ id: userId, novaSenha: novaSenha })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        senhaInput.value = novaSenha; // Atualizar o campo de senha
+                        alert("Senha trocada com sucesso!");
+                        hidePasswordCard();
+                    } else {
+                        alert("Erro ao trocar a senha: " + data.error);
+                    }
+                })
+                .catch(error => console.error("Erro:", error));
         } else {
             alert("As senhas não coincidem ou estão vazias.");
         }
