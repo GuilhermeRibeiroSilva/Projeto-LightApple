@@ -37,10 +37,13 @@ a {
 }
 
 .profile-pic {
+    color: gray;
     width: 100px;
     height: 100px;
-    border-radius: 50%;
-    margin-right: 20px;
+    border-radius: 50%; /* Mantém o círculo */
+    background-size: cover;
+    background-color: #ddd; /* Cor padrão se não houver imagem */
+    background-position: center; /* Centraliza a imagem */
 }
 
 .profile-info h2 {
@@ -68,24 +71,16 @@ a {
     cursor: pointer;
 }
 
-.profile-image-circle, .user-image-circle {
-    width: 50px; /* Ajuste o tamanho conforme necessário */
-    height: 50px;
-    border-radius: 50%;
-    background-color: #ccc; /* Cor de fundo padrão */
-    display: inline-block; /* Para ficar lado a lado, se necessário */
+#trocar-imagem-btn {
+    background-color: #287326; /* Cor do botão */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block; /* Para garantir que o botão seja um bloco */
+    margin-top: 10px; /* Espaço acima do botão */
 }
-
-.profile-image-circle {
-    background-image: url('path/to/default/profile/image.png'); /* Imagem padrão */
-    background-size: cover;
-}
-
-.user-image-circle {
-    background-image: url('path/to/default/user/image.png'); /* Imagem padrão */
-    background-size: cover;
-}
-
 
 /* Exibir os campos necessários */
 .exibir {

@@ -1,6 +1,6 @@
 <?php
 session_start();
-header("Content-Type: application/json"); // Define o cabeçalho JSON para garantir que a resposta seja no formato correto
+header("Content-Type: application/json"); // Define o cabeçalho JSON
 
 // Conexão com o banco de dados
 $conn = new mysqli("localhost", "root", "", "light_apple");
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Prepara e escapa os dados recebidos
     $nome = $conn->real_escape_string($data['nome'] ?? '');
     $cpf = $conn->real_escape_string($data['cpf'] ?? '');
-    $cnpj = $conn->real_escape_string($data['cnpj'] ?? ''); // Adicione esta linha
+    $cnpj = $conn->real_escape_string($data['cnpj'] ?? '');
     $dataNascimento = $conn->real_escape_string($data['dataNascimento'] ?? '');
     $telefone = $conn->real_escape_string($data['telefone'] ?? '');
     $endereco = $conn->real_escape_string($data['endereco'] ?? '');
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipoConta = $conn->real_escape_string($data['tipoConta'] ?? '');
 
     // Prepara a consulta para atualização
-    $sql = "UPDATE usuarios SET nome = ?, cpf = ?, cnpj = ?, dataNascimento = ?, telefone = ?, endereco = ?, email = ?, tipoConta = ? WHERE id = ?"; // Adicione cnpj aqui
+    $sql = "UPDATE usuarios SET nome = ?, cpf = ?, cnpj = ?, dataNascimento = ?, telefone = ?, endereco = ?, email = ?, tipoConta = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
 
     if (!$stmt) {
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Liga os parâmetros e executa a consulta
-    $stmt->bind_param("ssssssssi", $nome, $cpf, $cnpj, $dataNascimento, $telefone, $endereco, $email, $tipoConta, $userId); // Adicione cnpj aqui
+    $stmt->bind_param("ssssssssi", $nome, $cpf, $cnpj, $dataNascimento, $telefone, $endereco, $email, $tipoConta, $userId);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true]);

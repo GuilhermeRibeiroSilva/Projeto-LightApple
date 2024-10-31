@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 
 // Conectar ao banco de dados
@@ -14,13 +14,24 @@ $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : (isset($_GET['id'
 
 if ($userId) {
     // Consulta ao banco de dados para buscar os dados do usuário
-    $query = "SELECT nome, cpf, cnpj, dataNascimento, telefone, endereco, email, tipoConta FROM usuarios WHERE id = ?";
+    $query = "SELECT nome, cpf, cnpj, dataNascimento, telefone, endereco, email, tipoConta, dataCriacao, profile_pic FROM usuarios WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $userId);
 
     if ($stmt->execute()) {
         $result = $stmt->get_result();
         $usuario = $result->fetch_assoc();
+        
+        // Formata a data de criação para exibir o mês e ano em português
+        if ($usuario && isset($usuario['dataCriacao'])) {
+            setlocale(LC_TIME, 'pt_BR.utf8');
+            $dataCriacao = new DateTime($usuario['dataCriacao']);
+            $mesAnoCriacao = strftime('%B %Y', $dataCriacao->getTimestamp());
+            $usuario['dataCriacao'] = $mesAnoCriacao;
+        }
+
+        // Define o caminho da imagem de perfil com valor padrão
+        $usuario['profile_pic'] = !empty($usuario['profile_pic']) ? $usuario['profile_pic'] : 'imagens/default_image.jpeg';
         
         // Retorna os dados do usuário em formato JSON
         echo json_encode(["success" => true, "usuario" => $usuario]);

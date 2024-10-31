@@ -51,7 +51,7 @@ try {
 </head>
 
 <body>
-<header>
+    <header>
         <div class="hero">
             <nav>
                 <a href="TelaInicialCliente.php"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
@@ -109,18 +109,18 @@ try {
                     <div class="sub-menu-cart-wrap" id="cartDropdown">
                         <div class="sub-menu-cart">
                             <div class="cart-items">
-                                
+
                             </div>
                             <button class="checkout-btn">Finalizar Compra</button>
                         </div>
                     </div>
                 </div>
                 <div class="user-menu">
-                    <img src="imagens/Avatar.png" class="user-pic" onclick="toggleMenu()">
+                    <div class="user-perf" onclick="toggleMenu()"></div>
                     <div class="sub-menu-wrap" id="subMenu">
                         <div class="sub-menu">
                             <div class="user-info">
-                                <img src="imagens/Avatar.png">
+                                <div class="user-image-circle" id="userImageCircle"></div>
                                 <h3>Joana</h3>
                             </div>
                             <p id="points">
@@ -129,7 +129,7 @@ try {
                             </p>
                             <hr>
                             <a href="TelaMeuPerfil.php" class="sub-menu-link">
-                                    <p>Meu Perfil</p>
+                                <p>Meu Perfil</p>
                                 <span></span>
                             </a>
                             <hr>
@@ -167,16 +167,17 @@ try {
     <main>
         <!-- Section for profile photo and user information -->
         <section class="section-profile">
-            <div class="profile-left">
-                <img src="imagens/Avatar.png" alt="Foto de Perfil" class="profile-pic">
-                <div class="profile-info">
-                    <h2><?php echo htmlspecialchars($usuario['nome']); ?></h2>
-                    <p>Membro desde: <?php echo htmlspecialchars($usuario['membro_desde']); ?></p>
-                    <p>Informações Pessoais</p>
-                </div>
+            <div class="profile-pic" id="profileImage"></div>
+            <div class="profile-info">
+                <h2><?php echo htmlspecialchars($usuario['nome']); ?></h2>
+                <p>Membro desde: <?php echo htmlspecialchars($usuario['membro_desde']); ?></p>
+                <p>Informações Pessoais</p>
+            </div>
             </div>
             <div class="profile-right">
+            <button id="trocar-imagem-btn" onclick="document.getElementById('inputFile').click();">Trocar Imagem</button>
                 <button type="button" id="editar-perfil-btn">Editar Perfil</button>
+                <input type="file" id="inputFile" accept="image/*" style="display: none;" onchange="previewImage(event)">
             </div>
         </section>
 

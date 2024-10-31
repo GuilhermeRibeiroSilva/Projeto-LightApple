@@ -2,45 +2,54 @@ document.addEventListener("DOMContentLoaded", function () {
     const editProfileBtn = document.getElementById("editar-perfil-btn");
     const formInputs = document.querySelectorAll("#profile-info-form input, #profile-info-form select");
     const userId = document.getElementById("user-id").value;
-    console.log("User ID JavaScript:", userId);
 
-    // Criação dos botões de salvar e cancelar
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("button-container");
-
     const salvarPerfilBtn = document.createElement("button");
     salvarPerfilBtn.classList.add("salvar-btn");
     salvarPerfilBtn.textContent = "Salvar";
-
     const cancelarPerfilBtn = document.createElement("button");
     cancelarPerfilBtn.classList.add("cancelar-btn");
     cancelarPerfilBtn.textContent = "Cancelar";
-
     buttonContainer.appendChild(salvarPerfilBtn);
     buttonContainer.appendChild(cancelarPerfilBtn);
-
     buttonContainer.style.display = "none";
     const formElement = document.getElementById("profile-info-form");
     formElement.parentNode.insertBefore(buttonContainer, formElement.nextSibling);
+    const profilePic = document.querySelector('.profile-pic');
+    const inputFile = document.getElementById('inputFile');
 
-    // Função para carregar os dados do perfil do usuário
+
+    if (fileInput) {
+        const files = fileInput.files; // Certifique-se de que fileInput não é null
+    } else {
+        console.error("Elemento de entrada de arquivo não encontrado.");
+    }
+
+    // Função para carregar dados do perfil
     function loadProfileData(userId) {
         fetch(`http://localhost/LightApple/carregar_perfil.php?id=${userId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     const usuario = data.usuario;
+                    // Preencher os campos do formulário
                     formInputs.forEach(input => {
                         if (input.name && usuario.hasOwnProperty(input.name)) {
                             input.value = usuario[input.name];
-
-                            // Bloquear edição do tipo de conta
                             if (input.name === "tipoConta") {
                                 input.disabled = true;
                             }
                         }
                     });
-                    updateFieldsBasedOnAccountType(); // Atualizar campos
+
+                    // Atualizar a imagem de perfil
+                    if (usuario.profile_pic) {
+                        profilePic.style.backgroundImage = `url('${usuario.profile_pic}')`;
+                    }
+
+                    // Chame a função para atualizar campos com base no tipo de conta, se necessário
+                    updateFieldsBasedOnAccountType();
                 } else {
                     alert("Erro ao carregar dados do perfil.");
                 }
@@ -48,14 +57,13 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Erro:", error));
     }
 
-    // Carregar os dados do perfil ao inicializar a página
+    // Substitua `userId` pelo ID real do usuário
     loadProfileData(userId);
 
-    // Função para habilitar a edição do perfil
     function enableProfileEditing() {
         editProfileBtn.style.display = "none";
         formInputs.forEach(input => {
-            if (input.name !== "tipoConta") { // Garante que tipoConta não seja habilitado
+            if (input.name !== "tipoConta") {
                 input.readOnly = false;
                 if (input.tagName === "SELECT") {
                     input.disabled = false;
@@ -65,15 +73,11 @@ document.addEventListener("DOMContentLoaded", function () {
         buttonContainer.style.display = "flex";
     }
 
-    // Função para salvar o perfil no banco de dados
     function saveProfile() {
         const formData = {};
         formInputs.forEach(input => {
             formData[input.name] = input.value;
         });
-
-        console.log("User ID no fetch:", userId);
-        console.log("Dados do Formulário:", formData);
 
         fetch(`http://localhost/LightApple/salvar_perfil.php?id=${userId}`, {
             method: "POST",
@@ -84,7 +88,6 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
-                console.log("Resposta do servidor:", data);
                 if (data.success) {
                     formInputs.forEach(input => {
                         input.readOnly = true;
@@ -101,7 +104,6 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Erro:", error));
     }
 
-    // Função para cancelar a edição
     function cancelEditing() {
         formInputs.forEach(input => {
             input.readOnly = true;
@@ -113,18 +115,16 @@ document.addEventListener("DOMContentLoaded", function () {
         editProfileBtn.style.display = "inline-block";
     }
 
-    // Função para exibir/ocultar campos com base no tipo de conta
     function updateFieldsBasedOnAccountType() {
         const tipoConta = document.getElementById("tipoConta").value;
         const cpfField = document.getElementById("cpf");
         const dataNascimentoField = document.getElementById("dataNascimento");
         const cnpjField = document.getElementById("cnpj");
-    
-        // Verificar se os elementos existem antes de acessar o `classList`
+
         if (cpfField) cpfField.classList.remove("exibir");
         if (dataNascimentoField) dataNascimentoField.classList.remove("exibir");
         if (cnpjField) cnpjField.classList.remove("exibir");
-    
+
         if (tipoConta === "cliente") {
             if (cpfField) cpfField.classList.add("exibir");
             if (dataNascimentoField) dataNascimentoField.classList.add("exibir");
@@ -132,21 +132,15 @@ document.addEventListener("DOMContentLoaded", function () {
             if (cnpjField) cnpjField.classList.add("exibir");
         }
     }
-    
 
-    // Chame a função na inicialização da página
     updateFieldsBasedOnAccountType();
 
-    // Evento de clique no botão "Editar Perfil"
     editProfileBtn.addEventListener("click", enableProfileEditing);
-
-    // Evento de clique no botão "Salvar"
     salvarPerfilBtn.addEventListener("click", function (event) {
         event.preventDefault();
         saveProfile();
     });
 
-    // Evento de clique no botão "Cancelar"
     cancelarPerfilBtn.addEventListener("click", function (event) {
         event.preventDefault();
         cancelEditing();
@@ -202,4 +196,55 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     cancelarSenhaBtn.addEventListener("click", hidePasswordCard);
+
+     // Função para pré-visualizar a imagem antes de fazer o upload
+     function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                profilePic.style.backgroundImage = `url(${e.target.result})`;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+     // Função para enviar a imagem para o servidor
+     function enviarImagemPerfil() {
+        if (inputFile.files.length === 0) {
+            alert("Por favor, selecione uma imagem para enviar.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('profile_pic', inputFile.files[0]);
+
+        fetch('trocar_imagem.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Imagem de perfil atualizada com sucesso!");
+                profilePic.style.backgroundImage = `url('${data.nova_imagem}')`;
+            } else {
+                alert("Erro ao atualizar imagem de perfil: " + data.error);
+            }
+        })
+        .catch(error => console.error("Erro:", error));
+    }
+
+    // Adiciona evento ao botão para trocar imagem
+    const trocarImagemBtn = document.getElementById('trocar-imagem-btn');
+    if (trocarImagemBtn) {
+        trocarImagemBtn.addEventListener('click', function() {
+            inputFile.click();
+        });
+    }
+
+    // Adiciona evento de mudança ao input de arquivo
+    if (inputFile) {
+        inputFile.addEventListener('change', previewImage);
+    }
 });

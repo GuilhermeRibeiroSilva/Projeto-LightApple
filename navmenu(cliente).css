@@ -86,12 +86,15 @@ nav {
     position: relative;
   }
   
-  .user-pic {
+  .user-perf {
+    color: gray;
     width: 40px;
-    border-radius: 50%;
+    border-radius: 50%; /* Mantém o círculo */
     cursor: pointer;
     margin-right: 40px;
-  }
+    background-size: cover;
+    background-color: #ddd; /* Cor padrão se não houver imagem */
+}
   
   nav ul {
     flex-grow: 1;
@@ -140,11 +143,15 @@ nav {
     align-items: center;
   }
   
-  .user-info img {
+  .user-image-circle {
+    color: gray;
     width: 50px;
+    height: 50px;
     border-radius: 50%;
     margin-right: 15px;
-  }
+    background-size: cover;
+    background-color: #ddd; /* Cor padrão se não houver imagem */
+}
   
   .user-info h3 {
     color: #287326;
