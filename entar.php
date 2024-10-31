@@ -11,38 +11,41 @@
 <body>
     <header>
         <nav class="navbar">
-            <a href="#"><img class="light-apple-logo" src="imagens/LightApple-Logo.png" /></a>
+            <a href="Home.html"><img class="light-apple-logo" src="imagens/LightApple-Logo.png" /></a>
             <div class="lightapple-titulo">LightApple</div>
             <div class="navigation">
-                <div class="nao-possui-conta"><a href="#">Não possui conta?</a></div>
-                <div class="criarconta"><a href="#">Criar Conta</a></div>
+                <div class="nao-possui-conta">Não possui conta?</div>
+                <div class="criarconta"><a href="Criarconta.php">Criar Conta</a></div>
             </div>
         </nav>
     </header>
     <main>
         <section class="section-entrar">
             <div class="box-entar">
-              <div class="tt">Entrar</div>
-              <div class="desc">Insira suas credenciais para fazer login</div>
+                <div class="tt">Entrar</div>
+                <div class="desc">Insira suas credenciais para fazer login</div>
             </div>
-            <img class="coleta-reciclavel-organico" src="imagens/coleta-reciclavel-organico.png"/>
+            <img class="coleta-reciclavel-organico" src="imagens/coleta-reciclavel-organico.png" />
             <div class="form-container">
-                <form action="" method="post">
+                <form action="login.php" method="post" id="loginForm">
                     <label for="email" class="txtemail">Email</label>
                     <input type="email" id="email" name="email" required>
-                    
+
                     <label for="senha" class="txtsenha">Senha</label>
                     <input type="password" id="senha" name="senha" required>
-                    
+
                     <div class="box-btn">
-                        <button type="button" class="btn-esqueceu">Esqueceu a senha?</button>
+                        <button type="button" class="btn-esqueceu" onclick="window.location.href='recuperar_senha.php'">Esqueceu a senha?</button>
                         <button type="submit" class="btn-entrar">Entrar</button>
-                      </div>       
+                    </div>
                 </form>
+                <div id="error" style="color: red; margin-top: 10px;"></div>
             </div>
-          </section>
-          
+        </section>
+      
     </main>
+
+    <script src="entar.js"></script>
 </body>
 
 </html>

@@ -86,12 +86,15 @@ nav {
     position: relative;
   }
   
-  .user-pic {
-    width: 40px;
+  .user-perf {
+    width: 50px; /* Ajuste conforme necessário */
+    height: 50px;
     border-radius: 50%;
+    background-color: #ccc; /* Fallback cinza */
+    background-size: cover;
+    background-position: center;
     cursor: pointer;
-    margin-right: 40px;
-  }
+}
   
   nav ul {
     flex-grow: 1;
@@ -140,12 +143,15 @@ nav {
     align-items: center;
   }
   
-  .user-info img {
-    width: 50px;
+  .user-image-circle {
+    width: 50px; /* Ajuste conforme necessário */
+    height: 50px;
     border-radius: 50%;
-    margin-right: 15px;
-  }
-  
+    background-color: #ccc; /* Cor de fallback cinza */
+    background-size: cover; /* Garante que a imagem se ajuste ao círculo */
+    background-position: center;
+}
+
   .user-info h3 {
     color: #287326;
   }

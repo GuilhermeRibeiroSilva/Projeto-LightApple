@@ -19,20 +19,22 @@ try {
 
     // Recupera os dados do usuário
     $userId = $_SESSION['user_id'];
-    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE id = :id");
-    $conn->exec("SET lc_time_names = 'pt_BR'");
     $stmt = $conn->prepare("SELECT *, DATE_FORMAT(dataCriacao, '%M de %Y') AS membro_desde FROM usuarios WHERE id = :id");
     $stmt->bindParam(':id', $userId);
     $stmt->execute();
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Verifica se a coluna membro_desde foi realmente obtida
-    $membro_desde = $usuario['membro_desde'] ?? 'Data de criação não disponível';
-
+    // Verifica se o usuário existe
     if (!$usuario) {
         header("Location: error.php");
         exit();
     }
+
+    // Obtém o caminho da imagem de perfil ou uma imagem padrão
+    $profileImagePath = $usuario['profile_image_path'] ?? 'imagens/default_image.png'; // Caminho padrão se não houver imagem
+
+    // Verifica se a coluna membro_desde foi realmente obtida
+    $membro_desde = $usuario['membro_desde'] ?? 'Data de criação não disponível';
 } catch (PDOException $e) {
     echo "Erro: " . $e->getMessage();
 }
@@ -116,12 +118,12 @@ try {
                     </div>
                 </div>
                 <div class="user-menu">
-                    <div class="user-perf" onclick="toggleMenu()"></div>
+                    <div class="user-perf" id="userImageCircle" onclick="toggleMenu()" style="background-image: url('<?php echo $profileImagePath; ?>');"></div>
                     <div class="sub-menu-wrap" id="subMenu">
                         <div class="sub-menu">
                             <div class="user-info">
-                                <div class="user-image-circle" id="userImageCircle"></div>
-                                <h3>Joana</h3>
+                                <div class="user-image-circle" id="userImageDropdown" style="background-image: url('<?php echo $profileImagePath; ?>');"></div>
+                                <h3><?php echo $usuario['nome']; ?></h3>
                             </div>
                             <p id="points">
                                 Meus Pontos: 50000 P
@@ -167,7 +169,7 @@ try {
     <main>
         <!-- Section for profile photo and user information -->
         <section class="section-profile">
-            <div class="profile-pic" id="profileImage"></div>
+            <div class="profile-pic" id="profilePic" style="background-image: url('<?php echo $profileImagePath; ?>');"></div>
             <div class="profile-info">
                 <h2><?php echo htmlspecialchars($usuario['nome']); ?></h2>
                 <p>Membro desde: <?php echo htmlspecialchars($usuario['membro_desde']); ?></p>
@@ -175,9 +177,9 @@ try {
             </div>
             </div>
             <div class="profile-right">
-            <button id="trocar-imagem-btn" onclick="document.getElementById('inputFile').click();">Trocar Imagem</button>
+                <button type="button" id="trocar-imagem-btn">Trocar Imagem</button>
                 <button type="button" id="editar-perfil-btn">Editar Perfil</button>
-                <input type="file" id="inputFile" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                <input type="file" id="inputFile" accept="image/*" style="display: none;">
             </div>
         </section>
 
