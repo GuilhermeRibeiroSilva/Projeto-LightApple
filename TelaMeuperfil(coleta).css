@@ -25,10 +25,17 @@ a {
 .section-profile {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 20px;
     background-color: #acd94ab9;
     border-radius: 8px;
     margin: 20px;
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .profile-left {
@@ -37,10 +44,18 @@ a {
 }
 
 .profile-pic {
+    color: gray;
     width: 100px;
     height: 100px;
-    border-radius: 50%;
-    margin-right: 20px;
+    border-radius: 50%; /* Mantém o círculo */
+    background-size: cover;
+    background-color: #ddd; /* Cor padrão se não houver imagem */
+    background-position: center; /* Centraliza a imagem */
+}
+
+.profile-info {
+    margin-top: 7px;
+    margin-right: 355px;
 }
 
 .profile-info h2 {
@@ -57,6 +72,7 @@ a {
 .profile-right {
     display: flex;
     align-items: center;
+    gap: 20px;
 }
 
 #editar-perfil-btn {
@@ -67,6 +83,24 @@ a {
     border-radius: 5px;
     cursor: pointer;
 }
+
+#trocar-imagem-btn {
+    background-color: #218838; /* Cor do botão */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block; /* Para garantir que o botão seja um bloco */
+    margin-top: 0px; /* Espaço acima do botão */
+}
+
+/* Exibir os campos necessários */
+.exibir {
+    visibility: visible !important; /* Garante que os campos sejam exibidos */
+    height: auto;
+}
+
 
 /* Personal Information Section */
 .section-personal-info {
@@ -250,4 +284,95 @@ body.blur-background::before {
     }
 }
 
+#cadastrar-btn {
+    background-color: #218838;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
+#cadastrar-btn:hover {
+    background-color: #45a049;
+}
+
+.ad-card {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+}
+
+.ad-card h2 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+#ad-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#ad-form label {
+    font-weight: 500;
+    color: #555;
+}
+
+#ad-form input,
+#ad-form select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.image-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.image-preview {
+    width: 200px;
+    height: 150px;
+    border: 2px dashed #ddd;
+    border-radius: 4px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: none;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.button-container button {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.button-container .salvar-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.button-container .cancelar-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.button-container button:hover {
+    opacity: 0.9;
+}

@@ -61,9 +61,9 @@ try {
                 </a>
                 <ul>
                     <li><a href="#" class="inicio">Inicio</a></li>
-                    <li><a href="#" class="empresa-coleta">Empresa de Coleta</a></li>
-                    <li><a href="#" class="trocar-pontos">Trocar Pontos</a></li>
-                    <li><a href="#" class="pedidos">Pedidos</a></li>
+                    <li><a href="#" class="empresa-coleta">Estabelecimentos</a></li>
+                    <li><a href="#" class="trocar-pontos">Pedidos</a></li>
+                    <li><a href="#" class="pedidos">Histórico</a></li>
                 </ul>
                 <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
                 <div class="pedido-menu">
@@ -72,50 +72,16 @@ try {
                         <div class="sub-menu-ped">
                             <div class="ped-info">
                                 <img src="imagens/LightApple-Logo.png">
-                                <h3>Criar Pedido</h3>
+                                <h3>Pedidos</h3>
                             </div>
-                            <form id="criar-pedido-form">
-                                <label for="empresa-coleta">Empresa de Coleta:</label>
-                                <input type="text" id="empresa-coleta" name="empresa-coleta">
-                                <label for="forma-pagamento">Forma de Pagamento:</label>
-                                <select id="forma-pagamento" name="forma-pagamento">
-                                    <option value="">Selecione uma forma de pagamento</option>
-                                    <option value="Salva">Salva</option>
-                                    <option value="Adicionar Nova"><a href="#">Adicionar Nova</a></option>
-                                </select>
-                                <div id="nova-forma-pagamento" style="display: none;">
-                                    <label for="nova-forma-pagamento-input">Nova Forma de Pagamento:</label>
-                                    <input type="text" id="nova-forma-pagamento-input"
-                                        name="nova-forma-pagamento-input">
-                                </div>
-                                <label for="quantidade-lixo">Quantidade de Lixo:</label>
-                                <input type="number" id="quantidade-lixo" name="quantidade-lixo">
-                                <label for="local-partida">Local de Partida:</label>
-                                <input type="text" id="local-partida" name="local-partida">
-                                <label for="local-chegada">Local de Chegada:</label>
-                                <input type="text" id="local-chegada" name="local-chegada">
-                                <label for="valor">Valor:</label>
-                                <input type="number" id="valor" name="valor" readonly>
-                                <label for="frete">Frete:</label>
-                                <input type="number" id="frete" name="frete" readonly>
-                                <label for="valor-com-frete">Valor com Frete:</label>
-                                <input type="number" id="valor-com-frete" name="valor-com-frete" readonly>
-                                <button type="button" id="criar-pedido-btn">Criar Pedido</button>
-                            </form>
+                            <div class="lista-pedidos" id="dropdown-pedidos-list">
+                                <!-- Pedidos do dropdown serão gerados aqui -->
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="cart-menu">
-                    <img src="imagens/Shopping cart.png" class="cart-pic" onclick="toggleCart()">
-                    <div class="sub-menu-cart-wrap" id="cartDropdown">
-                        <div class="sub-menu-cart">
-                            <div class="cart-items">
 
-                            </div>
-                            <button class="checkout-btn">Finalizar Compra</button>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="user-menu">
                     <img src="<?php echo $profileImagePath; ?>" class="user-perf" id="userImageCircle" onclick="toggleMenu()">
                     <div class="sub-menu-wrap" id="subMenu">
@@ -124,33 +90,13 @@ try {
                                 <img src="<?php echo $profileImagePath; ?>" class="user-image-circle" id="userImageDropdown">
                                 <h3>Olá, <?php echo explode(' ', $usuario['nome'])[0]; ?></h3>
                             </div>
-                            <p id="points">
-                                Meus Pontos: 50000 P
-                                <span></span>
-                            </p>
-                            <hr>
                             <a href="TelaMeuperfil(coleta).php" class="sub-menu-link">
                                 <p>Meu Perfil</p>
                                 <span></span>
                             </a>
                             <hr>
                             <a href="#" class="sub-menu-link">
-                                <p>Favoritos</p>
-                                <span></span>
-                            </a>
-                            <hr>
-                            <a href="#" class="sub-menu-link">
-                                <p>Meus Cupons</p>
-                                <span></span>
-                            </a>
-                            <hr>
-                            <a href="#" class="sub-menu-link">
-                                <p>Pagamentos</p>
-                                <span></span>
-                            </a>
-                            <hr>
-                            <a href="#" class="sub-menu-link">
-                                <p>Ajuda</p>
+                                <p>Estatísticas</p>
                                 <span></span>
                             </a>
                             <hr>
@@ -158,6 +104,7 @@ try {
                                 <p>Sair</p>
                                 <span></span>
                             </a>
+
                         </div>
                     </div>
                 </div>

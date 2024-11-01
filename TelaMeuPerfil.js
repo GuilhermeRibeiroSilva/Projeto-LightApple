@@ -285,3 +285,120 @@ document.addEventListener("DOMContentLoaded", function () {
     // Evento de clique no botão "Cancelar"
     cancelarSenhaBtn.addEventListener("click", hidePasswordCard);
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Elementos do anúncio
+    const cadastrarBtn = document.createElement("button");
+    cadastrarBtn.type = "button";
+    cadastrarBtn.id = "cadastrar-btn";
+    cadastrarBtn.textContent = "Cadastrar Local";
+    
+    // Adiciona o botão após o botão de editar perfil
+    const profileRight = document.querySelector(".profile-right");
+    profileRight.appendChild(cadastrarBtn);
+
+    // Criar overlay do anúncio
+    const adOverlay = document.createElement("div");
+    adOverlay.className = "overlay";
+    adOverlay.id = "adOverlay";
+    adOverlay.style.display = "none";
+
+    // Criar o formulário do anúncio
+    const adHTML = `
+        <div class="ad-card">
+            <h2>Cadastrar Local</h2>
+            <form id="ad-form" enctype="multipart/form-data">
+                <label for="ad-name">Nome do Local:</label>
+                <input type="text" id="ad-name" name="nome" required>
+
+                <label for="ad-image">Imagem do Local:</label>
+                <div class="image-upload-container">
+                    <input type="file" id="ad-image" name="imagem" accept="image/*" required>
+                    <div id="image-preview" class="image-preview"></div>
+                </div>
+
+                <label for="ad-address">Endereço:</label>
+                <input type="text" id="ad-address" name="endereco" required>
+
+                <label for="ad-category">Categoria:</label>
+                <select id="ad-category" name="categoria" required>
+                    <option value="">Selecione uma categoria</option>
+                    <option value="coleta">Empresa de Coleta</option>
+                    <option value="estabelecimento">Estabelecimento</option>
+                    <option value="condominio">Condomínio</option>
+                </select>
+
+                <div class="button-container">
+                    <button type="submit" class="salvar-btn">Cadastrar</button>
+                    <button type="button" class="cancelar-btn">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    `;
+
+    adOverlay.innerHTML = adHTML;
+    document.body.appendChild(adOverlay);
+
+    // Preview da imagem
+    const imageInput = document.getElementById("ad-image");
+    const imagePreview = document.getElementById("image-preview");
+
+    imageInput.addEventListener("change", function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.style.backgroundImage = `url('${e.target.result}')`;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Event Listeners
+    cadastrarBtn.addEventListener("click", () => {
+        adOverlay.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    });
+
+    // Fechar overlay ao clicar em Cancelar
+    adOverlay.querySelector(".cancelar-btn").addEventListener("click", () => {
+        adOverlay.style.display = "none";
+        document.body.style.overflow = "";
+        document.getElementById("ad-form").reset();
+        imagePreview.style.backgroundImage = '';
+        imagePreview.style.display = 'none';
+    });
+
+    // Manipular envio do formulário
+    const adForm = document.getElementById("ad-form");
+    adForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(adForm);
+        formData.append('userId', document.getElementById("user-id").value);
+
+        try {
+            const response = await fetch('cadastrar_local.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert("Local cadastrado com sucesso!");
+                adOverlay.style.display = "none";
+                document.body.style.overflow = "";
+                adForm.reset();
+                imagePreview.style.backgroundImage = '';
+                imagePreview.style.display = 'none';
+            } else {
+                alert("Erro ao cadastrar local: " + result.error);
+            }
+        } catch (error) {
+            console.error("Erro:", error);
+            alert("Erro ao cadastrar local. Tente novamente.");
+        }
+    });
+});
