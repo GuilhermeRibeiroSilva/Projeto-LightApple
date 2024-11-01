@@ -1,5 +1,14 @@
 <?php
-session_start(); // Inicia a sessão
+session_start();
+
+// Verifique se o usuário está autenticado
+if (!isset($_SESSION['user_id'])) {
+    header('Location: entar.php'); // Redireciona para o login se não estiver autenticado
+    exit();
+}
+
+// O userId é obtido da sessão
+$userId = $_SESSION['user_id'];
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -116,7 +125,7 @@ session_start(); // Inicia a sessão
                                 <span></span>
                             </a>
                             <hr>
-                            <a href="#" class="sub-menu-link">
+                            <a href="logout.php" class="sub-menu-link">
                                 <p>Sair</p>
                                 <span></span>
                             </a>

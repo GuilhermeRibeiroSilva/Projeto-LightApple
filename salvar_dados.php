@@ -93,6 +93,7 @@ try {
         $_SESSION['user_id'] = $conn->lastInsertId();
         echo json_encode([
             "success" => true,
+            "user_id" => $_SESSION['user_id'], // Retorna o ID do usuário
             "tipoConta" => $tipoConta
         ]);
         exit();

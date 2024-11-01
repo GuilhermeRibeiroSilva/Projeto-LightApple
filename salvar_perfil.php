@@ -2,6 +2,12 @@
 session_start();
 header("Content-Type: application/json"); // Define o cabeçalho JSON
 
+// Verifica se o usuário está autenticado
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(["success" => false, "error" => "Usuário não autenticado."]);
+    exit();
+}
+
 // Conexão com o banco de dados
 $conn = new mysqli("localhost", "root", "", "light_apple");
 

@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+// Verifica se o usuário está logado
+if (!isset($_SESSION['user_id'])) {
+    header('Location: entar.php'); // Redireciona para login se não estiver autenticado
+    exit;
+}
+
+$userId = $_SESSION['user_id']; // Recupera o ID do usuário da sessão
+
 // Conexão com o banco de dados
 $host = 'localhost';
 $dbname = 'light_apple';
@@ -11,14 +19,7 @@ try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Verifica se o usuário está logado
-    if (!isset($_SESSION['user_id'])) {
-        header("Location: entar.php");
-        exit();
-    }
-
     // Recupera os dados do usuário
-    $userId = $_SESSION['user_id'];
     $stmt = $conn->prepare("SELECT *, DATE_FORMAT(dataCriacao, '%M de %Y') AS membro_desde FROM usuarios WHERE id = :id");
     $stmt->bindParam(':id', $userId);
     $stmt->execute();
@@ -118,12 +119,12 @@ try {
                     </div>
                 </div>
                 <div class="user-menu">
-                    <div class="user-perf" id="userImageCircle" onclick="toggleMenu()" style="background-image: url('<?php echo $profileImagePath; ?>');"></div>
+                    <img src="<?php echo $profileImagePath; ?>" class="user-perf" id="userImageCircle" onclick="toggleMenu()">
                     <div class="sub-menu-wrap" id="subMenu">
                         <div class="sub-menu">
                             <div class="user-info">
-                                <div class="user-image-circle" id="userImageDropdown" style="background-image: url('<?php echo $profileImagePath; ?>');"></div>
-                                <h3><?php echo $usuario['nome']; ?></h3>
+                                <img src="<?php echo $profileImagePath; ?>" class="user-image-circle" id="userImageDropdown">
+                                <h3>Olá, <?php echo explode(' ', $usuario['nome'])[0]; ?></h3>
                             </div>
                             <p id="points">
                                 Meus Pontos: 50000 P
@@ -155,7 +156,7 @@ try {
                                 <span></span>
                             </a>
                             <hr>
-                            <a href="#" class="sub-menu-link">
+                            <a href="logout.php" class="sub-menu-link">
                                 <p>Sair</p>
                                 <span></span>
                             </a>
@@ -165,11 +166,11 @@ try {
             </nav>
         </div>
     </header>
-
+    <input type="hidden" id="user-id" value="<?php echo $usuario['id']; ?>">
     <main>
         <!-- Section for profile photo and user information -->
         <section class="section-profile">
-            <div class="profile-pic" id="profilePic" style="background-image: url('<?php echo $profileImagePath; ?>');"></div>
+            <img src="<?php echo $profileImagePath; ?>" class="profile-pic" id="profilePic">
             <div class="profile-info">
                 <h2><?php echo htmlspecialchars($usuario['nome']); ?></h2>
                 <p>Membro desde: <?php echo htmlspecialchars($usuario['membro_desde']); ?></p>
@@ -231,7 +232,7 @@ try {
         </section>
 
         <!-- Overlay para o card de troca de senha -->
-        <div class="overlay" style="display: none;">
+        <div class="overlay" id="senhaOverlay" style="display: none;">
             <div class="senha-card">
                 <label for="nova-senha">Nova Senha</label>
                 <input type="password" id="nova-senha" class="input-padrao">
@@ -243,6 +244,7 @@ try {
                 </div>
             </div>
         </div>
+
 
     </main>
 
@@ -256,7 +258,9 @@ try {
             <a href="#"><img class="linkedin" src="imagens/Linkedin.png" /></a>
         </div>
     </footer>
-
+    <script>
+        const userId = document.getElementById("user-id").value;
+    </script>
     <script src="TelaMeuPerfil.js"></script>
     <script src="navmenu(cliente).js"></script>
 </body>

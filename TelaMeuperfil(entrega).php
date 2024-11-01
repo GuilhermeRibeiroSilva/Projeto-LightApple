@@ -1,3 +1,45 @@
+<?php
+session_start();
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION['user_id'])) {
+    header('Location: entar.php'); // Redireciona para login se não estiver autenticado
+    exit;
+}
+
+$userId = $_SESSION['user_id']; // Recupera o ID do usuário da sessão
+
+// Conexão com o banco de dados
+$host = 'localhost';
+$dbname = 'light_apple';
+$username = 'root';
+$password = '';
+
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Recupera os dados do usuário
+    $stmt = $conn->prepare("SELECT *, DATE_FORMAT(dataCriacao, '%M de %Y') AS membro_desde FROM usuarios WHERE id = :id");
+    $stmt->bindParam(':id', $userId);
+    $stmt->execute();
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verifica se o usuário existe
+    if (!$usuario) {
+        header("Location: error.php");
+        exit();
+    }
+
+    // Obtém o caminho da imagem de perfil ou uma imagem padrão
+    $profileImagePath = $usuario['profile_image_path'] ?? 'imagens/default_image.png'; // Caminho padrão se não houver imagem
+
+    // Verifica se a coluna membro_desde foi realmente obtida
+    $membro_desde = $usuario['membro_desde'] ?? 'Data de criação não disponível';
+} catch (PDOException $e) {
+    echo "Erro: " . $e->getMessage();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -110,7 +152,7 @@
                                 <span></span>
                             </a>
                             <hr>
-                            <a href="#" class="sub-menu-link">
+                            <a href="logout.php" class="sub-menu-link">
                                 <p>Sair</p>
                                 <span></span>
                             </a>

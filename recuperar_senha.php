@@ -2,6 +2,8 @@
 // Conexão com o banco de dados
 $conn = new mysqli("localhost", "root", "", "light_apple");
 
+header('Content-Type: application/json'); // Define o tipo de conteúdo como JSON
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
 
@@ -16,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Código para enviar o e-mail de recuperação de senha
         $token = bin2hex(random_bytes(50)); // Gera um token único
         $reset_link = "https://seudominio.com/redefinir_senha.php?token=" . $token;
-        
+
         // Atualize o banco com o token (exemplo: insira o token no registro do usuário)
         $query = "UPDATE usuarios SET token_senha = ? WHERE email = ?";
         $stmt = $conn->prepare($query);
@@ -25,13 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Envio de e-mail
         mail($email, "Recuperação de senha", "Clique no link para redefinir sua senha: " . $reset_link);
-        echo "Um e-mail foi enviado com instruções para recuperar sua senha.";
+        echo json_encode(["success" => true, "message" => "Um e-mail foi enviado com instruções para recuperar sua senha."]);
     } else {
-        echo "E-mail não encontrado.";
+        echo json_encode(["success" => false, "error" => "E-mail não encontrado."]);
     }
 }
-?>
 
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

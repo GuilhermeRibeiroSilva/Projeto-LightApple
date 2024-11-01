@@ -15,7 +15,7 @@
             <div class="lightapple-titulo"><a href="#">LightApple</a></div>
             <div class="navigation">
                 <div class="possui-conta">Já Possui conta?</div>
-                <div class="entrar"><a href="entar.html">Entrar</a></div>
+                <div class="entrar"><a href="entar.php">Entrar</a></div>
             </div>
         </nav>
     </header>

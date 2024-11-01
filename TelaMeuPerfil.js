@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const editProfileBtn = document.getElementById("editar-perfil-btn");
     const formInputs = document.querySelectorAll("#profile-info-form input, #profile-info-form select");
-    const userId = document.getElementById("user-id").value;
+    const userId = document.getElementById("user-id").value; // Obtido do PHP
     const profilePic = document.querySelector('.profile-pic'); // Seção de perfil
     const userImageCircle = document.getElementById("userImageCircle"); // Imagem do navmenu
     const userImageDropdown = document.getElementById("userImageDropdown"); // Imagem do dropdown
@@ -22,9 +22,74 @@ document.addEventListener("DOMContentLoaded", function () {
     const formElement = document.getElementById("profile-info-form");
     formElement.parentNode.insertBefore(buttonContainer, formElement.nextSibling);
 
+    // Botão para abrir a sobreposição de troca de senha
+    const trocarSenhaBtn = document.getElementById("trocar-senha-btn"); // Botão de trocar senha
+    const senhaOverlay = document.getElementById("senhaOverlay");
+    const salvarSenhaBtn = document.querySelector(".salvar-senha-btn");
+    const cancelarSenhaBtn = document.querySelector(".cancelar-senha-btn");
+    const novaSenhaInput = document.getElementById("nova-senha");
+    const confirmarSenhaInput = document.getElementById("confirmar-senha");
+
+    // Função para abrir o overlay de troca de senha
+    function openSenhaOverlay() {
+        senhaOverlay.style.display = "block";
+    }
+
+    // Função para fechar o overlay de troca de senha
+    function closeSenhaOverlay() {
+        senhaOverlay.style.display = "none";
+        novaSenhaInput.value = "";
+        confirmarSenhaInput.value = "";
+    }
+
+    // Evento para abrir o overlay
+    if (trocarSenhaBtn) {
+        trocarSenhaBtn.addEventListener("click", openSenhaOverlay);
+    }
+
+    // Evento para fechar o overlay ao clicar no botão "Cancelar"
+    if (cancelarSenhaBtn) {
+        cancelarSenhaBtn.addEventListener("click", closeSenhaOverlay);
+    }
+
+    // Função para salvar a nova senha
+    function saveNewPassword() {
+        const novaSenha = novaSenhaInput.value;
+        const confirmarSenha = confirmarSenhaInput.value;
+
+        // Verifica se as senhas correspondem
+        if (novaSenha !== confirmarSenha) {
+            alert("As senhas não correspondem.");
+            return;
+        }
+
+        fetch('trocar_senha.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: userId, novaSenha: novaSenha })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Senha atualizada com sucesso!");
+                closeSenhaOverlay();
+            } else {
+                alert("Erro ao atualizar a senha: " + data.error);
+            }
+        })
+        .catch(error => console.error("Erro:", error));
+    }
+
+    // Evento para salvar a nova senha ao clicar no botão "Salvar Senha"
+    if (salvarSenhaBtn) {
+        salvarSenhaBtn.addEventListener("click", saveNewPassword);
+    }
+
     // Função para carregar dados do perfil
-    function loadProfileData(userId) {
-        fetch(`http://localhost/LightApple/carregar_perfil.php?id=${userId}`)
+    function loadProfileData() {
+        fetch('http://localhost/LightApple/carregar_perfil.php')
             .then(response => {
                 // Verifica se a resposta é válida
                 if (!response.ok) {
@@ -62,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Carrega os dados de perfil na inicialização
-    loadProfileData(userId);
+    loadProfileData();
 
     // Função para habilitar edição do perfil
     function enableProfileEditing() {
@@ -112,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para cancelar edição
     function cancelEditing() {
-        loadProfileData(userId);
+        loadProfileData();
         formInputs.forEach(input => {
             input.readOnly = true;
             if (input.tagName === "SELECT") {

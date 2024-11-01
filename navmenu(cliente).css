@@ -87,7 +87,6 @@ nav {
   }
   
   .user-perf {
-    color: gray;
     width: 40px;
     border-radius: 50%; /* Mantém o círculo */
     cursor: pointer;
@@ -144,13 +143,11 @@ nav {
   }
   
   .user-image-circle {
-    color: gray;
     width: 50px;
     height: 50px;
     border-radius: 50%;
     margin-right: 15px;
     background-size: cover;
-    background-color: #ddd; /* Cor padrão se não houver imagem */
 }
   
   .user-info h3 {

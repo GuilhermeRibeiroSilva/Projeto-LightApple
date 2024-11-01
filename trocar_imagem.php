@@ -16,6 +16,12 @@ try {
     exit();
 }
 
+// Verifica se o usuário está logado
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(["success" => false, "error" => "Usuário não autenticado."]);
+    exit();
+}
+
 // Verifica se um arquivo foi enviado
 if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['imagem']['tmp_name'];
@@ -31,7 +37,7 @@ if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
 
         // Move o arquivo para o diretório de uploads
         if (move_uploaded_file($fileTmpPath, $uploadPath)) {
-            $userId = $_SESSION['user_id']; // Supondo que o ID do usuário está na sessão
+            $userId = $_SESSION['user_id']; // Usando o ID do usuário da sessão
 
             // Atualiza o caminho da imagem no banco de dados
             $sql = "UPDATE usuarios SET profile_image_path = :profile_image_path WHERE id = :id";

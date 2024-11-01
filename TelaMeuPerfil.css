@@ -46,6 +46,11 @@ a {
     background-position: center; /* Centraliza a imagem */
 }
 
+.profile-info {
+    margin-top: 7px;
+    margin-right: 355px;
+}
+
 .profile-info h2 {
     color: #218838;
     margin: 0;
@@ -60,6 +65,7 @@ a {
 .profile-right {
     display: flex;
     align-items: center;
+    gap: 20px;
 }
 
 #editar-perfil-btn {
@@ -72,14 +78,14 @@ a {
 }
 
 #trocar-imagem-btn {
-    background-color: #287326; /* Cor do botão */
+    background-color: #218838; /* Cor do botão */
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     display: inline-block; /* Para garantir que o botão seja um bloco */
-    margin-top: 10px; /* Espaço acima do botão */
+    margin-top: 0px; /* Espaço acima do botão */
 }
 
 /* Exibir os campos necessários */

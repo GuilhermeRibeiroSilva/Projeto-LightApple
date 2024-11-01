@@ -10,11 +10,11 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         const response = await fetch('login.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json', // Altera para application/json
             },
-            body: `email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`,
+            body: JSON.stringify({ email, senha }), // Envia os dados como JSON
         });
-        
+
         // Lê a resposta JSON
         const data = await response.json();
 
@@ -23,27 +23,13 @@ document.getElementById('loginForm').addEventListener('submit', async function (
             sessionStorage.setItem('user_id', data.user_id);
         }
 
-        // Verifica o tipo de conta e redireciona
-        if (data.tipo_conta) {
-            switch (data.tipo_conta) {
-                case 'cliente':
-                case 'condominio':
-                case 'estabelecimento':
-                    window.location.href = "TelaInicialCliente.php";
-                    break;
-                case 'coleta':
-                    window.location.href = "TelaInicialColeta.php";
-                    break;
-                case 'transportadora':
-                case 'entregador':
-                    window.location.href = "TelaInicialEntregador.php";
-                    break;
-                default:
-                    document.getElementById('error').textContent = "Tipo de conta inválido.";
-            }
-        } else if (data.error) {
+        // Verifica se há erro na resposta
+        if (data.error) {
             // Mostra mensagem de erro caso e-mail ou senha estejam incorretos
             document.getElementById('error').textContent = data.error;
+        } else {
+            // Se não houver erro, redireciona para a página inicial
+            window.location.href = "TelaInicial.php"; // Redirecionar para uma página comum após o login
         }
     } catch (error) {
         console.error('Erro:', error);

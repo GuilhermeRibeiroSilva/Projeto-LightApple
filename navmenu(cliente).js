@@ -1,3 +1,24 @@
+// Obtém o userId da sessão através do campo oculto
+const userId = document.getElementById("user-id").value;
+
+// Verifica se o userId é válido antes de realizar operações
+if (userId) {
+    fetch(`http://localhost/LightApple/carregar_perfil.php?id=${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                atualizarImagemPerfil(data.usuario.profile_image_path);
+            } else {
+                console.error(data.error); // Loga o erro caso não tenha sucesso
+                atualizarImagemPerfil(null);
+            }
+        })
+        .catch(error => console.error("Erro ao carregar imagem de perfil:", error));
+} else {
+    console.error("User ID não encontrado na sessão.");
+}
+
+// Menu e submenus
 let subMenu = document.getElementById("subMenu");
 let criarPed = document.getElementById("criarPed");
 let cartDropdown = document.getElementById("cartDropdown");
@@ -34,7 +55,7 @@ function toggleCart() {
 
 // Função para remover item do carrinho
 document.querySelectorAll('.remove-item').forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
         this.parentElement.remove(); // Remove o item clicado
     });
 });
@@ -52,23 +73,4 @@ function atualizarImagemPerfil(urlImagem) {
         userImageCircle.style.backgroundImage = ""; // Mantém a cor de fundo cinza
         userPerf.style.backgroundImage = ""; // Mantém a cor de fundo cinza
     }
-}
-
-// Recupera o ID do usuário da sessionStorage
-const userId = sessionStorage.getItem('user_id');
-
-if (userId) {
-    fetch(`http://localhost/LightApple/carregar_perfil.php?id=${userId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                atualizarImagemPerfil(data.usuario.profile_image_path);
-            } else {
-                console.error(data.error); // Loga o erro caso não tenha sucesso
-                atualizarImagemPerfil(null);
-            }
-        })
-        .catch(error => console.error("Erro ao carregar imagem de perfil:", error));
-} else {
-    console.error("ID do usuário não encontrado na sessionStorage.");
 }

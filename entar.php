@@ -1,3 +1,12 @@
+<?php
+session_start();
+// Conectar ao banco de dados
+// Verificar credenciais do usuário
+if ($credenciais_validas) {
+    $_SESSION['user_id'] = $user_id; // Armazenar user_id na sessão
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 

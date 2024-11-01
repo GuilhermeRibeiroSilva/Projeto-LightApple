@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 }
 
 // Obtém o ID do usuário da sessão
-$userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+$userId = $_SESSION['user_id'] ?? null;
 
 if ($userId) {
     // Consulta para buscar os dados do usuário
