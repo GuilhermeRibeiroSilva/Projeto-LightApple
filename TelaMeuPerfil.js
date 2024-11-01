@@ -22,71 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const formElement = document.getElementById("profile-info-form");
     formElement.parentNode.insertBefore(buttonContainer, formElement.nextSibling);
 
-    // Botão para abrir a sobreposição de troca de senha
-    const trocarSenhaBtn = document.getElementById("trocar-senha-btn"); // Botão de trocar senha
-    const senhaOverlay = document.getElementById("senhaOverlay");
-    const salvarSenhaBtn = document.querySelector(".salvar-senha-btn");
-    const cancelarSenhaBtn = document.querySelector(".cancelar-senha-btn");
-    const novaSenhaInput = document.getElementById("nova-senha");
-    const confirmarSenhaInput = document.getElementById("confirmar-senha");
-
-    // Função para abrir o overlay de troca de senha
-    function openSenhaOverlay() {
-        senhaOverlay.style.display = "block";
-    }
-
-    // Função para fechar o overlay de troca de senha
-    function closeSenhaOverlay() {
-        senhaOverlay.style.display = "none";
-        novaSenhaInput.value = "";
-        confirmarSenhaInput.value = "";
-    }
-
-    // Evento para abrir o overlay
-    if (trocarSenhaBtn) {
-        trocarSenhaBtn.addEventListener("click", openSenhaOverlay);
-    }
-
-    // Evento para fechar o overlay ao clicar no botão "Cancelar"
-    if (cancelarSenhaBtn) {
-        cancelarSenhaBtn.addEventListener("click", closeSenhaOverlay);
-    }
-
-    // Função para salvar a nova senha
-    function saveNewPassword() {
-        const novaSenha = novaSenhaInput.value;
-        const confirmarSenha = confirmarSenhaInput.value;
-
-        // Verifica se as senhas correspondem
-        if (novaSenha !== confirmarSenha) {
-            alert("As senhas não correspondem.");
-            return;
-        }
-
-        fetch('trocar_senha.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: userId, novaSenha: novaSenha })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert("Senha atualizada com sucesso!");
-                closeSenhaOverlay();
-            } else {
-                alert("Erro ao atualizar a senha: " + data.error);
-            }
-        })
-        .catch(error => console.error("Erro:", error));
-    }
-
-    // Evento para salvar a nova senha ao clicar no botão "Salvar Senha"
-    if (salvarSenhaBtn) {
-        salvarSenhaBtn.addEventListener("click", saveNewPassword);
-    }
-
     // Função para carregar dados do perfil
     function loadProfileData() {
         fetch('http://localhost/LightApple/carregar_perfil.php')
@@ -133,7 +68,8 @@ document.addEventListener("DOMContentLoaded", function () {
     function enableProfileEditing() {
         editProfileBtn.style.display = "none";
         formInputs.forEach(input => {
-            if (input.name !== "tipoConta") {
+            // Adicione uma condição para não permitir a edição do campo de senha
+            if (input.name !== "tipoConta" && input.name !== "senha") {
                 input.readOnly = false;
                 if (input.tagName === "SELECT") {
                     input.disabled = false;
@@ -147,7 +83,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function saveProfile() {
         const formData = {};
         formInputs.forEach(input => {
-            formData[input.name] = input.value;
+            // Não inclua o campo de senha nos dados enviados
+            if (input.name !== "senha") {
+                formData[input.name] = input.value;
+            }
         });
 
         fetch(`http://localhost/LightApple/salvar_perfil.php?id=${userId}`, {
@@ -161,9 +100,12 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 if (data.success) {
                     formInputs.forEach(input => {
-                        input.readOnly = true;
-                        if (input.tagName === "SELECT") {
-                            input.disabled = true;
+                        // Não altere o estado do campo de senha
+                        if (input.name !== "senha") {
+                            input.readOnly = true;
+                            if (input.tagName === "SELECT") {
+                                input.disabled = true;
+                            }
                         }
                     });
                     buttonContainer.style.display = "none";
@@ -179,9 +121,12 @@ document.addEventListener("DOMContentLoaded", function () {
     function cancelEditing() {
         loadProfileData();
         formInputs.forEach(input => {
-            input.readOnly = true;
-            if (input.tagName === "SELECT") {
-                input.disabled = true;
+            // Adicione uma condição para não permitir a edição do campo de senha
+            if (input.name !== "senha") {
+                input.readOnly = true;
+                if (input.tagName === "SELECT") {
+                    input.disabled = true;
+                }
             }
         });
         buttonContainer.style.display = "none";
@@ -263,4 +208,80 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Envia a imagem quando o input de arquivo for alterado
     inputFile.addEventListener('change', enviarImagemPerfil);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const trocarSenhaBtn = document.querySelector(".trocar-senha-btn");
+    const overlay = document.querySelector(".overlay");
+    const salvarSenhaBtn = document.querySelector(".salvar-senha-btn");
+    const cancelarSenhaBtn = document.querySelector(".cancelar-senha-btn");
+    const senhaInput = document.getElementById("senha");
+    const novaSenhaInput = document.getElementById("nova-senha");
+    const confirmarSenhaInput = document.getElementById("confirmar-senha");
+
+    // Função para mostrar o card de troca de senha
+    function showPasswordCard() {
+        // Limpa os campos de senha antes de exibir o card
+        novaSenhaInput.value = "";
+        confirmarSenhaInput.value = "";
+
+        overlay.style.display = "flex"; // Exibe o overlay e o card
+        document.body.style.overflow = "hidden"; // Desabilita a rolagem
+    }
+
+    // Função para esconder o card de troca de senha
+    function hidePasswordCard() {
+        overlay.style.display = "none"; // Esconde o overlay e o card
+        document.body.style.overflow = ""; // Reabilita a rolagem
+    }
+
+    // Função para salvar a nova senha
+    function saveNewPassword() {
+        const novaSenha = novaSenhaInput.value.trim();
+        const confirmarSenha = confirmarSenhaInput.value.trim();
+
+        // Verifica se as senhas correspondem
+        if (novaSenha !== confirmarSenha) {
+            alert("As senhas não correspondem.");
+            return;
+        }
+
+        // Verifica se a nova senha tem um comprimento mínimo
+        if (novaSenha.length < 8) {
+            alert("A senha deve ter no mínimo 8 caracteres.");
+            return;
+        }
+
+        fetch('trocar_senha.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ novaSenha: novaSenha })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Senha atualizada com sucesso!");
+                    hidePasswordCard();
+                } else {
+                    alert(data.error || "Erro ao atualizar a senha.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro:", error);
+                alert("Ocorreu um erro ao tentar atualizar a senha.");
+            });
+    }
+
+    // Evento de clique no botão "Trocar Senha"
+    trocarSenhaBtn.addEventListener("click", showPasswordCard);
+
+    // Evento de clique no botão "Salvar Senha" - Usando a função saveNewPassword
+    salvarSenhaBtn.addEventListener("click", function () {
+        saveNewPassword(); // Chama a função para salvar a nova senha
+    });
+
+    // Evento de clique no botão "Cancelar"
+    cancelarSenhaBtn.addEventListener("click", hidePasswordCard);
 });

@@ -26,8 +26,17 @@ try {
         exit();
     }
 
-    $userId = $_SESSION['user_id']; // Usando o ID do usuário da sessão
+    // Verifica o comprimento e complexidade da senha
+    if (strlen($data->novaSenha) < 8) {
+        echo json_encode(["success" => false, "error" => "A senha deve ter no mínimo 8 caracteres."]);
+        exit();
+    }
+
+    $userId = $_SESSION['user_id']; 
     $novaSenha = password_hash($data->novaSenha, PASSWORD_DEFAULT); // Criptografa a nova senha
+
+    // Log para depuração (remova em produção)
+    error_log("Tentativa de troca de senha para usuário ID: $userId");
 
     // Atualiza a senha no banco de dados
     $stmt = $conn->prepare("UPDATE usuarios SET senha = :senha WHERE id = :id");
@@ -35,7 +44,16 @@ try {
     $stmt->bindParam(':id', $userId);
     $stmt->execute();
 
-    echo json_encode(["success" => true]);
+    echo json_encode([
+        "success" => true, 
+        "message" => "Senha atualizada com sucesso!"
+    ]);
 } catch (PDOException $e) {
-    echo json_encode(["success" => false, "error" => $e->getMessage()]);
+    // Log do erro
+    error_log("Erro na troca de senha: " . $e->getMessage());
+    
+    echo json_encode([
+        "success" => false, 
+        "error" => $e->getMessage()
+    ]);
 }

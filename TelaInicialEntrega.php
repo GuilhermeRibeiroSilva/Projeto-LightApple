@@ -1,14 +1,42 @@
 <?php
 session_start();
 
-// Verifique se o usuário está autenticado
+// Verifica se o usuário está logado
 if (!isset($_SESSION['user_id'])) {
-    header('Location: entar.php'); // Redireciona para o login se não estiver autenticado
-    exit();
+    header('Location: entar.php'); // Redireciona para login se não estiver autenticado
+    exit;
 }
 
-// O userId é obtido da sessão
-$userId = $_SESSION['user_id'];
+$userId = $_SESSION['user_id']; // Recupera o ID do usuário da sessão
+
+// Conexão com o banco de dados
+$host = 'localhost';
+$dbname = 'light_apple';
+$username = 'root';
+$password = '';
+
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Recupera os dados do usuário
+    $stmt = $conn->prepare("SELECT *, DATE_FORMAT(dataCriacao, '%M de %Y') AS membro_desde FROM usuarios WHERE id = :id");
+    $stmt->bindParam(':id', $userId);
+    $stmt->execute();
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verifica se o usuário existe
+    if (!$usuario) {
+        header("Location: error.php");
+        exit();
+    }
+
+    // Obtém o caminho da imagem de perfil ou uma imagem padrão
+    $profileImagePath = $usuario['profile_image_path'] ?? 'imagens/default_image.png'; // Caminho padrão se não houver imagem
+
+} catch (PDOException $e) {
+    echo "Erro: " . $e->getMessage();
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -23,18 +51,19 @@ $userId = $_SESSION['user_id'];
 </head>
 
 <body>
+    <input type="hidden" id="user-id" value="<?php echo htmlspecialchars($userId); ?>">
     <header>
         <div class="hero">
             <nav>
-                <a href="#"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
+                <a href="TelaInicialEntrega.php"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
                 <a href="#">
                     <h2 class="lightapple-titulo">LightApple</h2>
                 </a>
                 <ul>
                     <li><a href="#" class="inicio">Inicio</a></li>
-                    <li><a href="#" class="empresa-coleta">Estabelecimentos</a></li>
-                    <li><a href="#" class="trocar-pontos">Minhas Entregas</a></li>
-                    <li><a href="#" class="pedidos">Histórico</a></li>
+                    <li><a href="#" class="empresa-coleta">Empresa de Coleta</a></li>
+                    <li><a href="#" class="trocar-pontos">Trocar Pontos</a></li>
+                    <li><a href="#" class="pedidos">Pedidos</a></li>
                 </ul>
                 <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
                 <div class="pedido-menu">
@@ -43,65 +72,63 @@ $userId = $_SESSION['user_id'];
                         <div class="sub-menu-ped">
                             <div class="ped-info">
                                 <img src="imagens/LightApple-Logo.png">
-                                <h3>Pedidos Disponíveis</h3>
+                                <h3>Criar Pedido</h3>
                             </div>
-                            <div class="lista-pedidos" id="lista-pedidos">
-                                <div class="pedido-box" id="pedido-1">
-                                    <div class="pedido-detalhes">
-                                        <h4>Empresa X</h4>
-                                        <p><strong>Partida:</strong> Rua A</p>
-                                        <p><strong>Chegada:</strong> Rua B</p>
-                                        <p><strong>Peso:</strong> 10kg</p>
-                                        <p><strong>Valor:</strong> R$ 50,00</p>
-                                    </div>
-                                    <div class="pedido-acoes">
-                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-1')">Aceitar</button>
-                                        <button class="btn-rejeitar"
-                                            onclick="rejeitarPedido('pedido-1')">Rejeitar</button>
-                                    </div>
+                            <form id="criar-pedido-form">
+                                <label for="empresa-coleta">Empresa de Coleta:</label>
+                                <input type="text" id="empresa-coleta" name="empresa-coleta">
+                                <label for="forma-pagamento">Forma de Pagamento:</label>
+                                <select id="forma-pagamento" name="forma-pagamento">
+                                    <option value="">Selecione uma forma de pagamento</option>
+                                    <option value="Salva">Salva</option>
+                                    <option value="Adicionar Nova"><a href="#">Adicionar Nova</a></option>
+                                </select>
+                                <div id="nova-forma-pagamento" style="display: none;">
+                                    <label for="nova-forma-pagamento-input">Nova Forma de Pagamento:</label>
+                                    <input type="text" id="nova-forma-pagamento-input"
+                                        name="nova-forma-pagamento-input">
                                 </div>
-                                <div class="pedido-box" id="pedido-2">
-                                    <div class="pedido-detalhes">
-                                        <h4>Empresa Y</h4>
-                                        <p><strong>Partida:</strong> Rua C</p>
-                                        <p><strong>Chegada:</strong> Rua D</p>
-                                        <p><strong>Peso:</strong> 15kg</p>
-                                        <p><strong>Valor:</strong> R$ 70,00</p>
-                                    </div>
-                                    <div class="pedido-acoes">
-                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-2')">Aceitar</button>
-                                        <button class="btn-rejeitar"
-                                            onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
-                                    </div>
-                                </div>
-                                <div class="pedido-box" id="pedido-2">
-                                    <div class="pedido-detalhes">
-                                        <h4>Empresa Y</h4>
-                                        <p><strong>Partida:</strong> Rua C</p>
-                                        <p><strong>Chegada:</strong> Rua D</p>
-                                        <p><strong>Peso:</strong> 15kg</p>
-                                        <p><strong>Valor:</strong> R$ 70,00</p>
-                                    </div>
-                                    <div class="pedido-acoes">
-                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-2')">Aceitar</button>
-                                        <button class="btn-rejeitar"
-                                            onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
-                                    </div>
-                                </div>
-                            </div>
+                                <label for="quantidade-lixo">Quantidade de Lixo:</label>
+                                <input type="number" id="quantidade-lixo" name="quantidade-lixo">
+                                <label for="local-partida">Local de Partida:</label>
+                                <input type="text" id="local-partida" name="local-partida">
+                                <label for="local-chegada">Local de Chegada:</label>
+                                <input type="text" id="local-chegada" name="local-chegada">
+                                <label for="valor">Valor:</label>
+                                <input type="number" id="valor" name="valor" readonly>
+                                <label for="frete">Frete:</label>
+                                <input type="number" id="frete" name="frete" readonly>
+                                <label for="valor-com-frete">Valor com Frete:</label>
+                                <input type="number" id="valor-com-frete" name="valor-com-frete" readonly>
+                                <button type="button" id="criar-pedido-btn">Criar Pedido</button>
+                            </form>
                         </div>
                     </div>
                 </div>
+                <div class="cart-menu">
+                    <img src="imagens/Shopping cart.png" class="cart-pic" onclick="toggleCart()">
+                    <div class="sub-menu-cart-wrap" id="cartDropdown">
+                        <div class="sub-menu-cart">
+                            <div class="cart-items">
 
-
+                            </div>
+                            <button class="checkout-btn">Finalizar Compra</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="user-menu">
-                    <img src="imagens/Avatar.png" class="user-pic" onclick="toggleMenu()">
+                    <img src="<?php echo $profileImagePath; ?>" class="user-perf" id="userImageCircle" onclick="toggleMenu()">
                     <div class="sub-menu-wrap" id="subMenu">
                         <div class="sub-menu">
                             <div class="user-info">
-                                <img src="imagens/Avatar.png">
-                                <h3>Joana</h3>
+                                <img src="<?php echo $profileImagePath; ?>" class="user-image-circle" id="userImageDropdown">
+                                <h3>Olá, <?php echo explode(' ', $usuario['nome'])[0]; ?></h3>
                             </div>
+                            <p id="points">
+                                Meus Pontos: 50000 P
+                                <span></span>
+                            </p>
+                            <hr>
                             <a href="TelaMeuperfil(entrega).php" class="sub-menu-link">
                                 <p>Meu Perfil</p>
                                 <span></span>
@@ -113,7 +140,12 @@ $userId = $_SESSION['user_id'];
                             </a>
                             <hr>
                             <a href="#" class="sub-menu-link">
-                                <p>Receitas/Pagamentos</p>
+                                <p>Meus Cupons</p>
+                                <span></span>
+                            </a>
+                            <hr>
+                            <a href="#" class="sub-menu-link">
+                                <p>Pagamentos</p>
                                 <span></span>
                             </a>
                             <hr>
@@ -308,7 +340,7 @@ $userId = $_SESSION['user_id'];
                     <!-- Pedidos aceitos serão adicionados aqui -->
                 </div>
             </div>
-            
+
         </section>
     </main>
     <footer class="footer">

@@ -53,18 +53,19 @@ try {
 </head>
 
 <body>
+    <input type="hidden" id="user-id" value="<?php echo $usuario['id']; ?>">
     <header>
         <div class="hero">
             <nav>
-                <a href="#"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
+                <a href="TelaInicialEntrega.php"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
                 <a href="#">
                     <h2 class="lightapple-titulo">LightApple</h2>
                 </a>
                 <ul>
                     <li><a href="#" class="inicio">Inicio</a></li>
-                    <li><a href="#" class="empresa-coleta">Estabelecimentos</a></li>
-                    <li><a href="#" class="trocar-pontos">Minhas Entregas</a></li>
-                    <li><a href="#" class="pedidos">Histórico</a></li>
+                    <li><a href="#" class="empresa-coleta">Empresa de Coleta</a></li>
+                    <li><a href="#" class="trocar-pontos">Trocar Pontos</a></li>
+                    <li><a href="#" class="pedidos">Pedidos</a></li>
                 </ul>
                 <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
                 <div class="pedido-menu">
@@ -73,66 +74,64 @@ try {
                         <div class="sub-menu-ped">
                             <div class="ped-info">
                                 <img src="imagens/LightApple-Logo.png">
-                                <h3>Pedidos Disponíveis</h3>
+                                <h3>Criar Pedido</h3>
                             </div>
-                            <div class="lista-pedidos" id="lista-pedidos">
-                                <div class="pedido-box" id="pedido-1">
-                                    <div class="pedido-detalhes">
-                                        <h4>Empresa X</h4>
-                                        <p><strong>Partida:</strong> Rua A</p>
-                                        <p><strong>Chegada:</strong> Rua B</p>
-                                        <p><strong>Peso:</strong> 10kg</p>
-                                        <p><strong>Valor:</strong> R$ 50,00</p>
-                                    </div>
-                                    <div class="pedido-acoes">
-                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-1')">Aceitar</button>
-                                        <button class="btn-rejeitar"
-                                            onclick="rejeitarPedido('pedido-1')">Rejeitar</button>
-                                    </div>
+                            <form id="criar-pedido-form">
+                                <label for="empresa-coleta">Empresa de Coleta:</label>
+                                <input type="text" id="empresa-coleta" name="empresa-coleta">
+                                <label for="forma-pagamento">Forma de Pagamento:</label>
+                                <select id="forma-pagamento" name="forma-pagamento">
+                                    <option value="">Selecione uma forma de pagamento</option>
+                                    <option value="Salva">Salva</option>
+                                    <option value="Adicionar Nova"><a href="#">Adicionar Nova</a></option>
+                                </select>
+                                <div id="nova-forma-pagamento" style="display: none;">
+                                    <label for="nova-forma-pagamento-input">Nova Forma de Pagamento:</label>
+                                    <input type="text" id="nova-forma-pagamento-input"
+                                        name="nova-forma-pagamento-input">
                                 </div>
-                                <div class="pedido-box" id="pedido-2">
-                                    <div class="pedido-detalhes">
-                                        <h4>Empresa Y</h4>
-                                        <p><strong>Partida:</strong> Rua C</p>
-                                        <p><strong>Chegada:</strong> Rua D</p>
-                                        <p><strong>Peso:</strong> 15kg</p>
-                                        <p><strong>Valor:</strong> R$ 70,00</p>
-                                    </div>
-                                    <div class="pedido-acoes">
-                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-2')">Aceitar</button>
-                                        <button class="btn-rejeitar"
-                                            onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
-                                    </div>
-                                </div>
-                                <div class="pedido-box" id="pedido-2">
-                                    <div class="pedido-detalhes">
-                                        <h4>Empresa Y</h4>
-                                        <p><strong>Partida:</strong> Rua C</p>
-                                        <p><strong>Chegada:</strong> Rua D</p>
-                                        <p><strong>Peso:</strong> 15kg</p>
-                                        <p><strong>Valor:</strong> R$ 70,00</p>
-                                    </div>
-                                    <div class="pedido-acoes">
-                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-2')">Aceitar</button>
-                                        <button class="btn-rejeitar"
-                                            onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
-                                    </div>
-                                </div>
-                            </div>
+                                <label for="quantidade-lixo">Quantidade de Lixo:</label>
+                                <input type="number" id="quantidade-lixo" name="quantidade-lixo">
+                                <label for="local-partida">Local de Partida:</label>
+                                <input type="text" id="local-partida" name="local-partida">
+                                <label for="local-chegada">Local de Chegada:</label>
+                                <input type="text" id="local-chegada" name="local-chegada">
+                                <label for="valor">Valor:</label>
+                                <input type="number" id="valor" name="valor" readonly>
+                                <label for="frete">Frete:</label>
+                                <input type="number" id="frete" name="frete" readonly>
+                                <label for="valor-com-frete">Valor com Frete:</label>
+                                <input type="number" id="valor-com-frete" name="valor-com-frete" readonly>
+                                <button type="button" id="criar-pedido-btn">Criar Pedido</button>
+                            </form>
                         </div>
                     </div>
                 </div>
+                <div class="cart-menu">
+                    <img src="imagens/Shopping cart.png" class="cart-pic" onclick="toggleCart()">
+                    <div class="sub-menu-cart-wrap" id="cartDropdown">
+                        <div class="sub-menu-cart">
+                            <div class="cart-items">
 
-
+                            </div>
+                            <button class="checkout-btn">Finalizar Compra</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="user-menu">
-                    <img src="imagens/Avatar.png" class="user-pic" onclick="toggleMenu()">
+                    <img src="<?php echo $profileImagePath; ?>" class="user-perf" id="userImageCircle" onclick="toggleMenu()">
                     <div class="sub-menu-wrap" id="subMenu">
                         <div class="sub-menu">
                             <div class="user-info">
-                                <img src="imagens/Avatar.png">
-                                <h3>Joana</h3>
+                                <img src="<?php echo $profileImagePath; ?>" class="user-image-circle" id="userImageDropdown">
+                                <h3>Olá, <?php echo explode(' ', $usuario['nome'])[0]; ?></h3>
                             </div>
-                            <a href="#" class="sub-menu-link">
+                            <p id="points">
+                                Meus Pontos: 50000 P
+                                <span></span>
+                            </p>
+                            <hr>
+                            <a href="TelaMeuperfil(entrega).php" class="sub-menu-link">
                                 <p>Meu Perfil</p>
                                 <span></span>
                             </a>
@@ -143,7 +142,12 @@ try {
                             </a>
                             <hr>
                             <a href="#" class="sub-menu-link">
-                                <p>Receitas/Pagamentos</p>
+                                <p>Meus Cupons</p>
+                                <span></span>
+                            </a>
+                            <hr>
+                            <a href="#" class="sub-menu-link">
+                                <p>Pagamentos</p>
                                 <span></span>
                             </a>
                             <hr>
@@ -162,77 +166,86 @@ try {
             </nav>
         </div>
     </header>
-
     <main>
         <!-- Section for profile photo and user information -->
         <section class="section-profile">
-            <div class="profile-left">
-                <img src="imagens/Avatar.png" alt="Foto de Perfil" class="profile-pic">
+            <div class="profile-container">
+                <img src="<?php echo $profileImagePath; ?>" class="profile-pic" id="profilePic">
                 <div class="profile-info">
-                    <h2>Joana</h2>
-                    <p>Membro desde: Janeiro de 2023</p>
-                    <p>Informações Pessoais</p>
+                    <h2><?php echo htmlspecialchars($usuario['nome']); ?></h2>
+                    <p>Membro desde: <?php echo htmlspecialchars($usuario['membro_desde']); ?></p>
                 </div>
             </div>
+            </div>
             <div class="profile-right">
+                <button type="button" id="trocar-imagem-btn">Trocar Imagem</button>
                 <button type="button" id="editar-perfil-btn">Editar Perfil</button>
+                <input type="file" id="inputFile" accept="image/*" style="display: none;">
             </div>
         </section>
 
-        <!-- Section for personal information -->
         <section class="section-personal-info">
             <h3>Informações Pessoais</h3>
             <form id="profile-info-form">
+                <input type="hidden" id="user-id" value="<?php echo htmlspecialchars($userId); ?>">
+
                 <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" value="Joana Silva" readonly>
+                <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($usuario['nome']); ?>" readonly>
 
-                <label for="cpf">CPF:</label>
-                <input type="text" id="cpf" name="cpf" value="123.456.789-00" readonly>
+                <label for="tipoConta">Tipo de Conta:</label>
+                <select id="tipoConta" name="tipoConta" disabled>
+                    <option value="cliente" <?php if ($usuario['tipoConta'] == 'cliente') echo 'selected'; ?>>Cliente</option>
+                    <option value="condominios" <?php if ($usuario['tipoConta'] == 'condominios') echo 'selected'; ?>>Condomínio</option>
+                    <option value="estabelecimentos" <?php if ($usuario['tipoConta'] == 'estabelecimentos') echo 'selected'; ?>>Estabelecimento</option>
+                    <option value="empresa de coleta" <?php if ($usuario['tipoConta'] == 'empresa de coleta') echo 'selected'; ?>>Empresa de Coleta</option>
+                    <option value="Transportadora" <?php if ($usuario['tipoConta'] == 'Transportadora') echo 'selected'; ?>>Transportadora</option>
+                    <option value="Entregadores" <?php if ($usuario['tipoConta'] == 'Entregadores') echo 'selected'; ?>>Entregador</option>
+                </select>
 
-                <label for="data-nascimento">Data de Nascimento:</label>
-                <input type="date" id="data-nascimento" name="data-nascimento" value="1990-05-15" readonly>
+                <?php if ($usuario['tipoConta'] == 'cliente'): ?>
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" name="cpf" value="<?php echo htmlspecialchars($usuario['cpf']); ?>" readonly>
+
+                    <label for="dataNascimento">Data de Nascimento:</label>
+                    <input type="date" id="dataNascimento" name="dataNascimento" value="<?php echo htmlspecialchars($usuario['dataNascimento']); ?>" readonly>
+                <?php else: ?>
+                    <label for="cnpj">CNPJ:</label>
+                    <input type="text" id="cnpj" name="cnpj" value="<?php echo htmlspecialchars($usuario['cnpj']); ?>" readonly>
+                <?php endif; ?>
 
                 <label for="telefone">Telefone:</label>
-                <input type="tel" id="telefone" name="telefone" value="(11) 98765-4321" readonly>
+                <input type="tel" id="telefone" name="telefone" value="<?php echo htmlspecialchars($usuario['telefone']); ?>" readonly>
 
                 <label for="endereco">Endereço:</label>
-                <input type="text" id="endereco" name="endereco" value="Rua Exemplo, 123" readonly>
+                <input type="text" id="endereco" name="endereco" value="<?php echo htmlspecialchars($usuario['endereco']); ?>" readonly>
 
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="joana@email.com" readonly>
+                <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($usuario['email']); ?>" readonly>
 
                 <label for="senha">Senha:</label>
                 <div class="senha-section">
-                    <input type="password" id="senha" name="senha" value="********" readonly>
+                    <input type="password" id="senha" name="senha" value="" placeholder="********" readonly>
                     <button type="button" class="trocar-senha-btn">Trocar Senha</button>
                 </div>
 
-                <label for="tipo-conta">Tipo de Conta:</label>
-                <select id="tipo-conta" name="tipo-conta" disabled>
-                    <option value="cliente" selected>Cliente</option>
-                    <option value="condominio">Condomínio</option>
-                    <option value="estabelecimento">Estabelecimento</option>
-                    <option value="empresa-coleta">Empresa de Coleta</option>
-                    <option value="transportadora">Transportadora</option>
-                    <option value="motoboy">Motoboy</option>
-                </select>
             </form>
         </section>
+
         <!-- Overlay para o card de troca de senha -->
-        <div class="overlay" style="display: none;">
+        <div class="overlay" id="senhaOverlay" style="display: none;">
             <div class="senha-card">
                 <label for="nova-senha">Nova Senha</label>
                 <input type="password" id="nova-senha" class="input-padrao">
-
                 <label for="confirmar-senha">Confirmar Nova Senha</label>
                 <input type="password" id="confirmar-senha" class="input-padrao">
-
                 <div class="button-container">
                     <button class="salvar-senha-btn">Salvar Senha</button>
                     <button class="cancelar-senha-btn">Cancelar</button>
                 </div>
             </div>
         </div>
+
+
     </main>
 
     <footer class="footer">

@@ -25,10 +25,17 @@ a {
 .section-profile {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 20px;
     background-color: #acd94ab9;
     border-radius: 8px;
     margin: 20px;
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .profile-left {

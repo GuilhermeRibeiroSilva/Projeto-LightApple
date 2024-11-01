@@ -54,6 +54,7 @@ try {
 </head>
 
 <body>
+    <input type="hidden" id="user-id" value="<?php echo $usuario['id']; ?>">
     <header>
         <div class="hero">
             <nav>
@@ -166,15 +167,15 @@ try {
             </nav>
         </div>
     </header>
-    <input type="hidden" id="user-id" value="<?php echo $usuario['id']; ?>">
     <main>
         <!-- Section for profile photo and user information -->
         <section class="section-profile">
-            <img src="<?php echo $profileImagePath; ?>" class="profile-pic" id="profilePic">
-            <div class="profile-info">
-                <h2><?php echo htmlspecialchars($usuario['nome']); ?></h2>
-                <p>Membro desde: <?php echo htmlspecialchars($usuario['membro_desde']); ?></p>
-                <p>Informações Pessoais</p>
+            <div class="profile-container">
+                <img src="<?php echo $profileImagePath; ?>" class="profile-pic" id="profilePic">
+                <div class="profile-info">
+                    <h2><?php echo htmlspecialchars($usuario['nome']); ?></h2>
+                    <p>Membro desde: <?php echo htmlspecialchars($usuario['membro_desde']); ?></p>
+                </div>
             </div>
             </div>
             <div class="profile-right">
@@ -224,7 +225,7 @@ try {
 
                 <label for="senha">Senha:</label>
                 <div class="senha-section">
-                    <input type="password" id="senha" name="senha" value="<?php echo htmlspecialchars($usuario['senha']); ?>" placeholder="********" readonly>
+                    <input type="password" id="senha" name="senha" value="" placeholder="********" readonly>
                     <button type="button" class="trocar-senha-btn">Trocar Senha</button>
                 </div>
 

@@ -1,9 +1,10 @@
 <?php
-session_start(); // Inicia a sessão
+session_start();
 
-// Verifica se o método de requisição é POST
+header('Content-Type: application/json'); // Definindo o tipo de resposta como JSON
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Conecte-se ao banco de dados (ajuste as credenciais conforme necessário)
+    // Conecta ao banco de dados
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -11,58 +12,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Verifica se a conexão foi bem-sucedida
     if ($conn->connect_error) {
-        echo json_encode(["success" => false, "error" => "Conexão falhou: " . $conn->connect_error]);
+        echo json_encode([
+            "success" => false, 
+            "error" => "Conexão falhou: " . $conn->connect_error
+        ]);
         exit();
     }
 
-    // Obtém os dados do JSON
-    $data = json_decode(file_get_contents('php://input'), true); // Converte o JSON para array associativo
+    // Obtém e decodifica os dados JSON recebidos
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
 
-    // Verifica se os dados foram recebidos corretamente
     if (!$data || !isset($data['email']) || !isset($data['senha'])) {
-        echo json_encode(["success" => false, "error" => "Dados não recebidos ou formato inválido."]);
+        echo json_encode([
+            "success" => false, 
+            "error" => "Dados não recebidos ou formato inválido."
+        ]);
         exit();
     }
 
-    // Obtém os dados do formulário
-    $email = $conn->real_escape_string($data['email']); // Supondo que o formulário tenha um campo de email
-    $senha = $data['senha']; // Supondo que o formulário tenha um campo de senha
-
-    // Consulta SQL para buscar o usuário e o tipo de conta
+    // Prepara e executa a consulta
     $sql = "SELECT id, senha, tipoConta FROM usuarios WHERE email = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email);
+    $stmt->bind_param("s", $data['email']);
     $stmt->execute();
-    $stmt->store_result();
-    
-    // Verifica se o usuário foi encontrado
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id, $hashed_password, $tipoConta);
-        $stmt->fetch();
+    $result = $stmt->get_result();
 
-        // Verifica a senha
-        if (password_verify($senha, $hashed_password)) {
-            // Senha correta, armazena o ID do usuário na sessão
-            $_SESSION['user_id'] = $id;
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        
+        // Log para depuração (remova em produção)
+        error_log("Tentativa de login - Email: " . $data['email']);
+        error_log("Senha fornecida: " . $data['senha']);
+        error_log("Hash da senha no banco: " . $user['senha']);
+        
+        $senhaCorreta = password_verify($data['senha'], $user['senha']);
+        
+        error_log("Resultado da verificação de senha: " . ($senhaCorreta ? "Verdadeiro" : "Falso"));
 
-            // Retorna resposta JSON com sucesso e o tipo de conta
-            echo json_encode(["success" => true, "user_id" => $id, "tipo_conta" => $tipoConta]);
-            exit();
+        if ($senhaCorreta) {
+            $_SESSION['user_id'] = $user['id'];
+            
+            echo json_encode([
+                "success" => true,
+                "user_id" => $user['id'],
+                "tipo_conta" => $user['tipoConta']
+            ]);
         } else {
-            // Senha incorreta
-            echo json_encode(["success" => false, "error" => "Senha incorreta."]);
+            echo json_encode([
+                "success" => false,
+                "error" => "Senha incorreta."
+            ]);
         }
     } else {
-        // Usuário não encontrado
-        echo json_encode(["success" => false, "error" => "Usuário não encontrado."]);
+        echo json_encode([
+            "success" => false,
+            "error" => "Usuário não encontrado."
+        ]);
     }
 
-    // Fecha a conexão
     $stmt->close();
     $conn->close();
 } else {
-    // Se o método não for POST
-    echo json_encode(["success" => false, "error" => "Método de requisição inválido."]);
+    echo json_encode([
+        "success" => false,
+        "error" => "Método de requisição inválido."
+    ]);
 }
