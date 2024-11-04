@@ -70,7 +70,7 @@ try {
                     <li><a href="TelaInicialCliente.php" class="inicio">Inicio</a></li>
                     <li><a href="TelaEmpresadeColeta.php" class="empresa-coleta">Empresa de Coleta</a></li>
                     <li><a href="TelaTrocarpontos.php" class="trocar-pontos">Trocar Pontos</a></li>
-                    <li><a href="#" class="pedidos">Pedidos</a></li>
+                    <li><a href="TelaMeusPedidos.php" class="pedidos">Pedidos</a></li>
                 </ul>
                 <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
                 <div class="pedido-menu">
@@ -123,7 +123,7 @@ try {
                             <div id="modal-cartao" class="modal">
                                 <div class="modal-content">
                                     <button type="button" class="close-modal" onclick="fecharModalCartao()">&times;</button>
-                                    <h3>Adicionar Novo Cartão</h3>
+                                    <h3 class="titulo-modal">Adicionar Novo Cartão</h3>
                                     <form id="form-cartao">
                                         <div class="form-group">
                                             <label for="nome_titular">Nome do Titular:</label>
@@ -227,7 +227,7 @@ try {
                     <div class="txttrocadepontos">TROCAR PONTOS</div>
                 </div>
             </a>
-            <a href="#">
+            <a href="TelaMeusPedidos.php">
                 <div class="box-pedidos">
                     <img class="pedido" src="imagens/pedido.png" />
                     <div class="txtpedidos">PEDIDOS</div>
@@ -286,7 +286,7 @@ try {
                     <button class="second"></button>
                 </div>
             </div>
-            <button class="btn-vermais"><a href="#">Ver Mais Empresas</a></button>
+            <button class="btn-vermais"><a href="TelaEmpresadeColeta.php">Ver Mais Empresas</a></button>
         </section>
         <section class="section-anuncio">
             <div class="cont-img-anuncio">
@@ -348,7 +348,7 @@ try {
                     </div>
                 </div>
             </div>
-            <button class="btn-vermais"><a href="#">Ver Produtos</a></button>
+            <button class="btn-vermais"><a href="TelaTrocarpontos.php">Ver Produtos</a></button>
         </section>
     </main>
     <footer class="footer">

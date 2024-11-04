@@ -1,284 +1,206 @@
 @charset "UTF-8";
 
 * {
-  margin: 0px;
-  padding: 0px;
-  font-family: Arial, Helvetica, sans-serif;
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-html,
-body {
-  height: 100vh;
-  width: 100vw;
-  background-color: rgb(255, 255, 255);
-  overflow-x: hidden;
+html, body {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(255, 255, 255);
+    overflow-x: hidden;
 }
 
 a {
-  color: #218838;
-  text-decoration: none;
+    color: #218838;
+    text-decoration: none;
 }
 
-/*SECTION TXT*/
-.section-txt,
-.section-txt * {
-  box-sizing: border-box;
-}
+/* Section txt */
 .section-txt {
-  background: #ffffff;
-  height: 100px;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  padding-left: 30px;
+    background: #ffffff;
+    height: 100px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    padding-left: 30px;
 }
 
 .meus_pedidos {
-  color: #218838;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 48px;
-  line-height: 140%;
-  font-weight: 400;
-  margin: 0;
-  text-align: center;
-  padding-top: 18px;
+    color: #218838;
+    font-size: 48px;
+    line-height: 140%;
+    font-weight: 400;
+    text-align: center;
+    padding-top: 18px;
 }
 
-
-/*FILTRO E EMPRESA DE COLETA*/
-
-/* Estilos gerais do corpo */
-
-/* Estilos do main para organizar o layout */
+/* Layout principal */
 main {
-  display: flex;
-  padding: 20px;
+    display: flex;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
 }
 
-/* Estilos do filtro (accordion) */
+/* Accordion (filtros) */
 .accordion {
-  width: 255px; /* Largura do filtro à esquerda */
-  margin-right: 20px; /* Espaço entre o filtro e a grid de produtos */
+    width: 255px;
+    min-width: 255px;
+    margin-right: 20px;
 }
 
 .accordion-item {
-  border: 1px solid #218838;
-  color: #218838;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #fff;
-  border-radius: 5px;
+    border: 1px solid #218838;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background: white;
 }
 
 .accordion-header {
-  padding-bottom: 10px;
+    color: #218838;
+    padding: 10px;
+    font-weight: bold;
 }
 
-.accordion-button {
-  font-weight: bold;
-  color: #333;
+.accordion-body {
+    padding: 10px;
 }
 
-.accordion-body .form-check {
-  margin-bottom: 10px;
+.accordion-body ul {
+    list-style: none;
 }
 
-.form-check-input {
-  margin-right: 10px;
+.accordion-body ul li {
+    margin: 5px 0;
 }
 
-.form-check-label i {
-  margin-right: 5px;
+.search-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #218838;
+    border-radius: 5px;
 }
 
-#flitersearch {
-  border-radius: 6px;
-  border-style: solid;
-  border-color: #287326;
-  border-width: 2px;
-  padding: 8px;
-  width: 255px;
-  margin:  0px 0px 17px 0px;
-  position: relative;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-input[type="date"] {
-    border-radius: 3px;
-  border-style: solid;
-  border-color: #287326;
-  color: #218838;
-  width: 105px;
-  height: 20px;
-}
-
-/* Produtos em grid de 3 colunas */
+/* Grid de produtos */
 .products-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 colunas de produtos */
-  gap: 20px; /* Espaço entre os produtos */
-  flex-grow: 1; /* Faz a grid expandir para ocupar o espaço disponível */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    flex: 1;
 }
 
-/* Estilos individuais dos produtos */
+/* Cards de pedidos */
 .product {
-  position: relative;
-  border: 1px solid #218838;
-  border-radius: 10px;
-  background-color: #abd94a;
-  color: #218838;
-  padding: 15px;
-  text-align: center;
-  transition: transform 0.3s ease;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    position: relative;
+    transition: transform 0.3s ease;
 }
 
-/* Estilo ao passar o mouse sobre o produto */
 .product:hover {
-  transform: scale(1.05); /* Aumenta o tamanho do produto ao passar o mouse */
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos das imagens dos produtos */
-.product img {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-}
-
-/* Estilos dos títulos e preços dos produtos */
 .product h3 {
-  font-size: 18px;
-  margin: 6px 0;
+    margin: 10px 0;
+    color: #218838;
 }
 
 .product p {
-  font-size: 16px;
-  color: #218838;
-  margin: 10px 0;
+    margin: 5px 0;
+    color: #666;
 }
 
-.star {
-  color: #218838;
-}
-
+/* Ícone de informação */
 .info {
-  position: absolute;
-  top: 80%;
-  right: 20px;
-  font-size: 35px;
-  cursor: pointer;
-  color: transparent;
-  text-shadow: 0 0 0 #218838;
-  transition: transform 0.3s ease, color 0.3s ease;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #218838;
 }
 
+/* Paginação */
 .pagination {
-  display: flex;
-  justify-content: center; /* Centraliza horizontalmente */
-  margin-top: 25px;        /* Espaçamento entre a grid de produtos e a paginação */
-  margin-bottom: 45px;     /* Espaçamento da paginação para o final da página */
-  padding-left: 19%;
-}
-button {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  background-color: white;
-  cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 25px 0 45px;
+    padding-left: 19%;
 }
 
-button.active {
-  background-color: #218838;
-  color: #abd94a;
+.pagination button {
+    padding: 8px 16px;
+    border: 1px solid #218838;
+    background-color: white;
+    color: #218838;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
-button[disabled] {
-  background-color: #fff;
-  cursor: not-allowed;
+.pagination button:hover:not([disabled]) {
+    background-color: #218838;
+    color: white;
 }
 
-/* Modal escondido por padrão */
-.hidden {
-  display: none;
+.pagination button.active {
+    background-color: #218838;
+    color: white;
+    font-weight: bold;
 }
 
-/* Fundo semi-transparente que cobre toda a tela */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
-  z-index: 5; /* Certifique-se de que fica abaixo do modal */
-  display: none; /* Inicia escondido */
+.pagination button[disabled] {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    color: #999;
+    cursor: not-allowed;
 }
 
-/* Estilo básico do modal */
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  background-color: #abd94a;
-  color: #abd94a;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  padding: 20px;
-  border-radius: 10px;
-  display: none; /* Escondido por padrão */
+.pagination .ellipsis {
+    padding: 8px;
+    color: #666;
 }
 
-/* Estilo do botão de fechar */
-.modal .close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 20px;
+/* Mensagens de erro e sem resultados */
+.no-results, .error {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 20px;
+    color: #666;
 }
 
-/* Organizar informações dentro do modal */
-#modal-info p {
-  margin: 8px 0; /* Margem entre os parágrafos */
-  font-size: 14px;
+.error {
+    color: #dc3545;
 }
 
-/* Desfocar o conteúdo do main */
-.modal-open main {
-  filter: blur(5px);
-  pointer-events: none; /* Desabilitar cliques no conteúdo de fundo */
-}
-
-/* Exibir o modal */
-.modal-active .modal,
-.modal-active .modal-overlay {
-  display: block; /* Mostrar modal e overlay */
-}
-
-
-/* Ajustes para dispositivos móveis */
+/* Responsividade */
 @media (max-width: 768px) {
-  main {
-      flex-direction: column; /* Coloca o filtro acima dos produtos em telas pequenas */
-  }
+    main {
+        flex-direction: column;
+    }
 
-  .accordion {
-      width: 100%;
-      margin-bottom: 20px;
-  }
+    .accordion {
+        width: 100%;
+    }
 
-  .products-grid {
-      grid-template-columns: repeat(2, 1fr); /* Reduz a grid para 2 colunas em telas menores */
-  }
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 480px) {
-  .products-grid {
-      grid-template-columns: 1fr; /* Em telas bem pequenas, usa apenas 1 coluna */
-  }
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
 }

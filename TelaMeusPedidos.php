@@ -1,3 +1,50 @@
+<?php
+session_start();
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION['user_id'])) {
+    header('Location: entar.php'); // Redireciona para login se não estiver autenticado
+    exit;
+}
+
+$userId = $_SESSION['user_id']; // Recupera o ID do usuário da sessão
+
+// Conexão com o banco de dados
+$host = 'localhost';
+$dbname = 'light_apple';
+$username = 'root';
+$password = '';
+
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+
+    // Buscar informações do usuário incluindo pontos
+    $stmt = $conn->prepare("SELECT nome, pontos FROM usuarios WHERE id = :id");
+    $stmt->bindParam(':id', $_SESSION['user_id']);
+    $stmt->execute();
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Recupera os dados do usuário
+    $stmt = $conn->prepare("SELECT *, DATE_FORMAT(dataCriacao, '%M de %Y') AS membro_desde FROM usuarios WHERE id = :id");
+    $stmt->bindParam(':id', $userId);
+    $stmt->execute();
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verifica se o usuário existe
+    if (!$usuario) {
+        header("Location: error.php");
+        exit();
+    }
+
+    // Obtém o caminho da imagem de perfil ou uma imagem padrão
+    $profileImagePath = $usuario['profile_image_path'] ?? 'imagens/default_image.png'; // Caminho padrão se não houver imagem
+
+} catch (PDOException $e) {
+    echo "Erro: " . $e->getMessage();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -11,18 +58,19 @@
 </head>
 
 <body>
+    <input type="hidden" id="user-id" value="<?php echo htmlspecialchars($userId); ?>">
     <header>
         <div class="hero">
             <nav>
-                <a href="#"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
+                <a href="TelaInicialCliente.php"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
                 <a href="#">
                     <h2 class="lightapple-titulo">LightApple</h2>
                 </a>
                 <ul>
-                    <li><a href="#" class="inicio">Inicio</a></li>
-                    <li><a href="#" class="empresa-coleta">Empresa de Coleta</a></li>
-                    <li><a href="#" class="trocar-pontos">Trocar Pontos</a></li>
-                    <li><a href="#" class="pedidos">Pedidos</a></li>
+                    <li><a href="TelaInicialCliente.php" class="inicio">Inicio</a></li>
+                    <li><a href="TelaEmpresadeColeta.php" class="empresa-coleta">Empresa de Coleta</a></li>
+                    <li><a href="TelaTrocarpontos.php" class="trocar-pontos">Trocar Pontos</a></li>
+                    <li><a href="TelaMeusPedidos.php" class="pedidos">Pedidos</a></li>
                 </ul>
                 <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
                 <div class="pedido-menu">
@@ -35,32 +83,77 @@
                             </div>
                             <form id="criar-pedido-form">
                                 <label for="empresa-coleta">Empresa de Coleta:</label>
-                                <input type="text" id="empresa-coleta" name="empresa-coleta">
-                                <label for="forma-pagamento">Forma de Pagamento:</label>
-                                <select id="forma-pagamento" name="forma-pagamento">
-                                    <option value="">Selecione uma forma de pagamento</option>
-                                    <option value="Salva">Salva</option>
-                                    <option value="Adicionar Nova"><a href="#">Adicionar Nova</a></option>
-                                </select>
-                                <div id="nova-forma-pagamento" style="display: none;">
-                                    <label for="nova-forma-pagamento-input">Nova Forma de Pagamento:</label>
-                                    <input type="text" id="nova-forma-pagamento-input"
-                                        name="nova-forma-pagamento-input">
+                                <input type="text" id="empresa-coleta" name="empresa-coleta" required>
+                                <!--<input type="hidden" id="empresa-id" name="empresa-id">-->
+
+                                <div class="form-group">
+                                    <label for="forma-pagamento">Forma de Pagamento:</label>
+                                    <select id="forma-pagamento" name="forma-pagamento" required>
+                                        <option value="">Selecione um cartão</option>
+                                    </select>
+                                    <button type="button" class="add-cartao-btn" onclick="abrirModalCartao()">+ Adicionar novo cartão</button>
                                 </div>
-                                <label for="quantidade-lixo">Quantidade de Lixo:</label>
-                                <input type="number" id="quantidade-lixo" name="quantidade-lixo">
+
+                                <label for="quantidade-lixo">Quantidade de Lixo (kg):</label>
+                                <input type="number" id="quantidade-lixo" name="quantidade-lixo" required>
+
                                 <label for="local-partida">Local de Partida:</label>
-                                <input type="text" id="local-partida" name="local-partida">
+                                <input type="text" id="local-partida" name="local-partida" required>
+
                                 <label for="local-chegada">Local de Chegada:</label>
-                                <input type="text" id="local-chegada" name="local-chegada">
-                                <label for="valor">Valor:</label>
-                                <input type="number" id="valor" name="valor" readonly>
-                                <label for="frete">Frete:</label>
-                                <input type="number" id="frete" name="frete" readonly>
-                                <label for="valor-com-frete">Valor com Frete:</label>
-                                <input type="number" id="valor-com-frete" name="valor-com-frete" readonly>
+                                <input type="text" id="local-chegada" name="local-chegada" required>
+
+                                <div class="valores-container">
+                                    <div class="valor-display">
+                                        <span>Valor:</span>
+                                        <span id="valor-display">R$ 0,00</span>
+                                    </div>
+                                    <div class="valor-display">
+                                        <span>Frete:</span>
+                                        <span id="frete-display">R$ 0,00</span>
+                                    </div>
+                                    <div class="valor-display">
+                                        <span>Total:</span>
+                                        <span id="valor-total-display">R$ 0,00</span>
+                                    </div>
+                                </div>
+
                                 <button type="button" id="criar-pedido-btn">Criar Pedido</button>
                             </form>
+                            <div id="modal-cartao" class="modal">
+                                <div class="modal-content">
+                                    <button type="button" class="close-modal" onclick="fecharModalCartao()">&times;</button>
+                                    <h3 class="titulo-modal">Adicionar Novo Cartão</h3>
+                                    <form id="form-cartao">
+                                        <div class="form-group">
+                                            <label for="nome_titular">Nome do Titular:</label>
+                                            <input type="text" id="nome_titular" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="numero_cartao">Número do Cartão:</label>
+                                            <input type="text" id="numero_cartao" maxlength="16" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="data_validade">Data de Validade (MM/AA):</label>
+                                            <input type="text"
+                                                id="data_validade"
+                                                maxlength="5"
+                                                placeholder="MM/AA"
+                                                pattern="(0[1-9]|1[0-2])\/([0-9]{2})"
+                                                required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="cvv">CVV:</label>
+                                            <input type="text" id="cvv" maxlength="3" required>
+                                        </div>
+
+                                        <button type="submit">Salvar Cartão</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,37 +162,34 @@
                     <div class="sub-menu-cart-wrap" id="cartDropdown">
                         <div class="sub-menu-cart">
                             <div class="cart-items">
-                                
+                                <!-- Items serão inseridos aqui via JavaScript -->
                             </div>
-                            <button class="checkout-btn">Finalizar Compra</button>
+                            <p class="total-pontos">Total: 0 P</p>
+                            <button class="clear-cart-btn" onclick="limparCarrinho()">Limpar Carrinho</button>
+                            <button class="checkout-btn" onclick="finalizarCompra()">Finalizar Compra</button>
                         </div>
                     </div>
                 </div>
                 <div class="user-menu">
-                    <img src="imagens/Avatar.png" class="user-pic" onclick="toggleMenu()">
+                    <img src="<?php echo $profileImagePath; ?>" class="user-perf" id="userImageCircle" onclick="toggleMenu()">
                     <div class="sub-menu-wrap" id="subMenu">
                         <div class="sub-menu">
                             <div class="user-info">
-                                <img src="imagens/Avatar.png">
-                                <h3>Joana</h3>
+                                <img src="<?php echo $profileImagePath; ?>" class="user-image-circle" id="userImageDropdown">
+                                <h3>Olá, <?php echo explode(' ', $usuario['nome'])[0]; ?></h3>
                             </div>
                             <p id="points">
-                                Meus Pontos: 50000 P
+                                Meus Pontos: <?php echo number_format($usuario['pontos']); ?> P
                                 <span></span>
                             </p>
                             <hr>
-                            <a href="#" class="sub-menu-link">
+                            <a href="TelaMeuPerfil.php" class="sub-menu-link">
                                 <p>Meu Perfil</p>
                                 <span></span>
                             </a>
                             <hr>
-                            <a href="#" class="sub-menu-link">
+                            <a href="TelaFavoritos.php" class="sub-menu-link">
                                 <p>Favoritos</p>
-                                <span></span>
-                            </a>
-                            <hr>
-                            <a href="#" class="sub-menu-link">
-                                <p>Meus Cupons</p>
                                 <span></span>
                             </a>
                             <hr>
@@ -113,7 +203,7 @@
                                 <span></span>
                             </a>
                             <hr>
-                            <a href="#" class="sub-menu-link">
+                            <a href="logout.php" class="sub-menu-link">
                                 <p>Sair</p>
                                 <span></span>
                             </a>
@@ -127,160 +217,64 @@
         <h1 class="meus_pedidos">Meus pedidos</h1>
     </section>
     <main>
-        <div class="accordion" id="accordionPanelsStayOpenExample">
+        <!-- Filtros (accordion) -->
+        <div class="accordion">
+            <!-- Filtro de pesquisa -->
+            <input type="search" id="searchPedido" class="search-input" placeholder="Buscar por número do pedido...">
 
-            <input type="search" name="" id="flitersearch">
-
-            <!-- Filtro de Status Pedidos -->
+            <!-- Filtro de Status -->
             <div class="accordion-item">
-                <h2 class="accordion-header" id="headingStatus">Status do Pedido</h2>
-                <div id="collapseStatus" class="accordion-collapse collapse show" aria-labelledby="headingStatus">
-                    <div class="accordion-body">
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="status-link text-dark">Todos</a></li>
-                            <li><a href="#" class="status-link text-dark">Abertos</a></li>
-                            <li><a href="#" class="status-link text-dark">Pendentes</a></li>
-                            <li><a href="#" class="status-link text-dark">Fechados</a></li>
-                        </ul>
-                    </div>
+                <h2 class="accordion-header">Status do Pedido</h2>
+                <div class="accordion-body">
+                    <ul>
+                        <li><a href="#" class="status-link" data-status="todos">Todos</a></li>
+                        <li><a href="#" class="status-link" data-status="aberto">Abertos</a></li>
+                        <li><a href="#" class="status-link" data-status="pendente">Pendentes</a></li>
+                        <li><a href="#" class="status-link" data-status="fechado">Fechados</a></li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Filtro de Data de Pedido -->
+            <!-- Filtro de Tipo -->
             <div class="accordion-item">
-                <h2 class="accordion-header" id="headingData">Data de Pedido</h2>
-                <div id="collapseData" class="accordion-collapse collapse show" aria-labelledby="headingData">
-                    <div class="accordion-body">
-                        <label for="orderDate">Data do Pedido:</label>
-                        <input type="date" id="orderDate" class="form-control">
-                    </div>
+                <h2 class="accordion-header">Tipo de Pedido</h2>
+                <div class="accordion-body">
+                    <ul>
+                        <li><a href="#" class="tipo-link" data-tipo="todos">Todos</a></li>
+                        <li><a href="#" class="tipo-link" data-tipo="coleta">Pedidos de Coleta</a></li>
+                        <li><a href="#" class="tipo-link" data-tipo="troca">Pedidos de Troca</a></li>
+                    </ul>
                 </div>
             </div>
 
+            <!-- Filtro de Data -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">Data do Pedido</h2>
+                <div class="accordion-body">
+                    <input type="date" id="dataPedido">
+                </div>
+            </div>
         </div>
 
+        <!-- Grid de Pedidos -->
         <div class="products-grid">
-            <div class="product" data-status="Pendentes" data-data="2024-05-15" data-info='{
-            "id": "#001",
-            "produto": "ROOP",
-            "localPartida": "XY",
-            "quantidade": "15 kg",
-            "data": "15/05/2024",
-            "status": "PENDENTE"
-        }' >
-                <h3>Pedido #001</h3>
-                <p>ROOP</p>
-                <p>Local de Partida: XY</p>
-                <p>Local de Partida: X</p>
-                <p>Qtd: 15 kg</p>
-                <P>15/05/2024</P>
-                <p>PENDENTE</p>
-                <span class="info">&#8505;</span>
-            </div>
-            <div class="product" data-status="Abertos" data-data="2024-05-15" data-info='{
-            "id": "#001",
-            "produto": "ROOP",
-            "localPartida": "XY",
-            "quantidade": "15 kg",
-            "data": "15/05/2024",
-            "status": "PENDENTE"
-        }'>
-                <h3>Pedido #002</h3>
-                <p>ROOP</p>
-                <p>Local de Partida: XY</p>
-                <p>Local de Partida: X</p>
-                <p>Qtd: 15 kg</p>
-                <P>15/05/2024</P>
-                <p>ABERTO</p>
-                <span class="info">&#8505;</span>
-            </div>
-            <div class="product" data-status="Fechados" data-data="2022-08-15" data-info='{
-            "id": "#001",
-            "produto": "ROOP",
-            "localPartida": "XY",
-            "quantidade": "15 kg",
-            "data": "15/05/2024",
-            "status": "PENDENTE"
-        }'>
-                <h3>Pedido #003</h3>
-                <p>ROOP</p>
-                <p>Local de Partida: XY</p>
-                <p>Local de Partida: X</p>
-                <p>Qtd: 15 kg</p>
-                <P>15/08/2022</P>
-                <p>FECHADO</p>
-                <span class="info">&#8505;</span>
-            </div>
-            <div class="product" data-status="Abertos" data-data="2022-08-15" data-info='{
-            "id": "#001",
-            "produto": "ROOP",
-            "localPartida": "XY",
-            "quantidade": "15 kg",
-            "data": "15/05/2024",
-            "status": "PENDENTE"
-        }'>
-                <h3>Pedido #004</h3>
-                <p>ROOP</p>
-                <p>Local de Partida: XY</p>
-                <p>Local de Partida: X</p>
-                <p>Qtd: 15 kg</p>
-                <P>15/08/2022</P>
-                <p>ABERTO</p>
-                <span class="info">&#8505;</span>
-            </div>
-            <div class="product" data-status="Pendentes" data-data="2020-12-15" data-info='{
-            "id": "#001",
-            "produto": "ROOP",
-            "localPartida": "XY",
-            "quantidade": "15 kg",
-            "data": "15/05/2024",
-            "status": "PENDENTE"
-        }'>
-                <h3>Pedido #005</h3>
-                <p>ROOP</p>
-                <p>Local de Partida: XY</p>
-                <p>Local de Partida: X</p>
-                <p>Qtd: 15 kg</p>
-                <P>15/12/2020</P>
-                <p>PENDENTE</p>
-                <span class="info">&#8505;</span>
-            </div>
-            <div class="product" data-status="Fechados" data-data="2020-12-15" data-info='{
-            "id": "#001",
-            "produto": "ROOP",
-            "localPartida": "XY",
-            "quantidade": "15 kg",
-            "data": "15/05/2024",
-            "status": "PENDENTE"
-        }'>
-                <h3>Pedido #006</h3>
-                <p>ROOP</p>
-                <p>Local de Partida: XY </p>
-                <p>Local de Partida: X</p>
-                <p>Qtd: 15 kg</p>
-                <P>15/12/2020</P>
-                <p>FECHADO</p>
-                <span class="info">&#8505;</span>
-            </div>
-
-        </div>
-        <!-- Modal que aparecerá ao clicar no ícone de info -->
-        <div id="modal" class="modal hidden">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <h3>Informações do Pedido</h3>
-                <p id="modal-info"></p>
-            </div>
+            <!-- Os pedidos serão carregados aqui via JavaScript -->
         </div>
     </main>
-    <div class="pagination">
-        <button class="prev" disabled>Previous</button>
-        <button class="page-number active">1</button>
-        <span>...</span>
-        <button class="page-number">2</button>
-        <button class="page-number">3</button>
-        <button class="next">Next</button>
+
+    <!-- Paginação -->
+    <div class="pagination"></div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="modal-info"></div>
+        </div>
     </div>
+    <div class="modal-overlay"></div>
+
+    <!-- Footer -->
     <footer class="footer">
         <img class="light-apple-logo" src="imagens/LightApple-Logo.png" />
         <div class="copy-2024-light-apple">&copy; 2024 LightApple</div>
@@ -313,6 +307,7 @@
             </div>
         </div>
     </footer>
+
     <script src="TelaMeusPedidos.js"></script>
     <script src="navmenu(cliente).js"></script>
 </body>

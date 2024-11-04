@@ -102,31 +102,77 @@ try {
               </div>
               <form id="criar-pedido-form">
                 <label for="empresa-coleta">Empresa de Coleta:</label>
-                <input type="text" id="empresa-coleta" name="empresa-coleta">
-                <label for="forma-pagamento">Forma de Pagamento:</label>
-                <select id="forma-pagamento" name="forma-pagamento">
-                  <option value="">Selecione uma forma de pagamento</option>
-                  <option value="Salva">Salva</option>
-                  <option value="Adicionar Nova"><a href="#">Adicionar Nova</a></option>
-                </select>
-                <div id="nova-forma-pagamento" style="display: none;">
-                  <label for="nova-forma-pagamento-input">Nova Forma de Pagamento:</label>
-                  <input type="text" id="nova-forma-pagamento-input" name="nova-forma-pagamento-input">
+                <input type="text" id="empresa-coleta" name="empresa-coleta" required>
+                <!--<input type="hidden" id="empresa-id" name="empresa-id">-->
+
+                <div class="form-group">
+                  <label for="forma-pagamento">Forma de Pagamento:</label>
+                  <select id="forma-pagamento" name="forma-pagamento" required>
+                    <option value="">Selecione um cartão</option>
+                  </select>
+                  <button type="button" class="add-cartao-btn" onclick="abrirModalCartao()">+ Adicionar novo cartão</button>
                 </div>
-                <label for="quantidade-lixo">Quantidade de Lixo:</label>
-                <input type="number" id="quantidade-lixo" name="quantidade-lixo">
+
+                <label for="quantidade-lixo">Quantidade de Lixo (kg):</label>
+                <input type="number" id="quantidade-lixo" name="quantidade-lixo" required>
+
                 <label for="local-partida">Local de Partida:</label>
-                <input type="text" id="local-partida" name="local-partida">
+                <input type="text" id="local-partida" name="local-partida" required>
+
                 <label for="local-chegada">Local de Chegada:</label>
-                <input type="text" id="local-chegada" name="local-chegada">
-                <label for="valor">Valor:</label>
-                <input type="number" id="valor" name="valor" readonly>
-                <label for="frete">Frete:</label>
-                <input type="number" id="frete" name="frete" readonly>
-                <label for="valor-com-frete">Valor com Frete:</label>
-                <input type="number" id="valor-com-frete" name="valor-com-frete" readonly>
+                <input type="text" id="local-chegada" name="local-chegada" required>
+
+                <div class="valores-container">
+                  <div class="valor-display">
+                    <span>Valor:</span>
+                    <span id="valor-display">R$ 0,00</span>
+                  </div>
+                  <div class="valor-display">
+                    <span>Frete:</span>
+                    <span id="frete-display">R$ 0,00</span>
+                  </div>
+                  <div class="valor-display">
+                    <span>Total:</span>
+                    <span id="valor-total-display">R$ 0,00</span>
+                  </div>
+                </div>
+
                 <button type="button" id="criar-pedido-btn">Criar Pedido</button>
               </form>
+              <div id="modal-cartao" class="modal">
+                <div class="modal-content">
+                  <button type="button" class="close-modal" onclick="fecharModalCartao()">&times;</button>
+                  <h3 class="titulo-modal">Adicionar Novo Cartão</h3>
+                  <form id="form-cartao">
+                    <div class="form-group">
+                      <label for="nome_titular">Nome do Titular:</label>
+                      <input type="text" id="nome_titular" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="numero_cartao">Número do Cartão:</label>
+                      <input type="text" id="numero_cartao" maxlength="16" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="data_validade">Data de Validade (MM/AA):</label>
+                      <input type="text"
+                        id="data_validade"
+                        maxlength="5"
+                        placeholder="MM/AA"
+                        pattern="(0[1-9]|1[0-2])\/([0-9]{2})"
+                        required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="cvv">CVV:</label>
+                      <input type="text" id="cvv" maxlength="3" required>
+                    </div>
+
+                    <button type="submit">Salvar Cartão</button>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
         </div>

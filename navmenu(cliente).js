@@ -155,6 +155,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Adicionar evento de click no botão criar pedido
+    const criarPedidoBtn = document.getElementById('criar-pedido-btn');
+    if (criarPedidoBtn) {
+        criarPedidoBtn.addEventListener('click', criarPedido);
+    }
+
+    // Adicionar evento de input para calcular valor total
+    const quantidadeLixoInput = document.getElementById('quantidade-lixo');
+    if (quantidadeLixoInput) {
+        quantidadeLixoInput.addEventListener('input', calcularValorTotal);
+    }
 });
 
 // Função para carregar o perfil do usuário
@@ -418,12 +430,24 @@ async function carregarFormasPagamento() {
 
 // Substituir a função criarPedido existente
 async function criarPedido() {
+    // Validar campos obrigatórios
+    const empresaColeta = document.getElementById('empresa-coleta').value;
+    const formaPagamento = document.getElementById('forma-pagamento').value;
+    const quantidadeLixo = document.getElementById('quantidade-lixo').value;
+    const localPartida = document.getElementById('local-partida').value;
+    const localChegada = document.getElementById('local-chegada').value;
+
+    if (!empresaColeta || !formaPagamento || !quantidadeLixo || !localPartida || !localChegada) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+    }
+
     const formData = {
-        local_id: document.getElementById('empresa-id').value,
-        cartao_id: document.getElementById('forma-pagamento').value,
-        quantidade_lixo: document.getElementById('quantidade-lixo').value,
-        local_partida: document.getElementById('local-partida').value,
-        local_chegada: document.getElementById('local-chegada').value,
+        empresa_coleta: empresaColeta,
+        forma_pagamento: formaPagamento,
+        quantidade_lixo: quantidadeLixo,
+        local_partida: localPartida,
+        local_chegada: localChegada,
         valor: parseFloat(document.getElementById('valor-display').textContent.replace('R$ ', '').replace(',', '.')),
         frete: parseFloat(document.getElementById('frete-display').textContent.replace('R$ ', '').replace(',', '.')),
         valor_total: parseFloat(document.getElementById('valor-total-display').textContent.replace('R$ ', '').replace(',', '.'))
@@ -441,11 +465,11 @@ async function criarPedido() {
         const data = await response.json();
         
         if (data.success) {
-            alert(`Pedido criado com sucesso!\nNúmero do pedido: ${data.numeroPedido}\nData: ${data.dataPedido}`);
+            alert('Pedido criado com sucesso!');
             limparFormularioPedido();
             toggleMenuPed();
         } else {
-            alert('Erro ao criar pedido: ' + data.message);
+            alert(data.message || 'Erro ao criar pedido');
         }
     } catch (error) {
         console.error('Erro ao criar pedido:', error);
