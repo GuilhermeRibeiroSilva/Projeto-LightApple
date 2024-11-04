@@ -5,7 +5,14 @@ require_once 'conexao.php';
 $termo = $_GET['termo'] ?? '';
 
 try {
-    $stmt = $conn->prepare("SELECT id, nome, endereco FROM empresas_coleta WHERE nome LIKE :termo");
+    $stmt = $conn->prepare("
+        SELECT id, nome, endereco, limite_coleta 
+        FROM locais 
+        WHERE categoria = 'empresa de coleta' 
+        AND status = 'ativo' 
+        AND nome LIKE :termo
+    ");
+    
     $stmt->execute(['termo' => "%$termo%"]);
     $empresas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     

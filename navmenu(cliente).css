@@ -295,79 +295,100 @@ nav {
 
 .sub-menu-ped-wrap {
   position: absolute;
-  top: 100%;
+  top: 120%;
   right: 0;
-  width: 320px;
+  width: 400px;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.sub-menu-ped-wrap.open {
-  max-height: 800px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  color: #218838;
-}
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #218838;
-  border-radius: 4px;
-}
-
-.suggestions-box {
-  position: absolute;
-  width: 100%;
-  max-height: 200px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
   z-index: 1000;
 }
 
-.suggestion-item {
-  padding: 8px;
-  cursor: pointer;
+.sub-menu-ped-wrap.open-menu-ped {
+  max-height: 800px;
 }
 
-.suggestion-item:hover {
-  background-color: #f5f5f5;
+.sub-menu-ped {
+  background: #fff;
+  border: 1px solid #287326;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.ped-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.ped-info img {
+  width: 40px;
+  height: 40px;
+  margin-right: 15px;
+}
+
+.ped-info h3 {
+  color: #287326;
+  font-size: 18px;
+}
+
+#criar-pedido-form {
+  display: grid;
+  gap: 15px;
+}
+
+#criar-pedido-form label {
+  color: #287326;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+#criar-pedido-form input,
+#criar-pedido-form select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #abd94a;
+  border-radius: 5px;
+  background: #f8f9fa;
 }
 
 .valores-container {
   background: #f8f9fa;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.valor-display {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: #287326;
+}
+
+.valor-display:last-child {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  font-weight: bold;
 }
 
 #criar-pedido-btn {
-  width: 100%;
-  padding: 10px;
-  background: #218838;
+  background: #287326;
   color: white;
+  padding: 12px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: background-color 0.3s;
 }
 
 #criar-pedido-btn:hover {
-  background: #1e7e34;
+  background: #218838;
 }
 
 /* Estilo para os botões do carrinho */
@@ -410,6 +431,125 @@ nav {
     color: #287326;
     border-top: 1px solid #ddd;
     margin-top: 10px;
+}
+
+/* Estilo para o modal de cartão */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #287326;
+    border-top: none;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #abd94a;
+    border-radius: 5px;
+}
+
+/* Adicione um botão no formulário de pedido para abrir o modal */
+.add-cartao-btn {
+    background: none;
+    border: none;
+    color: #287326;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.close-modal-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #287326;
+}
+
+.modal-content button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background: #287326;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+.modal-content button[type="submit"]:hover {
+    background: #218838;
+}
+
+/* Estilo para as sugestões de empresas */
+.suggestions-box {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #abd94a;
+    border-radius: 5px;
+    margin-top: 5px;
+    z-index: 1000;
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+    color: #287326;
+}
+
+.suggestion-item:hover {
+    background: #f0f8f0;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #287326;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 5px;
+}
+
+.close-modal:hover {
+    color: #218838;
 }
 
   
