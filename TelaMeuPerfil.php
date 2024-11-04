@@ -19,6 +19,12 @@ try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Buscar informações do usuário incluindo pontos
+    $stmt = $conn->prepare("SELECT nome, pontos FROM usuarios WHERE id = :id");
+    $stmt->bindParam(':id', $_SESSION['user_id']);
+    $stmt->execute();
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
     // Recupera os dados do usuário
     $stmt = $conn->prepare("SELECT *, DATE_FORMAT(dataCriacao, '%M de %Y') AS membro_desde FROM usuarios WHERE id = :id");
     $stmt->bindParam(':id', $userId);
@@ -54,7 +60,7 @@ try {
 </head>
 
 <body>
-    <input type="hidden" id="user-id" value="<?php echo $usuario['id']; ?>">
+<input type="hidden" id="user-id" value="<?php echo htmlspecialchars($userId); ?>">
     <header>
         <div class="hero">
             <nav>
@@ -63,9 +69,9 @@ try {
                     <h2 class="lightapple-titulo">LightApple</h2>
                 </a>
                 <ul>
-                    <li><a href="#" class="inicio">Inicio</a></li>
-                    <li><a href="#" class="empresa-coleta">Empresa de Coleta</a></li>
-                    <li><a href="#" class="trocar-pontos">Trocar Pontos</a></li>
+                    <li><a href="TelaInicialCliente.php" class="inicio">Inicio</a></li>
+                    <li><a href="TelaEmpresadeColeta.php" class="empresa-coleta">Empresa de Coleta</a></li>
+                    <li><a href="TelaTrocarPontos.php" class="trocar-pontos">Trocar Pontos</a></li>
                     <li><a href="#" class="pedidos">Pedidos</a></li>
                 </ul>
                 <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
@@ -88,8 +94,7 @@ try {
                                 </select>
                                 <div id="nova-forma-pagamento" style="display: none;">
                                     <label for="nova-forma-pagamento-input">Nova Forma de Pagamento:</label>
-                                    <input type="text" id="nova-forma-pagamento-input"
-                                        name="nova-forma-pagamento-input">
+                                    <input type="text" id="nova-forma-pagamento-input" name="nova-forma-pagamento-input">
                                 </div>
                                 <label for="quantidade-lixo">Quantidade de Lixo:</label>
                                 <input type="number" id="quantidade-lixo" name="quantidade-lixo">
@@ -113,9 +118,11 @@ try {
                     <div class="sub-menu-cart-wrap" id="cartDropdown">
                         <div class="sub-menu-cart">
                             <div class="cart-items">
-
+                                <!-- Items serão inseridos aqui via JavaScript -->
                             </div>
-                            <button class="checkout-btn">Finalizar Compra</button>
+                            <p class="total-pontos">Total: 0 P</p>
+                            <button class="clear-cart-btn" onclick="limparCarrinho()">Limpar Carrinho</button>
+                            <button class="checkout-btn" onclick="finalizarCompra()">Finalizar Compra</button>
                         </div>
                     </div>
                 </div>
@@ -128,7 +135,7 @@ try {
                                 <h3>Olá, <?php echo explode(' ', $usuario['nome'])[0]; ?></h3>
                             </div>
                             <p id="points">
-                                Meus Pontos: 50000 P
+                                Meus Pontos: <?php echo number_format($usuario['pontos']); ?> P
                                 <span></span>
                             </p>
                             <hr>
@@ -137,13 +144,8 @@ try {
                                 <span></span>
                             </a>
                             <hr>
-                            <a href="#" class="sub-menu-link">
+                            <a href="TelaFavoritos.php" class="sub-menu-link">
                                 <p>Favoritos</p>
-                                <span></span>
-                            </a>
-                            <hr>
-                            <a href="#" class="sub-menu-link">
-                                <p>Meus Cupons</p>
                                 <span></span>
                             </a>
                             <hr>
@@ -181,6 +183,7 @@ try {
             <div class="profile-right">
                 <button type="button" id="trocar-imagem-btn">Trocar Imagem</button>
                 <button type="button" id="editar-perfil-btn">Editar Perfil</button>
+                <button class="btn-cadastrar">Cadastrar Local</button>
                 <input type="file" id="inputFile" accept="image/*" style="display: none;">
             </div>
         </section>
@@ -262,6 +265,10 @@ try {
     <script>
         const userId = document.getElementById("user-id").value;
     </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAppxfGYLdYhP8lVimrq43dP6Gso9Y-si4&libraries=places&callback=initMap">
+    </script>
+    <script src="calcularDistancias.js"></script>
     <script src="TelaMeuPerfil.js"></script>
     <script src="navmenu(cliente).js"></script>
 </body>

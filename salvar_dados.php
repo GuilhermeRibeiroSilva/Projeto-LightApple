@@ -1,105 +1,89 @@
 <?php
-session_start(); // Inicia a sessão
-
-header('Content-Type: application/json'); // Define o tipo de conteúdo como JSON
-
-// Captura os dados JSON enviados pelo JavaScript
-$dadosRaw = file_get_contents('php://input');
-$dados = json_decode($dadosRaw, true); // Decodifica o JSON em um array associativo
-
-// Debug: verificar o que está chegando
-error_log("Dados recebidos: " . $dadosRaw); // Adiciona log de erro no servidor
-
-// Verifica se os dados foram enviados corretamente
-if (empty($dados)) {
-    echo json_encode(["success" => false, "error" => "Nenhum dado recebido pelo servidor."]);
-    exit;
-}
-
-// Captura os dados do formulário
-$nome = $dados["nome"] ?? null;
-$cpf = $dados["cpf"] ?? null;
-$dataNascimento = $dados["dataNascimento"] ?? null;
-$telefone = $dados["telefone"] ?? null;
-$endereco = $dados["endereco"] ?? null;
-$email = $dados["email"] ?? null;
-$senha = $dados["senha"] ?? null;
-$confirmarSenha = $dados["confirmarSenha"] ?? null;
-$tipoConta = $dados["tipoConta"] ?? null;
-$cnpj = $dados["cnpj"] ?? null; // Captura o CNPJ
-
-// Validação de campos vazios
-$campos_vazios = [];
-if (empty($nome)) $campos_vazios[] = "nome";
-if (empty($dataNascimento) && !in_array($tipoConta, ['empresa de coleta', 'Transportadora', 'estabelecimentos', 'condominios'])) $campos_vazios[] = "dataNascimento";
-if (empty($telefone)) $campos_vazios[] = "telefone";
-if (empty($endereco)) $campos_vazios[] = "endereco";
-if (empty($email)) $campos_vazios[] = "email";
-if (empty($senha)) $campos_vazios[] = "senha";
-if (empty($confirmarSenha)) $campos_vazios[] = "confirmarSenha";
-if (empty($tipoConta)) $campos_vazios[] = "tipoConta";
-
-// Validação do CPF e CNPJ dependendo do tipo de conta
-if (in_array($tipoConta, ['cliente', 'Entregadores'])) {
-    if (empty($cpf)) $campos_vazios[] = "CPF"; // CPF é obrigatório para esses tipos
-} elseif (in_array($tipoConta, ['empresa de coleta', 'Transportadora', 'condominios', 'estabelecimentos'])) {
-    if (empty($cnpj)) $campos_vazios[] = "CNPJ"; // CNPJ é obrigatório para esses tipos
-    $dataNascimento = null; // Ignora data de nascimento para esses tipos
-    $cpf = null;
-}
-
-if (!empty($campos_vazios)) {
-    echo json_encode(["success" => false, "error" => "Campos obrigatórios não podem estar vazios: " . implode(", ", $campos_vazios)]);
-    exit;
-}
-
-// Conexão com o banco de dados
-$host = 'localhost';
-$dbname = 'light_apple';
-$username = 'root';
-$password = '';
+header('Content-Type: application/json');
+require_once 'conexao.php';
 
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Recebe os dados do formulário em JSON
+    $dados = json_decode(file_get_contents('php://input'), true);
 
-    // Verifica se a senha e a confirmação da senha são iguais
-    if ($senha !== $confirmarSenha) {
-        echo json_encode(["success" => false, "error" => "As senhas não coincidem."]);
-        exit;
+    // Validações básicas
+    if (!$dados['nome'] || !$dados['email'] || !$dados['senha'] || !$dados['tipoConta']) {
+        throw new Exception("Todos os campos obrigatórios devem ser preenchidos");
     }
 
-    // Criptografa a senha antes de armazenar
-    $senhaHashed = password_hash($senha, PASSWORD_DEFAULT);
+    // Verifica se o email já existe
+    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
+    $stmt->execute([$dados['email']]);
+    if ($stmt->fetch()) {
+        throw new Exception("Este email já está cadastrado");
+    }
 
-    // Prepara a consulta para inserir os dados no banco de dados, incluindo o CNPJ
-    $sql = "INSERT INTO usuarios (nome, cpf, dataNascimento, telefone, endereco, email, senha, tipoConta, cnpj) 
-            VALUES (:nome, :cpf, :dataNascimento, :telefone, :endereco, :email, :senha, :tipoConta, :cnpj)";
+    // Hash da senha
+    $senha_hash = password_hash($dados['senha'], PASSWORD_DEFAULT);
+
+    // Inicia a transação
+    $conn->beginTransaction();
+
+    // Insere o usuário com 1000 pontos iniciais
+    $sql = "INSERT INTO usuarios (
+        nome, 
+        email, 
+        senha, 
+        tipo_conta,
+        cpf,
+        cnpj,
+        data_nascimento,
+        telefone,
+        endereco,
+        pontos,
+        created_at
+    ) VALUES (
+        :nome,
+        :email,
+        :senha,
+        :tipo_conta,
+        :cpf,
+        :cnpj,
+        :data_nascimento,
+        :telefone,
+        :endereco,
+        1000,
+        NOW()
+    )";
+
     $stmt = $conn->prepare($sql);
+    
+    // Bind dos parâmetros
+    $stmt->bindParam(':nome', $dados['nome']);
+    $stmt->bindParam(':email', $dados['email']);
+    $stmt->bindParam(':senha', $senha_hash);
+    $stmt->bindParam(':tipo_conta', $dados['tipoConta']);
+    $stmt->bindParam(':cpf', $dados['cpf']);
+    $stmt->bindParam(':cnpj', $dados['cnpj']);
+    $stmt->bindParam(':data_nascimento', $dados['dataNascimento']);
+    $stmt->bindParam(':telefone', $dados['telefone']);
+    $stmt->bindParam(':endereco', $dados['endereco']);
+    
+    $stmt->execute();
+    
+    // Commit da transação
+    $conn->commit();
 
-    // Vincula os parâmetros
-    $stmt->bindParam(':nome', $nome);
-    $stmt->bindParam(':cpf', $cpf);
-    $stmt->bindParam(':dataNascimento', $dataNascimento);
-    $stmt->bindParam(':telefone', $telefone);
-    $stmt->bindParam(':endereco', $endereco);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':senha', $senhaHashed);
-    $stmt->bindParam(':tipoConta', $tipoConta);
-    $stmt->bindParam(':cnpj', $cnpj);
+    // Retorna sucesso e o tipo de conta para redirecionamento
+    echo json_encode([
+        'success' => true,
+        'tipoConta' => $dados['tipoConta'],
+        'message' => 'Conta criada com sucesso!'
+    ]);
 
-    // Executa a inserção e retorna a resposta
-    if ($stmt->execute()) {
-        $_SESSION['user_id'] = $conn->lastInsertId();
-        echo json_encode([
-            "success" => true,
-            "user_id" => $_SESSION['user_id'], // Retorna o ID do usuário
-            "tipoConta" => $tipoConta
-        ]);
-        exit();
-    } else {
-        echo json_encode(["success" => false, "error" => "Erro ao criar a conta."]);
+} catch (Exception $e) {
+    // Em caso de erro, faz rollback
+    if (isset($conn)) {
+        $conn->rollBack();
     }
-} catch (PDOException $e) {
-    echo json_encode(["success" => false, "error" => "Erro na conexão: " . $e->getMessage()]);
+    
+    echo json_encode([
+        'success' => false,
+        'error' => $e->getMessage()
+    ]);
 }

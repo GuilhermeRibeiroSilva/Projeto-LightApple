@@ -60,8 +60,8 @@ try {
                     <h2 class="lightapple-titulo">LightApple</h2>
                 </a>
                 <ul>
-                    <li><a href="#" class="inicio">Inicio</a></li>
-                    <li><a href="#" class="empresa-coleta">Estabelecimentos</a></li>
+                    <li><a href="TelaInicialColeta.php" class="inicio">Inicio</a></li>
+                    <li><a href="TelaEstabelecimentos(coleta).php" class="empresa-coleta">Estabelecimentos</a></li>
                     <li><a href="#" class="trocar-pontos">Pedidos</a></li>
                     <li><a href="#" class="pedidos">Histórico</a></li>
                 </ul>
@@ -113,7 +113,7 @@ try {
     </header>
     <main>
         <section class="section-minimenu">
-            <a href="#">
+            <a href="TelaEstabelecimentos(coleta).php">
                 <div class="box-estabelecimentos">
                     <img class="estabelecimentos" src="imagens/Estabelecimentos.png" />
                     <div class="txtestabelecimentos">ESTABELECIMENTOS</div>

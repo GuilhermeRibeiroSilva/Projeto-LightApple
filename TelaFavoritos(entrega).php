@@ -1,3 +1,75 @@
+<?php
+session_start();
+require_once 'conexao.php';
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION['user_id'])) {
+    header('Location: entrar.php');
+    exit;
+}
+
+$userId = $_SESSION['user_id'];
+
+try {
+    // Configuração da paginação
+    $itens_por_pagina = 9;
+    $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    $offset = ($pagina_atual - 1) * $itens_por_pagina;
+
+    // Buscar total de favoritos para paginação (todos os tipos)
+    $sql_total = "SELECT COUNT(*) as total 
+                  FROM favoritos f 
+                  INNER JOIN locais l ON f.local_id = l.id 
+                  WHERE f.user_id = :user_id 
+                  AND (l.categoria = 'estabelecimentos' 
+                      OR l.categoria = 'empresa de coleta' 
+                      OR l.categoria = 'condominios')
+                  AND l.status = 'ativo'";
+    $stmt_total = $conn->prepare($sql_total);
+    $stmt_total->bindValue(':user_id', $userId, PDO::PARAM_INT);
+    $stmt_total->execute();
+    $total_favoritos = $stmt_total->fetch(PDO::FETCH_ASSOC)['total'];
+    $total_paginas = ceil($total_favoritos / $itens_por_pagina);
+
+    // Buscar favoritos com paginação (todos os tipos)
+    $sql = "SELECT l.*, 
+            (SELECT COUNT(*) FROM favoritos f2 WHERE f2.local_id = l.id AND f2.user_id = :user_id) as favoritado
+            FROM locais l
+            INNER JOIN favoritos f ON l.id = f.local_id
+            WHERE f.user_id = :user_id
+            AND (l.categoria = 'estabelecimentos' 
+                OR l.categoria = 'empresa de coleta' 
+                OR l.categoria = 'condominios')
+            AND l.status = 'ativo'
+            ORDER BY f.created_at DESC
+            LIMIT :offset, :itens_por_pagina";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->bindValue(':itens_por_pagina', $itens_por_pagina, PDO::PARAM_INT);
+    $stmt->execute();
+    $favoritos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Buscar informações do usuário
+    $stmt = $conn->prepare("SELECT *, DATE_FORMAT(dataCriacao, '%M de %Y') AS membro_desde FROM usuarios WHERE id = :id");
+    $stmt->bindParam(':id', $userId);
+    $stmt->execute();
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verifica se o usuário existe
+    if (!$usuario) {
+        header("Location: error.php");
+        exit();
+    }
+
+    // Obtém o caminho da imagem de perfil ou uma imagem padrão
+    $profileImagePath = $usuario['profile_image_path'] ?? 'imagens/default_image.png';
+} catch (PDOException $e) {
+    echo "Erro: " . $e->getMessage();
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -11,16 +83,17 @@
 </head>
 
 <body>
+    <input type="hidden" id="user-id" value="<?php echo htmlspecialchars($userId); ?>">
     <header>
         <div class="hero">
             <nav>
-                <a href="#"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
+                <a href="TelaInicialEntrega.php"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
                 <a href="#">
                     <h2 class="lightapple-titulo">LightApple</h2>
                 </a>
                 <ul>
-                    <li><a href="#" class="inicio">Inicio</a></li>
-                    <li><a href="#" class="empresa-coleta">Estabelecimentos</a></li>
+                    <li><a href="TelaInicialEntrega.php" class="inicio">Inicio</a></li>
+                    <li><a href="TelaEstabelecimentos.php" class="empresa-coleta">Estabelecimentos</a></li>
                     <li><a href="#" class="trocar-pontos">Minhas Entregas</a></li>
                     <li><a href="#" class="pedidos">Histórico</a></li>
                 </ul>
@@ -83,19 +156,19 @@
 
 
                 <div class="user-menu">
-                    <img src="imagens/Avatar.png" class="user-pic" onclick="toggleMenu()">
+                    <img src="<?php echo $profileImagePath; ?>" class="user-perf" id="userImageCircle" onclick="toggleMenu()">
                     <div class="sub-menu-wrap" id="subMenu">
                         <div class="sub-menu">
                             <div class="user-info">
-                                <img src="imagens/Avatar.png">
-                                <h3>Joana</h3>
+                                <img src="<?php echo $profileImagePath; ?>" class="user-image-circle" id="userImageDropdown">
+                                <h3>Olá, <?php echo explode(' ', $usuario['nome'])[0]; ?></h3>
                             </div>
-                            <a href="#" class="sub-menu-link">
+                            <a href="TelaMeuperfil(entrega).php" class="sub-menu-link">
                                 <p>Meu Perfil</p>
                                 <span></span>
                             </a>
                             <hr>
-                            <a href="#" class="sub-menu-link">
+                            <a href="TelaFavoritos(entrega).php" class="sub-menu-link">
                                 <p>Favoritos</p>
                                 <span></span>
                             </a>
@@ -110,7 +183,7 @@
                                 <span></span>
                             </a>
                             <hr>
-                            <a href="#" class="sub-menu-link">
+                            <a href="logout.php" class="sub-menu-link">
                                 <p>Sair</p>
                                 <span></span>
                             </a>
@@ -125,130 +198,51 @@
         <p class="empresas-favoritas">Vejas as suas empresas e estabelecimentos favoritas</p>
     </section>
     <main>
+
+        <!-- Adicionar o accordion de filtros à esquerda -->
         <div class="accordion" id="accordionPanelsStayOpenExample">
-
-            <input type="search" name="" id="flitersearch">
-
-            <!-- Filtro de Limite de Coleta -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingThree">Limite de Coleta</h2>
-                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show"
-                    aria-labelledby="headingThree">
-                    <div class="accordion-body">
-                        <label for="priceRange">Limite de coleta (kg): <span id="currentPrice">0 kg</span></label>
-                        <input type="range" class="form-range" min="0" max="100000" value="100000" id="priceRange" />
-                    </div>
-                </div>
-            </div>
+            <input type="search" name="" id="flitersearch" placeholder="Pesquisar...">
 
             <!-- Filtro de Distância -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingDistancia">Distância Máxima</h2>
-                <div id="panelsStayOpen-collapseDistancia" class="accordion-collapse collapse show"
-                    aria-labelledby="headingDistancia">
+                <div id="panelsStayOpen-collapseDistancia" class="accordion-collapse collapse show" aria-labelledby="headingDistancia">
                     <div class="accordion-body">
-                        <label for="distanciaRange">Distância máxima (km): <span id="currentDistancia">0
-                                km</span></label>
-                        <input type="range" class="form-range" min="0" max="5000" value="5000" id="distanciaRange" />
+                        <label for="distanciaRange">Distância máxima (km): <span id="currentDistancia">0 km</span></label>
+                        <input type="range" class="form-range" min="0" max="5000" value="0" id="distanciaRange" />
                     </div>
                 </div>
             </div>
-
-            <!-- Filtro de Estrelas com Input Range -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingFive">Avaliações</h2>
-                <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show"
-                    aria-labelledby="headingFive">
-                    <div class="accordion-body">
-                        <!-- Slider para Avaliações de Estrelas -->
-                        <label for="avaliacaoRange">Avaliação mínima: <span id="avaliacaoValor">3</span> &#9733;</label>
-                        <input type="range" class="form-range" min="1" max="5" value="1" id="avaliacaoRange" />
-                    </div>
-                </div>
-            </div>
-
         </div>
 
+        <!-- Grid de Produtos -->
         <div class="products-grid">
-            <div class="product" data-distancia="2" data-avaliacao="3">
-                <img src="imagens/Cond.png">
-                <h3>Cond. Dificil</h3>
-                <p>2km</p>
-                <p>3.0 &#9733</p>
-                <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" data-distancia="75" data-avaliacao="2">
-                <img src="imagens/Rest.png">
-                <h3>Rest. Rer</h3>
-                <p>75km</p>
-                <p>2.0 &#9733</p>
-                <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" data-distancia="35" data-avaliacao="1">
-                <img src="imagens/Cond.png">
-                <h3>Cond. Laranj</h3>
-                <p>35km</p>
-                <p>1.0 &#9733</p>
-                <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" data-distancia="135" data-avaliacao="4">
-                <img src="imagens/ROOP.png">
-                <h3>ROOP</h3>
-                <p>135km</p>
-                <p>4.0 &#9733</p>
-                <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" data-limitedecoleta="35000" data-distancia="65" data-avaliacao="5">
-                <img src="imagens/empresa-ecoponto.png">
-                <h3>TerraCycle</h3>
-                <p>10000/35000 Kg</p>
-                <p>65km</p>
-                <p>5.0 &#9733</p>
-                <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" data-limitedecoleta="55000" data-distancia="25" data-avaliacao="4">
-                <img src="imagens/empresa-verdeponto.png">
-                <h3>EcoPulse</h3>
-                <p>10500/55000 Kg</p>
-                <p>25km</p>
-                <p>4.0 &#9733</p>
-                <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" data-limitedecoleta="100000" data-distancia="15" data-avaliacao="5">
-                <img src="imagens/empresa-biocoleta.png">
-                <h3>Ecocycle</h3>
-                <p>10500/100000 Kg</p>
-                <p>15km</p>
-                <p>5.0 &#9733</p>
-                <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" data-limitedecoleta="85000" data-distancia="315" data-avaliacao="3">
-                <img src="imagens/empresa-ecoponto.png">
-                <h3>TerraCycle</h3>
-                <p>125/85000 Kg</p>
-                <p>315km</p>
-                <p>3.0 &#9733</p>
-                <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-            <div class="product" data-limitedecoleta="9050" data-distancia="5" data-avaliacao="1">
-                <img src="imagens/empresa-verdeponto.png">
-                <h3>ReNew</h3>
-                <p>1004/9050 Kg</p>
-                <p>5km</p>
-                <p>1.0 &#9733</p>
-                <span class="favoritar nao-favoritado">&#x2665;</span>
-            </div>
-
+            <?php foreach ($favoritos as $favorito): ?>
+                <div class="product"
+                    data-limite-coleta="<?php echo htmlspecialchars($favorito['limite_coleta']); ?>"
+                    data-distancia="<?php echo htmlspecialchars($favorito['distancia']); ?>">
+                    <img src="<?php echo htmlspecialchars($favorito['imagem_path']); ?>"
+                        alt="Imagem da Empresa"
+                        class="product-image">
+                    <h3><?php echo htmlspecialchars($favorito['nome']); ?></h3>
+                    <p>Limite de Coleta: <?php echo htmlspecialchars($favorito['limite_coleta']); ?> kg</p>
+                    <p class="distancia">Distância: <?php echo $favorito['distancia'] ? number_format($favorito['distancia'], 0) : 'N/A'; ?> km</p>
+                    <span class="favoritar favoritado"
+                        data-id="<?php echo htmlspecialchars($favorito['id']); ?>">♥</span>
+                </div>
+            <?php endforeach; ?>
         </div>
     </main>
+
+    <!-- Paginação fora do main para manter o estilo original -->
     <div class="pagination">
-        <button class="prev" disabled>Previous</button>
-        <button class="page-number active">1</button>
-        <span>...</span>
-        <button class="page-number">2</button>
-        <button class="page-number">3</button>
-        <button class="next">Next</button>
+        <button class="prev" <?= ($pagina_atual <= 1) ? 'disabled' : '' ?> onclick="carregarFavoritos(<?= $pagina_atual - 1 ?>)">Anterior</button>
+        <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
+            <button class="page-number <?= ($i == $pagina_atual) ? 'active' : '' ?>" onclick="carregarFavoritos(<?= $i ?>)"><?= $i ?></button>
+        <?php endfor; ?>
+        <button class="next" <?= ($pagina_atual >= $total_paginas) ? 'disabled' : '' ?> onclick="carregarFavoritos(<?= $pagina_atual + 1 ?>)">Próximo</button>
     </div>
+
     <footer class="footer">
         <img class="light-apple-logo" src="imagens/LightApple-Logo.png" />
         <div class="copy-2024-light-apple">&copy; 2024 LightApple</div>

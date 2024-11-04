@@ -1,27 +1,81 @@
+<?php
+session_start();
+require_once 'conexao.php';
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION['user_id'])) {
+  header('Location: entar.php');
+  exit;
+}
+
+$userId = $_SESSION['user_id'];
+
+try {
+  // Buscar informações do usuário
+  $stmt = $conn->prepare("SELECT nome, pontos, profile_image_path FROM usuarios WHERE id = :id");
+  $stmt->bindParam(':id', $userId);
+  $stmt->execute();
+  $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  if (!$usuario) {
+    throw new Exception('Usuário não encontrado');
+  }
+
+  // Obtém o caminho da imagem de perfil ou uma imagem padrão
+  $profileImagePath = $usuario['profile_image_path'] ?? 'imagens/default_image.png'; // Caminho padrão se não houver imagem
+
+  // Configuração da paginação
+  $itens_por_pagina = 9;
+  $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+  $offset = ($pagina_atual - 1) * $itens_por_pagina;
+
+  // Contar total de produtos
+  $stmt = $conn->query("SELECT COUNT(*) FROM produtos WHERE status = 'ativo'");
+  $total_produtos = $stmt->fetchColumn();
+  $total_paginas = ceil($total_produtos / $itens_por_pagina);
+
+  // Buscar produtos com paginação
+  $sql = "SELECT * FROM produtos WHERE status = 'ativo' ORDER BY created_at DESC LIMIT :offset, :itens_por_pagina";
+  $stmt = $conn->prepare($sql);
+  $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+  $stmt->bindValue(':itens_por_pagina', $itens_por_pagina, PDO::PARAM_INT);
+  $stmt->execute();
+  $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+  error_log($e->getMessage());
+  $profileImagePath = 'imagens/default_image.png';
+  $usuario = ['nome' => 'Usuário', 'pontos' => 0];
+  $total_paginas = 1; // Valor padrão em caso de erro
+  $produtos = []; // Array vazio em caso de erro
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LightApple</title>
+  <title>LightApple - Trocar Pontos</title>
   <link rel="stylesheet" href="TelaTrocarpontos.css">
   <link rel="stylesheet" href="navmenu(cliente).css">
   <link rel="stylesheet" href="footer.css">
 </head>
 
 <body>
+  <input type="hidden" id="user-id" value="<?php echo htmlspecialchars($userId); ?>">
+  <!-- Header e navegação -->
   <header>
     <div class="hero">
       <nav>
-        <a href="#"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
+        <a href="TelaInicialCliente.php"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
         <a href="#">
           <h2 class="lightapple-titulo">LightApple</h2>
         </a>
         <ul>
-          <li><a href="#" class="inicio">Inicio</a></li>
-          <li><a href="#" class="empresa-coleta">Empresa de Coleta</a></li>
-          <li><a href="#" class="trocar-pontos">Trocar Pontos</a></li>
+          <li><a href="TelaInicialCliente.php" class="inicio">Inicio</a></li>
+          <li><a href="TelaEmpresadeColeta.php" class="empresa-coleta">Empresa de Coleta</a></li>
+          <li><a href="TelaTrocarpontos.php" class="trocar-pontos">Trocar Pontos</a></li>
           <li><a href="#" class="pedidos">Pedidos</a></li>
         </ul>
         <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
@@ -68,37 +122,35 @@
           <div class="sub-menu-cart-wrap" id="cartDropdown">
             <div class="sub-menu-cart">
               <div class="cart-items">
-                
+                <!-- Items do carrinho serão inseridos aqui -->
               </div>
-              <button class="checkout-btn">Finalizar Compra</button>
+              <div class="total-pontos">Total: 0 P</div>
+              <button class="clear-cart-btn" onclick="limparCarrinho()">Limpar Carrinho</button>
+              <button class="checkout-btn" onclick="finalizarCompra()">Finalizar Compra</button>
             </div>
           </div>
         </div>
         <div class="user-menu">
-          <img src="imagens/Avatar.png" class="user-pic" onclick="toggleMenu()">
+          <img src="<?php echo $profileImagePath; ?>" class="user-perf" id="userImageCircle" onclick="toggleMenu()">
           <div class="sub-menu-wrap" id="subMenu">
             <div class="sub-menu">
               <div class="user-info">
-                <img src="imagens/Avatar.png">
-                <h3>Joana</h3>
+                <img src="<?php echo $profileImagePath; ?>" class="user-image-circle" id="userImageDropdown">
+                <h3>Olá, <?php echo explode(' ', $usuario['nome'])[0]; ?></h3>
               </div>
+              <hr>
               <p id="points">
-                Meus Pontos: 50000 P
+                Meus Pontos: <?php echo number_format($usuario['pontos']); ?> P
                 <span></span>
               </p>
               <hr>
-              <a href="#" class="sub-menu-link">
+              <a href="TelaMeuPerfil.php" class="sub-menu-link">
                 <p>Meu Perfil</p>
                 <span></span>
               </a>
               <hr>
-              <a href="#" class="sub-menu-link">
+              <a href="TelaFavoritos.php" class="sub-menu-link">
                 <p>Favoritos</p>
-                <span></span>
-              </a>
-              <hr>
-              <a href="#" class="sub-menu-link">
-                <p>Meus Cupons</p>
                 <span></span>
               </a>
               <hr>
@@ -112,7 +164,7 @@
                 <span></span>
               </a>
               <hr>
-              <a href="#" class="sub-menu-link">
+              <a href="logout.php" class="sub-menu-link">
                 <p>Sair</p>
                 <span></span>
               </a>
@@ -122,109 +174,76 @@
       </nav>
     </div>
   </header>
+
   <section class="section-txt">
     <h1 class="troca_de_pontos">Trocar Pontos</h1>
     <p class="troque_aqui">Troque seus pontos por brindes aqui</p>
   </section>
+
   <main>
+    <!-- Accordion de filtros -->
     <div class="accordion" id="accordionPanelsStayOpenExample">
-
-      <input type="search" name="" id="flitersearch">
-
-      <!-- Filtro de Categorias -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingCategorias">Categorias</h2>
-        <div id="collapseCategorias" class="accordion-collapse collapse show" aria-labelledby="headingCategorias">
-          <div class="accordion-body">
-            <ul class="list-unstyled">
-              <li><a href="#" class="categoria-link text-dark">Todos</a></li>
-              <li><a href="#" class="categoria-link text-dark">Cupons</a></li>
-              <li><a href="#" class="categoria-link text-dark">Produtos Artesanais</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <input type="search" name="" id="flitersearch" placeholder="Pesquisar...">
 
       <!-- Filtro de Pontos -->
       <div class="accordion-item">
-        <h2 class="accordion-header" id="headingPontos">Pontos</h2>
-        <div id="collapsePontos" class="accordion-collapse collapse show" aria-labelledby="headingPontos">
+        <h2 class="accordion-header" id="headingPontos">Pontos Máximos</h2>
+        <div id="panelsStayOpen-collapsePontos" class="accordion-collapse collapse show" aria-labelledby="headingPontos">
           <div class="accordion-body">
-            <label for="pontosRange">Pontos: <span id="currentPontos">200000 P</span></label>
-            <input type="range" class="form-range" min="1" max="200000" value="200000" id="pontosRange" />
+            <?php
+            // Buscar o valor máximo de pontos dos produtos
+            $maxPontos = 0;
+            foreach ($produtos as $produto) {
+                $maxPontos = max($maxPontos, (int)$produto['pontos']);
+            }
+            ?>
+            <label for="pontosRange">Pontos máximos: <span id="currentPontos"><?php echo $maxPontos; ?> P</span></label>
+            <input type="range" class="form-range" min="0" max="<?php echo $maxPontos; ?>" 
+                   value="<?php echo $maxPontos; ?>" id="pontosRange" />
           </div>
         </div>
       </div>
-
     </div>
 
+    <!-- Grid de Produtos -->
     <div class="products-grid">
-      <div class="product" data-category="Produtos Artesanais" data-points="1000">
-        <img src="imagens/vasinho-plantas.png">
-        <h3>Vaso de plantas</h3>
-        <p>1000 P</p>
-        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
-      </div>
-      <div class="product" data-category="Produtos Artesanais" data-points="100">
-        <img src="imagens/abajur-reci.png">
-        <h3>Abajur</h3>
-        <p>100 P</p>
-        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
-      </div>
-      <div class="product" data-category="Produtos Artesanais" data-points="950">
-        <img src="imagens/porta-talher.png">
-        <h3>Porta Talher</h3>
-        <p>950 P</p>
-        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
-      </div>
-      <div class="product" data-category="Produtos Artesanais" data-points="480">
-        <img src="imagens/porta-obj.png">
-        <h3>Porta Objetos</h3>
-        <p>480 P</p>
-        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
-      </div>
-      <div class="product" data-category="Cupons" data-points="880">
-        <img src="imagens/cupon-desc.png">
-        <h3>Cupon de desconto 15%</h3>
-        <p>880P</p>
-        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
-      </div>
-      <div class="product" data-category="Produtos Artesanais" data-points="150000">
-        <img src="imagens/bancos-reci.png">
-        <h3>Cadeira Ecológica</h3>
-        <p>150000 P</p>
-        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
-      </div>
-      <div class="product" data-category="Cupons" data-points="2000">
-        <img src="imagens/cupon-desc.png">
-        <h3>Cupon de desconto 25$</h3>
-        <p>2000 P</p>
-        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
-      </div>
-      <div class="product" data-category="Cupons" data-points="1500">
-        <img src="imagens/cupon-desc.png">
-        <h3>Cupon de desconto 35%</h3>
-        <p>1500 P</p>
-        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
-      </div>
-      <div class="product" data-category="Cupons" data-points="4500">
-        <img src="imagens/cupon-desc.png">
-        <h3>Cupon de desconto 50$</h3>
-        <p>4500 P</p>
-        <span class="adicionar-carrinho">&#128722; Adicionar ao Carrinho</span>
-      </div>
-
+      <?php foreach ($produtos as $produto): ?>
+        <div class="product" data-points="<?php echo (int)$produto['pontos']; ?>"
+          data-id="<?php echo htmlspecialchars($produto['id']); ?>">
+          <img src="<?php echo htmlspecialchars($produto['imagem_path']); ?>" alt="Imagem do Produto" class="product-image">
+          <h3><?php echo htmlspecialchars($produto['nome']); ?></h3>
+          <p class="pontos"><?php echo (int)$produto['pontos']; ?> P</p>
+          <button class="adicionar-carrinho" data-id="<?php echo htmlspecialchars($produto['id']); ?>">
+            Adicionar ao Carrinho
+          </button>
+        </div>
+      <?php endforeach; ?>
     </div>
-
   </main>
+
+  <!-- Paginação -->
   <div class="pagination">
-    <button class="prev" disabled>Previous</button>
-    <button class="page-number active">1</button>
-    <span>...</span>
-    <button class="page-number">2</button>
-    <button class="page-number">3</button>
-    <button class="next">Next</button>
+    <?php if ($total_paginas > 1): ?>
+        <button class="prev" <?php echo ($pagina_atual <= 1) ? 'disabled' : ''; ?>
+            onclick="carregarProdutos(<?php echo max(1, $pagina_atual - 1); ?>)">
+            Anterior
+        </button>
+
+        <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
+            <button class="page-number <?php echo ($i == $pagina_atual) ? 'active' : ''; ?>"
+                onclick="carregarProdutos(<?php echo $i; ?>)">
+                <?php echo $i; ?>
+            </button>
+        <?php endfor; ?>
+
+        <button class="next" <?php echo ($pagina_atual >= $total_paginas) ? 'disabled' : ''; ?>
+            onclick="carregarProdutos(<?php echo min($total_paginas, $pagina_atual + 1); ?>)">
+            Próximo
+        </button>
+    <?php endif; ?>
   </div>
+
+  <!-- Footer -->
   <footer class="footer">
     <img class="light-apple-logo" src="imagens/LightApple-Logo.png" />
     <div class="copy-2024-light-apple">&copy; 2024 LightApple</div>
@@ -257,6 +276,7 @@
       </div>
     </div>
   </footer>
+
   <script src="TelaTrocarpontos.js"></script>
   <script src="navmenu(cliente).js"></script>
 </body>

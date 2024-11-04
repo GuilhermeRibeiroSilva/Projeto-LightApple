@@ -208,9 +208,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Envia a imagem quando o input de arquivo for alterado
     inputFile.addEventListener('change', enviarImagemPerfil);
-});
 
-document.addEventListener("DOMContentLoaded", function () {
+    // Remova o segundo DOMContentLoaded (linhas 213-287) e adicione o código da troca de senha aqui
     const trocarSenhaBtn = document.querySelector(".trocar-senha-btn");
     const overlay = document.querySelector(".overlay");
     const salvarSenhaBtn = document.querySelector(".salvar-senha-btn");
@@ -284,121 +283,149 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Evento de clique no botão "Cancelar"
     cancelarSenhaBtn.addEventListener("click", hidePasswordCard);
-});
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Elementos do anúncio
-    const cadastrarBtn = document.createElement("button");
-    cadastrarBtn.type = "button";
-    cadastrarBtn.id = "cadastrar-btn";
-    cadastrarBtn.textContent = "Cadastrar Local";
-    
-    // Adiciona o botão após o botão de editar perfil
-    const profileRight = document.querySelector(".profile-right");
-    profileRight.appendChild(cadastrarBtn);
-
-    // Criar overlay do anúncio
-    const adOverlay = document.createElement("div");
-    adOverlay.className = "overlay";
-    adOverlay.id = "adOverlay";
-    adOverlay.style.display = "none";
-
-    // Criar o formulário do anúncio
-    const adHTML = `
-        <div class="ad-card">
-            <h2>Cadastrar Local</h2>
-            <form id="ad-form" enctype="multipart/form-data">
-                <label for="ad-name">Nome do Local:</label>
-                <input type="text" id="ad-name" name="nome" required>
-
-                <label for="ad-image">Imagem do Local:</label>
-                <div class="image-upload-container">
-                    <input type="file" id="ad-image" name="imagem" accept="image/*" required>
-                    <div id="image-preview" class="image-preview"></div>
-                </div>
-
-                <label for="ad-address">Endereço:</label>
-                <input type="text" id="ad-address" name="endereco" required>
-
-                <label for="ad-category">Categoria:</label>
-                <select id="ad-category" name="categoria" required>
-                    <option value="">Selecione uma categoria</option>
-                    <option value="coleta">Empresa de Coleta</option>
-                    <option value="estabelecimento">Estabelecimento</option>
-                    <option value="condominio">Condomínio</option>
-                </select>
-
-                <div class="button-container">
-                    <button type="submit" class="salvar-btn">Cadastrar</button>
-                    <button type="button" class="cancelar-btn">Cancelar</button>
-                </div>
-            </form>
-        </div>
-    `;
-
-    adOverlay.innerHTML = adHTML;
-    document.body.appendChild(adOverlay);
-
-    // Preview da imagem
-    const imageInput = document.getElementById("ad-image");
-    const imagePreview = document.getElementById("image-preview");
-
-    imageInput.addEventListener("change", function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                imagePreview.style.backgroundImage = `url('${e.target.result}')`;
-                imagePreview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    // Event Listeners
-    cadastrarBtn.addEventListener("click", () => {
-        adOverlay.style.display = "flex";
-        document.body.style.overflow = "hidden";
-    });
-
-    // Fechar overlay ao clicar em Cancelar
-    adOverlay.querySelector(".cancelar-btn").addEventListener("click", () => {
-        adOverlay.style.display = "none";
-        document.body.style.overflow = "";
-        document.getElementById("ad-form").reset();
-        imagePreview.style.backgroundImage = '';
-        imagePreview.style.display = 'none';
-    });
-
-    // Manipular envio do formulário
-    const adForm = document.getElementById("ad-form");
-    adForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(adForm);
-        formData.append('userId', document.getElementById("user-id").value);
-
-        try {
-            const response = await fetch('cadastrar_local.php', {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                alert("Local cadastrado com sucesso!");
-                adOverlay.style.display = "none";
-                document.body.style.overflow = "";
-                adForm.reset();
-                imagePreview.style.backgroundImage = '';
-                imagePreview.style.display = 'none';
+    // Função para verificar permissão e mostrar/esconder botão de cadastro
+    function verificarPermissaoCadastro() {
+        const tipoConta = document.getElementById("tipoConta").value;
+        // Ajustar os tipos para corresponder exatamente aos valores do select no PHP
+        const tiposPermitidos = ['estabelecimentos', 'condominios', 'empresa de coleta'];
+        
+        if (btnCadastrar) {
+            console.log("Tipo de conta atual:", tipoConta); // Debug
+            if (tiposPermitidos.includes(tipoConta.toLowerCase())) {
+                btnCadastrar.style.display = 'block';
+                btnCadastrar.addEventListener('click', mostrarFormularioCadastro);
             } else {
-                alert("Erro ao cadastrar local: " + result.error);
+                btnCadastrar.style.display = 'none';
             }
-        } catch (error) {
-            console.error("Erro:", error);
-            alert("Erro ao cadastrar local. Tente novamente.");
         }
-    });
+    }
+
+    // Função para mostrar formulário de cadastro
+    function mostrarFormularioCadastro() {
+        const overlayForm = document.createElement('div');
+        overlayForm.className = 'overlay';
+        overlayForm.innerHTML = `
+            <div class="ad-card">
+                <h2>Cadastrar Local</h2>
+                <form id="ad-form" enctype="multipart/form-data">
+                    <label for="ad-name">Nome do Local:</label>
+                    <input type="text" id="ad-name" name="nome" required>
+
+                    <label for="ad-image">Imagem do Local:</label>
+                    <div class="image-upload-container">
+                        <input type="file" id="ad-image" name="imagem" accept="image/*" required>
+                        <div id="image-preview" class="image-preview"></div>
+                    </div>
+
+                    <label for="ad-address">Endereço:</label>
+                    <input type="text" id="ad-address" name="endereco" required>
+
+                    <label for="ad-category">Categoria:</label>
+                    <select id="ad-category" name="categoria" required>
+                        <option value="">Selecione uma categoria</option>
+                        <option value="empresa de coleta">Empresa de Coleta</option>
+                        <option value="estabelecimentos">Estabelecimento</option>
+                        <option value="condominios">Condomínio</option>
+                    </select>
+
+                    <div id="limite-coleta-container" style="display: none;">
+                        <label for="ad-limite-coleta">Limite de Coleta Diário (kg):</label>
+                        <input type="number" id="ad-limite-coleta" name="limite_coleta" min="1">
+                    </div>
+
+                    <div class="button-container">
+                        <button type="submit" class="salvar-btn">Cadastrar</button>
+                        <button type="button" class="cancelar-btn">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        `;
+
+        document.body.appendChild(overlayForm);
+
+        // Configurar preview da imagem
+        const imageInput = overlayForm.querySelector('#ad-image');
+        const imagePreview = overlayForm.querySelector('#image-preview');
+        imageInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.style.backgroundImage = `url(${e.target.result})`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Mostrar/esconder campo de limite de coleta
+        const categorySelect = overlayForm.querySelector('#ad-category');
+        const limiteColetaContainer = overlayForm.querySelector('#limite-coleta-container');
+        categorySelect.addEventListener('change', function () {
+            limiteColetaContainer.style.display =
+                this.value === 'empresa de coleta' ? 'block' : 'none';
+            document.getElementById("ad-limite-coleta").required =
+                this.value === 'empresa de coleta';
+        });
+
+        // Submit do formulário
+        const form = overlayForm.querySelector('#ad-form');
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            // Geocodificar o endereço
+            const address = formData.get('endereco');
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': address }, async function (results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    const location = results[0].geometry.location;
+                    formData.append('latitude', location.lat());
+                    formData.append('longitude', location.lng());
+
+                    try {
+                        const response = await fetch('cadastrar_local.php', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const data = await response.json();
+
+                        if (data.success) {
+                            alert('Local cadastrado com sucesso!');
+                            document.body.removeChild(overlayForm);
+                            // Recarregar a página se estiver na tela de empresas de coleta
+                            if (window.location.pathname.includes('TelaEmpresadeColeta.php')) {
+                                window.location.reload();
+                            }
+                        } else {
+                            alert('Erro ao cadastrar local: ' + data.error);
+                        }
+                    } catch (error) {
+                        console.error('Erro:', error);
+                        alert('Erro ao cadastrar local');
+                    }
+                } else {
+                    alert('Erro ao geocodificar o endereço: ' + status);
+                }
+            });
+        });
+
+        // Fechar formulário
+        overlayForm.querySelector('.cancelar-btn').addEventListener('click', function () {
+            document.body.removeChild(overlayForm);
+        });
+    }
+
+    // Adicionar evento de clique ao botão de cadastro
+    const btnCadastrar = document.querySelector('.btn-cadastrar');
+    if (btnCadastrar) {
+        btnCadastrar.addEventListener('click', mostrarFormularioCadastro);
+    }
+
+    // Modificar a função loadProfileData para incluir a verificação de permissão
+    const originalLoadProfileData = loadProfileData;
+    loadProfileData = function() {
+        originalLoadProfileData();
+        verificarPermissaoCadastro();
+    };
 });

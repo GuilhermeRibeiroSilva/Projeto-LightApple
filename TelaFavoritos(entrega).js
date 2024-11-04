@@ -1,159 +1,127 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Selecionar todos os botões de coração
-    const favoriteButtons = document.querySelectorAll('.favoritar');
-
-    favoriteButtons.forEach(button => {
-      button.addEventListener('click', function () {
-        const product = this.closest('.product'); // Seleciona o elemento pai (produto)
-
-        // Remove o produto da lista (esconde ele) ao clicar no coração
-        if (product) {
-          product.style.display = 'none'; // Esconde o produto
-        }
-      });
-    });
-});
-  
-  document.addEventListener("DOMContentLoaded", () => {
-    const rangeFiltro = document.querySelector("#priceRange"); // Input do tipo range
-    const valorAtual = document.querySelector("#currentPrice"); // Exibir valor atual do range
-    const empresas = document.querySelectorAll(".product"); // Seleciona todas as empresas de coleta
-  
-    // Função para filtrar empresas pelo limite de coleta
-    function filtrarPorLimite() {
-      const limiteSelecionado = parseFloat(rangeFiltro.value); // Pega o valor do range
-  
-      // Atualiza o valor exibido ao lado do filtro
-      valorAtual.textContent = `${limiteSelecionado} kg`;
-  
-      // Filtra as empresas de acordo com o limite de coleta
-      empresas.forEach((empresa) => {
-        const limiteColeta = parseFloat(empresa.getAttribute("data-limitedecoleta")); // Pega o valor de data-limitedecoleta
-  
-        // Verifica se o limite de coleta da empresa é maior ou igual ao limite selecionado
-        if (limiteColeta >= limiteSelecionado) {
-          empresa.style.display = "block"; // Mostra a empresa
-        } else {
-          empresa.style.display = "none"; // Esconde a empresa
-        }
-      });
-    }
-  
-    // Evento ao alterar o valor do range
-    rangeFiltro.addEventListener("input", filtrarPorLimite);
-  
-    // Executa a função uma vez no início para aplicar o filtro padrão
-    filtrarPorLimite();
-  });
-  
-  document.addEventListener("DOMContentLoaded", () => {
-    const rangeFiltroDistancia = document.querySelector("#distanciaRange"); // Input do tipo range para distância
-    const valorAtualDistancia = document.querySelector("#currentDistancia"); // Exibir valor atual do range de distância
-    const empresas = document.querySelectorAll(".product"); // Seleciona todas as empresas de coleta
-  
-    // Função para filtrar empresas pela distância máxima
-    function filtrarPorDistancia() {
-      const distanciaSelecionada = parseFloat(rangeFiltroDistancia.value); // Pega o valor do range
-  
-      // Atualiza o valor exibido ao lado do filtro de distância
-      valorAtualDistancia.textContent = `${distanciaSelecionada} km`;
-  
-      // Filtra as empresas de acordo com a distância máxima
-      empresas.forEach((empresa) => {
-        const distanciaEmpresa = parseFloat(empresa.getAttribute("data-distancia")); // Pega o valor de data-distancia
-  
-        // Verifica se a distância da empresa é menor ou igual à distância selecionada
-        if (distanciaEmpresa <= distanciaSelecionada) {
-          empresa.style.display = "block"; // Mostra a empresa
-        } else {
-          empresa.style.display = "none"; // Esconde a empresa
-        }
-      });
-    }
-  
-    // Evento ao alterar o valor do range de distância
-    rangeFiltroDistancia.addEventListener("input", filtrarPorDistancia);
-  
-    // Executa a função uma vez no início para aplicar o filtro padrão
-    filtrarPorDistancia();
-  });
-  
-  
-  document.addEventListener("DOMContentLoaded", () => {
-    const rangeAvaliacao = document.getElementById("avaliacaoRange"); // Seleciona o input range
-    const avaliacaoValor = document.getElementById("avaliacaoValor"); // Exibe o valor atual do input range
-    const empresas = document.querySelectorAll(".product"); // Seleciona todas as empresas de coleta
-  
-    // Função para filtrar empresas pela avaliação mínima
-    function filtrarPorAvaliacao() {
-      const avaliacaoMinima = parseInt(rangeAvaliacao.value); // Pega o valor do range como avaliação mínima
-  
-      // Atualiza o valor visual de exibição
-      avaliacaoValor.textContent = avaliacaoMinima;
-  
-      // Filtra as empresas de acordo com a avaliação mínima
-      empresas.forEach((empresa) => {
-        const avaliacaoEmpresa = parseInt(empresa.getAttribute("data-avaliacao")); // Pega a avaliação da empresa
-  
-        // Mostra ou esconde a empresa de acordo com a avaliação mínima
-        if (avaliacaoEmpresa >= avaliacaoMinima) {
-          empresa.style.display = "block"; // Mostra a empresa
-        } else {
-          empresa.style.display = "none"; // Esconde a empresa
-        }
-      });
-    }
-  
-    // Adiciona evento para filtrar sempre que o valor do range mudar
-    rangeAvaliacao.addEventListener("input", filtrarPorAvaliacao);
-  
-    // Executa a função uma vez no início para aplicar o filtro padrão
-    filtrarPorAvaliacao();
-  });
-  
-  document.addEventListener("DOMContentLoaded", function () {
-    const paginationButtons = document.querySelectorAll(".page-number");
-    const prevButton = document.querySelector(".prev");
-    const nextButton = document.querySelector(".next");
-  
+document.addEventListener("DOMContentLoaded", function() {
+    const rangeFiltroDistancia = document.querySelector("#distanciaRange");
+    const valorAtualDistancia = document.querySelector("#currentDistancia");
+    const searchInput = document.querySelector("#flitersearch");
+    const productsGrid = document.querySelector('.products-grid');
+    const paginationDiv = document.querySelector('.pagination');
     let currentPage = 1;
-  
-    function updatePagination() {
-      paginationButtons.forEach(button => {
-        const page = parseInt(button.textContent);
-        button.classList.toggle("active", page === currentPage);
-      });
-  
-      // Atualizar estado dos botões "Previous" e "Next"
-      prevButton.disabled = currentPage === 1;
-      nextButton.disabled = currentPage === paginationButtons.length;
+    let totalPages = 1;
+
+    // Função para aplicar filtros
+    function aplicarFiltros() {
+        if (!productsGrid) return;
+
+        const distanciaMaxima = parseInt(rangeFiltroDistancia.value, 10);
+        const termoBusca = searchInput.value.toLowerCase();
+
+        const cards = productsGrid.querySelectorAll('.product');
+        cards.forEach(card => {
+            const distanciaCard = parseInt(card.dataset.distancia, 10);
+            const nomeEmpresa = card.querySelector('h3').textContent.toLowerCase();
+
+            const passaDistancia = distanciaCard <= distanciaMaxima || distanciaMaxima === 0;
+            const passaBusca = nomeEmpresa.includes(termoBusca);
+
+            card.style.display = (passaDistancia && passaBusca) ? 'block' : 'none';
+        });
     }
-  
-    paginationButtons.forEach(button => {
-      button.addEventListener("click", function () {
-        currentPage = parseInt(this.textContent);
-        updatePagination();
-      });
-    });
-  
-    prevButton.addEventListener("click", function () {
-      if (currentPage > 1) {
-        currentPage--;
-        updatePagination();
-      }
-    });
-  
-    nextButton.addEventListener("click", function () {
-      if (currentPage < paginationButtons.length) {
-        currentPage++;
-        updatePagination();
-      }
-    });
-  
-    // Inicializa a página com a primeira ativa
-    updatePagination();
-  });
-  
+
+    // Função para carregar favoritos
+    async function carregarFavoritos(pagina = 1) {
+        try {
+            const response = await fetch(`carregar_favoritos_entrega.php?pagina=${pagina}`);
+            const data = await response.json();
+
+            if (!data.success || !productsGrid) return;
+
+            currentPage = pagina;
+            totalPages = data.paginacao.total_paginas;
+            productsGrid.innerHTML = '';
+
+            if (data.favoritos && data.favoritos.length > 0) {
+                data.favoritos.forEach(favorito => {
+                    const div = document.createElement('div');
+                    div.className = 'product';
+                    div.dataset.distancia = favorito.distancia || 0;
+
+                    const distanciaFormatada = favorito.distancia ? Math.round(parseFloat(favorito.distancia)) : 'N/A';
+
+                    div.innerHTML = `
+                        <img src="${favorito.imagem_path}" alt="Imagem do Local" class="product-image">
+                        <h3>${favorito.nome}</h3>
+                        <p class="distancia">Distância: ${distanciaFormatada} km</p>
+                        <span class="favoritar favoritado" data-id="${favorito.id}">♥</span>
+                    `;
+
+                    productsGrid.appendChild(div);
+                });
+
+                // Adiciona event listeners para os botões de favoritar
+                document.querySelectorAll('.favoritar').forEach(btn => {
+                    btn.addEventListener('click', async function() {
+                        const localId = this.dataset.id;
+                        try {
+                            const response = await fetch('favoritar.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ local_id: localId })
+                            });
+                            
+                            const data = await response.json();
+                            if (data.success) {
+                                carregarFavoritos(currentPage);
+                            }
+                        } catch (error) {
+                            console.error('Erro ao favoritar:', error);
+                        }
+                    });
+                });
+
+                // Atualiza os botões de paginação
+                if (paginationDiv) {
+                    const prevButton = paginationDiv.querySelector('.prev');
+                    const nextButton = paginationDiv.querySelector('.next');
+                    const pageButtons = paginationDiv.querySelectorAll('.page-number');
+
+                    if (prevButton) prevButton.disabled = currentPage <= 1;
+                    if (nextButton) nextButton.disabled = currentPage >= totalPages;
+
+                    pageButtons.forEach(button => {
+                        const pageNum = parseInt(button.textContent);
+                        button.classList.toggle('active', pageNum === currentPage);
+                    });
+                }
+
+                aplicarFiltros();
+            } else {
+                productsGrid.innerHTML = '<p class="no-results">Nenhum favorito encontrado.</p>';
+            }
+        } catch (error) {
+            console.error('Erro ao carregar favoritos:', error);
+            productsGrid.innerHTML = '<p class="error">Erro ao carregar favoritos. Por favor, tente novamente.</p>';
+        }
+    }
+
+    // Event Listeners
+    if (rangeFiltroDistancia) {
+        rangeFiltroDistancia.addEventListener('input', function() {
+            if (valorAtualDistancia) valorAtualDistancia.textContent = `${this.value} km`;
+            aplicarFiltros();
+        });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', aplicarFiltros);
+    }
+
+    // Tornar a função carregarFavoritos global
+    window.carregarFavoritos = carregarFavoritos;
+
+    // Inicializar carregamento
+    carregarFavoritos(1);
+});
   
   
   

@@ -62,8 +62,8 @@ try {
                     <h2 class="lightapple-titulo">LightApple</h2>
                 </a>
                 <ul>
-                    <li><a href="#" class="inicio">Inicio</a></li>
-                    <li><a href="#" class="empresa-coleta">Estabelecimentos</a></li>
+                    <li><a href="TelaInicialEntrega.php" class="inicio">Inicio</a></li>
+                    <li><a href="TelaEstabelecimentos.php" class="empresa-coleta">Estabelecimentos</a></li>
                     <li><a href="#" class="trocar-pontos">Minhas Entregas</a></li>
                     <li><a href="#" class="pedidos">Histórico</a></li>
                 </ul>
@@ -138,7 +138,7 @@ try {
                                 <span></span>
                             </a>
                             <hr>
-                            <a href="#" class="sub-menu-link">
+                            <a href="TelaFavoritos(entrega).php" class="sub-menu-link">
                                 <p>Favoritos</p>
                                 <span></span>
                             </a>
@@ -163,9 +163,8 @@ try {
             </nav>
         </div>
     </header>
-    <main>
-        <!-- Section for profile photo and user information -->
-        <section class="section-profile">
+    <!-- Section for profile photo and user information -->
+    <section class="section-profile">
             <div class="profile-container">
                 <img src="<?php echo $profileImagePath; ?>" class="profile-pic" id="profilePic">
                 <div class="profile-info">
@@ -177,6 +176,7 @@ try {
             <div class="profile-right">
                 <button type="button" id="trocar-imagem-btn">Trocar Imagem</button>
                 <button type="button" id="editar-perfil-btn">Editar Perfil</button>
+                <button class="btn-cadastrar" style="display: none;">Cadastrar Local</button>
                 <input type="file" id="inputFile" accept="image/*" style="display: none;">
             </div>
         </section>
@@ -277,6 +277,12 @@ try {
             </div>
         </div>
     </footer>
+    <script>
+        const userId = document.getElementById("user-id").value;
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAppxfGYLdYhP8lVimrq43dP6Gso9Y-si4&libraries=places&callback=initMap">
+    </script>
     <script src="TelaMeuperfil(entrega).js"></script>
     <script src="navmenu(entrega).js"></script>
 </body>

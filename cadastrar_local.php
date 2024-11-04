@@ -1,77 +1,86 @@
 <?php
-// cadastrar_local.php
 session_start();
+require_once 'conexao.php';
+
+header('Content-Type: application/json');
 
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'error' => 'Usuário não autenticado']);
     exit;
 }
 
-// Conexão com o banco de dados
-$host = 'localhost';
-$dbname = 'light_apple';
-$username = 'root';
-$password = '';
-
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Verifica se recebeu os dados necessários
-    if (!isset($_POST['nome']) || !isset($_POST['endereco']) || !isset($_POST['categoria']) || !isset($_FILES['imagem'])) {
-        throw new Exception('Dados incompletos');
+    // Verificar tipo de conta
+    $stmt = $conn->prepare("SELECT tipoConta FROM usuarios WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    $tiposPermitidos = ['estabelecimentos', 'condominios', 'empresa de coleta'];
+    
+    if (!in_array(strtolower($usuario['tipoConta']), $tiposPermitidos)) {
+        echo json_encode(['success' => false, 'error' => 'Tipo de conta sem permissão']);
+        exit;
     }
 
-    // Processa o upload da imagem
-    $uploadDir = 'uploads/locais/';
-    if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+    // Processar upload da imagem
+    $imagem = $_FILES['imagem'];
+    $imagemPath = '';
+    
+    if ($imagem['error'] === 0) {
+        $ext = pathinfo($imagem['name'], PATHINFO_EXTENSION);
+        $novoNome = uniqid() . '.' . $ext;
+        $diretorio = 'uploads/locais/';
+        
+        if (!is_dir($diretorio)) {
+            mkdir($diretorio, 0777, true);
+        }
+        
+        if (move_uploaded_file($imagem['tmp_name'], $diretorio . $novoNome)) {
+            $imagemPath = $diretorio . $novoNome;
+        }
     }
 
-    $fileExtension = strtolower(pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION));
-    $fileName = uniqid() . '.' . $fileExtension;
-    $uploadFile = $uploadDir . $fileName;
+    // Recebe os dados do formulário
+    $endereco = $_POST['endereco'];
+    $latitude = $_POST['latitude'];
+    $longitude = $_POST['longitude'];
 
-    // Verifica o tipo de arquivo
-    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-    if (!in_array($_FILES['imagem']['type'], $allowedTypes)) {
-        throw new Exception('Tipo de arquivo não permitido');
+    // Inserir no banco de dados
+    $campos = [
+        'nome' => $_POST['nome'],
+        'categoria' => $_POST['categoria'],
+        'endereco' => $endereco,
+        'latitude' => $latitude,
+        'longitude' => $longitude,
+        'imagem_path' => $imagemPath,
+        'status' => 'ativo',
+        'created_at' => date('Y-m-d H:i:s')
+    ];
+
+    // Adiciona limite_coleta apenas se for empresa de coleta
+    if ($_POST['categoria'] === 'empresa de coleta') {
+        if (empty($_POST['limite_coleta'])) {
+            throw new Exception('Limite de coleta é obrigatório para empresas de coleta');
+        }
+        $campos['limite_coleta'] = $_POST['limite_coleta'];
     }
 
-    if (!move_uploaded_file($_FILES['imagem']['tmp_name'], $uploadFile)) {
-        throw new Exception('Erro ao fazer upload da imagem');
+    // Constrói a query dinamicamente
+    $colunas = implode(', ', array_keys($campos));
+    $valores = implode(', ', array_fill(0, count($campos), '?'));
+    
+    $sql = "INSERT INTO locais ($colunas) VALUES ($valores)";
+    
+    $stmt = $conn->prepare($sql);
+    $i = 1;
+    foreach ($campos as $valor) {
+        $stmt->bindValue($i++, $valor);
     }
-
-    // Insere os dados no banco
-    $stmt = $conn->prepare("
-        CREATE TABLE IF NOT EXISTS locais (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT NOT NULL,
-            nome VARCHAR(255) NOT NULL,
-            endereco TEXT NOT NULL,
-            categoria VARCHAR(50) NOT NULL,
-            imagem_path VARCHAR(255) NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES usuarios(id)
-        )
-    ");
+    
     $stmt->execute();
 
-    $stmt = $conn->prepare("
-        INSERT INTO locais (user_id, nome, endereco, categoria, imagem_path)
-        VALUES (:user_id, :nome, :endereco, :categoria, :imagem_path)
-    ");
-
-    $stmt->execute([
-        ':user_id' => $_SESSION['user_id'],
-        ':nome' => $_POST['nome'],
-        ':endereco' => $_POST['endereco'],
-        ':categoria' => $_POST['categoria'],
-        ':imagem_path' => $uploadFile
-    ]);
-
-    echo json_encode(['success' => true]);
+    echo json_encode(['success' => true, 'message' => 'Local cadastrado com sucesso!']);
 
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    echo json_encode(['success' => false, 'message' => 'Erro ao cadastrar local: ' . $e->getMessage()]);
 }

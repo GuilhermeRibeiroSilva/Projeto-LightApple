@@ -60,69 +60,26 @@ try {
                     <h2 class="lightapple-titulo">LightApple</h2>
                 </a>
                 <ul>
-                    <li><a href="#" class="inicio">Inicio</a></li>
-                    <li><a href="#" class="empresa-coleta">Estabelecimentos</a></li>
+                    <li><a href="TelaInicialEntrega.php" class="inicio">Inicio</a></li>
+                    <li><a href="TelaEstabelecimentos.php" class="empresa-coleta">Estabelecimentos</a></li>
                     <li><a href="#" class="trocar-pontos">Minhas Entregas</a></li>
                     <li><a href="#" class="pedidos">Histórico</a></li>
                 </ul>
                 <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
-                <div class="pedido-menu">
+                <!-- Drop-down de Pedidos Disponíveis -->
+                <div class="pedidos-menu">
                     <img src="imagens/Clipboard.png" class="ped-pic" onclick="toggleMenuPed()">
-                    <div class="sub-menu-ped-wrap" id="criarPed">
+                    <div class="sub-menu-ped-wrap" id="pedidosDisponiveis">
                         <div class="sub-menu-ped">
                             <div class="ped-info">
-                                <img src="imagens/LightApple-Logo.png">
                                 <h3>Pedidos Disponíveis</h3>
                             </div>
-                            <div class="lista-pedidos" id="lista-pedidos">
-                                <div class="pedido-box" id="pedido-1">
-                                    <div class="pedido-detalhes">
-                                        <h4>Empresa X</h4>
-                                        <p><strong>Partida:</strong> Rua A</p>
-                                        <p><strong>Chegada:</strong> Rua B</p>
-                                        <p><strong>Peso:</strong> 10kg</p>
-                                        <p><strong>Valor:</strong> R$ 50,00</p>
-                                    </div>
-                                    <div class="pedido-acoes">
-                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-1')">Aceitar</button>
-                                        <button class="btn-rejeitar"
-                                            onclick="rejeitarPedido('pedido-1')">Rejeitar</button>
-                                    </div>
-                                </div>
-                                <div class="pedido-box" id="pedido-2">
-                                    <div class="pedido-detalhes">
-                                        <h4>Empresa Y</h4>
-                                        <p><strong>Partida:</strong> Rua C</p>
-                                        <p><strong>Chegada:</strong> Rua D</p>
-                                        <p><strong>Peso:</strong> 15kg</p>
-                                        <p><strong>Valor:</strong> R$ 70,00</p>
-                                    </div>
-                                    <div class="pedido-acoes">
-                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-2')">Aceitar</button>
-                                        <button class="btn-rejeitar"
-                                            onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
-                                    </div>
-                                </div>
-                                <div class="pedido-box" id="pedido-2">
-                                    <div class="pedido-detalhes">
-                                        <h4>Empresa Y</h4>
-                                        <p><strong>Partida:</strong> Rua C</p>
-                                        <p><strong>Chegada:</strong> Rua D</p>
-                                        <p><strong>Peso:</strong> 15kg</p>
-                                        <p><strong>Valor:</strong> R$ 70,00</p>
-                                    </div>
-                                    <div class="pedido-acoes">
-                                        <button class="btn-aceitar" onclick="aceitarPedido('pedido-2')">Aceitar</button>
-                                        <button class="btn-rejeitar"
-                                            onclick="rejeitarPedido('pedido-2')">Rejeitar</button>
-                                    </div>
-                                </div>
+                            <div id="pedidos-lista" class="pedidos-lista">
+                                <!-- Pedidos serão carregados aqui via JavaScript -->
                             </div>
                         </div>
                     </div>
                 </div>
-
-
                 <div class="user-menu">
                     <img src="<?php echo $profileImagePath; ?>" class="user-perf" id="userImageCircle" onclick="toggleMenu()">
                     <div class="sub-menu-wrap" id="subMenu">
@@ -136,7 +93,7 @@ try {
                                 <span></span>
                             </a>
                             <hr>
-                            <a href="#" class="sub-menu-link">
+                            <a href="TelaFavoritos(entrega).php" class="sub-menu-link">
                                 <p>Favoritos</p>
                                 <span></span>
                             </a>
@@ -163,7 +120,7 @@ try {
     </header>
     <main>
         <section class="section-minimenu">
-            <a href="#">
+            <a href="TelaEstabelecimentos.php">
                 <div class="box-estabelecimentos">
                     <img class="estabelecimentos" src="imagens/Estabelecimentos.png" />
                     <div class="txtestabelecimentos">ESTABELECIMENTOS</div>

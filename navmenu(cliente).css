@@ -295,87 +295,121 @@ nav {
 
 .sub-menu-ped-wrap {
   position: absolute;
-  top: 120%;
+  top: 100%;
   right: 0;
   width: 320px;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.2s ease;
-  z-index: 10;
-}
-
-.sub-menu-ped-wrap.open-menu-ped {
-  max-height: 600px;
-}
-
-.sub-menu-ped {
+  transition: max-height 0.5s;
   background: #fff;
-  border: 1px solid #287326;
-  border-radius: 0px 0px 10px 10px;
-  padding: 20px;
-  margin-top: 10px;
-  max-height: 500px; /* Altura fixa */
-  overflow-y: auto; /* Ativa a rolagem se necessário */
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.ped-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.sub-menu-ped-wrap.open {
+  max-height: 800px;
 }
 
-.ped-info img {
-  width: 50px;
-  border-radius: 50%;
-  margin-right: 5px;
+.form-group {
+  margin-bottom: 15px;
 }
 
-.ped-info h3 {
-  color: #287326;
-}
-
-#criar-pedido-form {
-  margin-top: 20px;
-}
-
-#criar-pedido-form label {
+.form-group label {
   display: block;
-  color: #287326;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  color: #218838;
 }
 
-#criar-pedido-form input[type="text"], 
-#criar-pedido-form input[type="number"] {
-  width: 90%;
-  height: 20px;
-  margin-bottom: 20px;
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #218838;
+  border-radius: 4px;
+}
+
+.suggestions-box {
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  z-index: 1000;
+}
+
+.suggestion-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: #f5f5f5;
+}
+
+.valores-container {
+  background: #f8f9fa;
   padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #287326;
-}
-
-#criar-pedido-form select {
-  width: 92%;
-  height: 35px;
-  margin-bottom: 20px;
-  padding: 5px;
-  border-radius: 8px;
-  border: 1px solid #287326;
+  border-radius: 4px;
+  margin-bottom: 15px;
 }
 
 #criar-pedido-btn {
-  background-color: #287326;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
   width: 100%;
+  padding: 10px;
+  background: #218838;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 #criar-pedido-btn:hover {
-  background-color: #3e8e41;
+  background: #1e7e34;
+}
+
+/* Estilo para os botões do carrinho */
+.clear-cart-btn,
+.checkout-btn {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.clear-cart-btn {
+    background-color: #dc3545;
+    color: white;
+    margin-top: 15px;
+}
+
+.clear-cart-btn:hover {
+    background-color: #c82333;
+}
+
+.checkout-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.checkout-btn:hover {
+    background-color: #218838;
+}
+
+/* Adicionar total de pontos */
+.total-pontos {
+    text-align: right;
+    padding: 10px;
+    font-weight: bold;
+    color: #287326;
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
 }
 
   

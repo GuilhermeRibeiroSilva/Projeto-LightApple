@@ -1,10 +1,9 @@
 <?php
 session_start();
 
-header('Content-Type: application/json'); // Definindo o tipo de resposta como JSON
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Conecta ao banco de dados
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -20,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Obtém e decodifica os dados JSON recebidos
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
 
@@ -32,8 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Prepara e executa a consulta
-    $sql = "SELECT id, senha, tipoConta FROM usuarios WHERE email = ?";
+    $sql = "SELECT id, senha, tipoConta, is_admin FROM usuarios WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $data['email']);
     $stmt->execute();
@@ -42,23 +39,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         
-        // Log para depuração (remova em produção)
-        error_log("Tentativa de login - Email: " . $data['email']);
-        error_log("Senha fornecida: " . $data['senha']);
-        error_log("Hash da senha no banco: " . $user['senha']);
-        
-        $senhaCorreta = password_verify($data['senha'], $user['senha']);
-        
-        error_log("Resultado da verificação de senha: " . ($senhaCorreta ? "Verdadeiro" : "Falso"));
-
-        if ($senhaCorreta) {
+        if (password_verify($data['senha'], $user['senha'])) {
             $_SESSION['user_id'] = $user['id'];
+            $_SESSION['is_admin'] = $user['is_admin'] ?? false;
             
-            echo json_encode([
-                "success" => true,
-                "user_id" => $user['id'],
-                "tipo_conta" => $user['tipoConta']
-            ]);
+            if ($user['is_admin']) {
+                echo json_encode([
+                    "success" => true,
+                    "user_id" => $user['id'],
+                    "tipo_conta" => "admin",
+                    "redirect" => "TelaAdmin.php"
+                ]);
+            } else {
+                echo json_encode([
+                    "success" => true,
+                    "user_id" => $user['id'],
+                    "tipo_conta" => $user['tipoConta']
+                ]);
+            }
         } else {
             echo json_encode([
                 "success" => false,

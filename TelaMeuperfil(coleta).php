@@ -63,8 +63,8 @@ try {
                     <h2 class="lightapple-titulo">LightApple</h2>
                 </a>
                 <ul>
-                    <li><a href="#" class="inicio">Inicio</a></li>
-                    <li><a href="#" class="empresa-coleta">Estabelecimentos</a></li>
+                    <li><a href="TelaInicialColeta.php" class="inicio">Inicio</a></li>
+                    <li><a href="TelaEstabelecimentos(coleta).php" class="empresa-coleta">Estabelecimentos</a></li>
                     <li><a href="#" class="trocar-pontos">Pedidos</a></li>
                     <li><a href="#" class="pedidos">Histórico</a></li>
                 </ul>
@@ -128,6 +128,7 @@ try {
             <div class="profile-right">
                 <button type="button" id="trocar-imagem-btn">Trocar Imagem</button>
                 <button type="button" id="editar-perfil-btn">Editar Perfil</button>
+                <button class="btn-cadastrar">Cadastrar Local</button>
                 <input type="file" id="inputFile" accept="image/*" style="display: none;">
             </div>
         </section>
@@ -195,6 +196,7 @@ try {
 
 
     </main>
+
     <footer class="footer">
         <img class="light-apple-logo" src="imagens/LightApple-Logo.png" />
         <div class="copy-2024-light-apple">&copy; 2024 LightApple</div>
@@ -282,6 +284,11 @@ try {
 
         // Chama a função ao carregar a página
         carregarPedidos();
+    </script>
+
+    <!-- Antes do fechamento do </body> -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAppxfGYLdYhP8lVimrq43dP6Gso9Y-si4&libraries=places&callback=initMap">
     </script>
 
 </body>

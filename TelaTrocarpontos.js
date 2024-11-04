@@ -1,157 +1,160 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const paginationButtons = document.querySelectorAll(".page-number");
-    const prevButton = document.querySelector(".prev");
-    const nextButton = document.querySelector(".next");
-  
-    let currentPage = 1;
-  
-    function updatePagination() {
-      paginationButtons.forEach(button => {
-        const page = parseInt(button.textContent);
-        button.classList.toggle("active", page === currentPage);
-      });
-  
-      // Atualizar estado dos botões "Previous" e "Next"
-      prevButton.disabled = currentPage === 1;
-      nextButton.disabled = currentPage === paginationButtons.length;
-    }
-  
-    paginationButtons.forEach(button => {
-      button.addEventListener("click", function () {
-        currentPage = parseInt(this.textContent);
-        updatePagination();
-      });
-    });
-  
-    prevButton.addEventListener("click", function () {
-      if (currentPage > 1) {
-        currentPage--;
-        updatePagination();
-      }
-    });
-  
-    nextButton.addEventListener("click", function () {
-      if (currentPage < paginationButtons.length) {
-        currentPage++;
-        updatePagination();
-      }
-    });
-  
-    // Inicializa a página com a primeira ativa
-    updatePagination();
-  });
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const products = document.querySelectorAll('.product');
-    const categoryLinks = document.querySelectorAll('.categoria-link');
-    const pontosRange = document.getElementById('pontosRange');
-    const currentPontos = document.getElementById('currentPontos');
+document.addEventListener("DOMContentLoaded", function() {
+    const rangeFiltroPontos = document.querySelector("#pontosRange");
+    const valorAtualPontos = document.querySelector("#currentPontos");
+    const searchInput = document.querySelector("#flitersearch");
+    const productsGrid = document.querySelector('.products-grid');
     
-    let selectedCategory = null;
-    let selectedPontos = pontosRange.value;
-  
-    // Função para atualizar a exibição dos produtos com base nos filtros
-    const filterProducts = () => {
-      products.forEach(product => {
-        const productCategory = product.getAttribute('data-category');
-        const productPontos = parseInt(product.getAttribute('data-points'));
+    // Carrinho global
+    window.carrinho = window.carrinho || [];
+
+    // Atualizar valor do filtro de pontos
+    rangeFiltroPontos?.addEventListener('input', function() {
+        valorAtualPontos.textContent = `${this.value} P`;
+        aplicarFiltros();
+    });
+
+    // Filtro de busca
+    searchInput?.addEventListener('input', aplicarFiltros);
+
+    // Função para aplicar filtros
+    function aplicarFiltros() {
+        const pontosMaximos = parseInt(rangeFiltroPontos?.value || Number.MAX_SAFE_INTEGER);
+        const termoBusca = searchInput?.value.toLowerCase().trim() || '';
         
-        const categoryMatch = selectedCategory === 'Todos' || selectedCategory === null || productCategory === selectedCategory;
-        const pontosMatch = productPontos <= selectedPontos;
-  
-        if (categoryMatch && pontosMatch) {
-          product.style.display = 'block';
-        } else {
-          product.style.display = 'none';
+        document.querySelectorAll('.product').forEach(produto => {
+            const pontosProduto = parseInt(produto.dataset.points);
+            const nomeProduto = produto.querySelector('h3').textContent.toLowerCase();
+            
+            const passaFiltrosPontos = pontosProduto <= pontosMaximos;
+            const passaFiltroBusca = nomeProduto.includes(termoBusca);
+            
+            produto.style.display = passaFiltrosPontos && passaFiltroBusca ? 'block' : 'none';
+        });
+    }
+
+    // Função para adicionar ao carrinho
+    function adicionarAoCarrinho(produtoId, nome, pontos, imagem) {
+        const cartItems = document.querySelector('.cart-items');
+        if (!cartItems) return;
+
+        // Criar novo item do carrinho
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        cartItem.innerHTML = `
+            <img src="${imagem}" alt="${nome}">
+            <div class="cart-info">
+                <h4>${nome}</h4>
+                <p>${pontos} P</p>
+            </div>
+            <button class="remove-item" onclick="removerDoCarrinho(this)">X</button>
+        `;
+
+        cartItems.appendChild(cartItem);
+        atualizarTotalCarrinho();
+        mostrarBotoesCarrinho(true);
+    }
+
+    // Função para mostrar/esconder botões do carrinho
+    function mostrarBotoesCarrinho(mostrar) {
+        const botoesCarrinho = document.querySelectorAll('.clear-cart-btn, .checkout-btn');
+        botoesCarrinho.forEach(botao => {
+            botao.style.display = mostrar ? 'block' : 'none';
+        });
+    }
+
+    // Event listener para botões de adicionar ao carrinho
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('adicionar-carrinho')) {
+            const produto = e.target.closest('.product');
+            const produtoId = produto.dataset.id;
+            const nome = produto.querySelector('h3').textContent;
+            const pontos = produto.querySelector('.pontos').textContent;
+            const imagem = produto.querySelector('img').src;
+            
+            adicionarAoCarrinho(produtoId, nome, pontos, imagem);
         }
-      });
-    };
-  
-    // Filtro por categoria
-    categoryLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        selectedCategory = e.target.textContent.trim();
-        filterProducts();
-      });
     });
-  
-    // Filtro por pontos
-    pontosRange.addEventListener('input', () => {
-      selectedPontos = pontosRange.value;
-      currentPontos.textContent = `${selectedPontos} P`;
-      filterProducts();
-    });
-  
-    // Inicia com os filtros aplicados
-    filterProducts();
-  });
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const carrinho = []; // Array para armazenar os produtos do carrinho
-
-    // Função para atualizar o carrinho no DOM
-    function atualizarCarrinho() {
-        const carrinhoMenu = document.querySelector(".cart-items");
-        carrinhoMenu.innerHTML = ""; // Limpa o carrinho antes de atualizar
-
-        carrinho.forEach(item => {
-            const cartItem = document.createElement("div");
-            cartItem.classList.add("cart-item");
-            cartItem.innerHTML = `
-                <img src="${item.image}" alt="${item.name}">
-                <div class="cart-info">
-                    <h4>${item.name}</h4>
-                    <p>${item.points} P</p>
-                </div>
-                <button class="remove-item" data-name="${item.name}">Remover</button>
-            `;
-            carrinhoMenu.appendChild(cartItem);
-        });
-
-        // Adiciona o evento de remoção
-        document.querySelectorAll(".remove-item").forEach(button => {
-            button.addEventListener("click", function () {
-                removerDoCarrinho(this.dataset.name);
-            });
-        });
-    }
-
-    // Função para adicionar um item ao carrinho
-    function adicionarAoCarrinho(produto) {
-        const nomeProduto = produto.querySelector("h3").textContent;
-        const pontosProduto = produto.querySelector("p").textContent;
-        const imagemProduto = produto.querySelector("img").src;
-
-        // Adiciona o produto ao array carrinho
-        carrinho.push({
-            name: nomeProduto,
-            points: pontosProduto,
-            image: imagemProduto
-        });
-
-        // Atualiza o carrinho no DOM
-        atualizarCarrinho();
-    }
 
     // Função para remover item do carrinho
-    function removerDoCarrinho(nomeProduto) {
-        const indice = carrinho.findIndex(item => item.name === nomeProduto);
-        if (indice > -1) {
-            carrinho.splice(indice, 1); // Remove o item
+    window.removerDoCarrinho = function(botao) {
+        const item = botao.closest('.cart-item');
+        item.remove();
+        
+        const cartItems = document.querySelector('.cart-items');
+        if (cartItems.children.length === 0) {
+            mostrarBotoesCarrinho(false);
         }
+        
+        atualizarTotalCarrinho();
+    };
 
-        // Atualiza o carrinho no DOM
-        atualizarCarrinho();
-    }
+    // Função para limpar carrinho
+    window.limparCarrinho = function() {
+        const cartItems = document.querySelector('.cart-items');
+        if (cartItems) {
+            cartItems.innerHTML = '';
+            atualizarTotalCarrinho();
+            mostrarBotoesCarrinho(false);
+        }
+    };
 
-    // Adiciona evento de clique para todos os botões de "adicionar ao carrinho"
-    document.querySelectorAll(".adicionar-carrinho").forEach(botao => {
-        botao.addEventListener("click", function () {
-            const produto = this.closest(".product");
-            adicionarAoCarrinho(produto);
-        });
-    });
+    // Função para carregar produtos (paginação)
+    window.carregarProdutos = async function(pagina) {
+        try {
+            const response = await fetch(`carregar_produtos.php?pagina=${pagina}`);
+            const data = await response.json();
+
+            if (data.success) {
+                // Atualizar grid de produtos
+                if (productsGrid) {
+                    productsGrid.innerHTML = data.produtos.map(produto => `
+                        <div class="product" data-points="${produto.pontos}" data-id="${produto.id}">
+                            <img src="${produto.imagem_path}" alt="Imagem do Produto" class="product-image">
+                            <h3>${produto.nome}</h3>
+                            <p class="pontos">${produto.pontos} P</p>
+                            <button class="adicionar-carrinho" data-id="${produto.id}">
+                                Adicionar ao Carrinho
+                            </button>
+                        </div>
+                    `).join('');
+                }
+
+                // Atualizar paginação
+                const paginationDiv = document.querySelector('.pagination');
+                if (paginationDiv) {
+                    paginationDiv.innerHTML = `
+                        <button class="prev" ${data.paginacao.pagina_atual <= 1 ? 'disabled' : ''} 
+                                onclick="carregarProdutos(${data.paginacao.pagina_atual - 1})">
+                            Anterior
+                        </button>
+                        ${Array.from({length: data.paginacao.total_paginas}, (_, i) => i + 1)
+                            .map(num => `
+                                <button class="page-number ${num === data.paginacao.pagina_atual ? 'active' : ''}" 
+                                        onclick="carregarProdutos(${num})">
+                                    ${num}
+                                </button>
+                            `).join('')}
+                        <button class="next" ${data.paginacao.pagina_atual >= data.paginacao.total_paginas ? 'disabled' : ''} 
+                                onclick="carregarProdutos(${data.paginacao.pagina_atual + 1})">
+                            Próximo
+                        </button>
+                    `;
+                }
+
+                // Reaplicar filtros após carregar novos produtos
+                aplicarFiltros();
+            }
+        } catch (error) {
+            console.error('Erro ao carregar produtos:', error);
+            if (productsGrid) {
+                productsGrid.innerHTML = '<p class="error">Erro ao carregar produtos. Por favor, tente novamente.</p>';
+            }
+        }
+    };
+
+    // Inicialização
+    aplicarFiltros();
+    mostrarBotoesCarrinho(document.querySelector('.cart-items')?.children.length > 0);
 });
 
   

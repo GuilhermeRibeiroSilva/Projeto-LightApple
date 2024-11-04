@@ -1,160 +1,330 @@
-document.addEventListener('DOMContentLoaded', function () {
-  // Selecionar todos os botões de coração
-  const favoriteButtons = document.querySelectorAll('.favoritar');
+document.addEventListener("DOMContentLoaded", function() {
+    const rangeFiltro = document.querySelector("#priceRange");
+    const valorAtual = document.querySelector("#currentPrice");
+    const rangeFiltroDistancia = document.querySelector("#distanciaRange");
+    const valorAtualDistancia = document.querySelector("#currentDistancia");
+    const searchInput = document.querySelector("#flitersearch");
+    const productsGrid = document.querySelector('.products-grid');
+    const paginationDiv = document.querySelector('.pagination');
+    let currentPage = 1;
+    let totalPages = 1;
 
-  favoriteButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      // Alternar entre favoritado e não favoritado
-      if (this.classList.contains('nao-favoritado')) {
-        this.classList.remove('nao-favoritado');
-        this.classList.add('favoritado');
-      } else {
-        this.classList.remove('favoritado');
-        this.classList.add('nao-favoritado');
-      }
-    });
-  });
-}); 
+    // Função para aplicar filtros
+    function aplicarFiltros() {
+        if (!productsGrid) return;
 
-document.addEventListener("DOMContentLoaded", () => {
-  const rangeFiltro = document.querySelector("#priceRange"); // Input do tipo range
-  const valorAtual = document.querySelector("#currentPrice"); // Exibir valor atual do range
-  const empresas = document.querySelectorAll(".product"); // Seleciona todas as empresas de coleta
+        const limiteColeta = parseInt(rangeFiltro.value, 10);
+        const distanciaMaxima = parseInt(rangeFiltroDistancia.value, 10);
+        const termoBusca = searchInput.value.toLowerCase();
 
-  // Função para filtrar empresas pelo limite de coleta
-  function filtrarPorLimite() {
-    const limiteSelecionado = parseFloat(rangeFiltro.value); // Pega o valor do range
+        const cards = productsGrid.querySelectorAll('.product');
+        cards.forEach(card => {
+            const limiteCard = parseInt(card.dataset.limiteColeta, 10);
+            const distanciaCard = parseInt(card.dataset.distancia, 10);
+            const nomeEmpresa = card.querySelector('h3').textContent.toLowerCase();
 
-    // Atualiza o valor exibido ao lado do filtro
-    valorAtual.textContent = `${limiteSelecionado} kg`;
+            // Aplicar filtros individualmente
+            const passaLimite = limiteCard >= limiteColeta || limiteColeta === 0;
+            const passaDistancia = distanciaCard <= distanciaMaxima || distanciaMaxima === 0;
+            const passaBusca = nomeEmpresa.includes(termoBusca);
 
-    // Filtra as empresas de acordo com o limite de coleta
-    empresas.forEach((empresa) => {
-      const limiteColeta = parseFloat(empresa.getAttribute("data-limitedecoleta")); // Pega o valor de data-limitedecoleta
-
-      // Verifica se o limite de coleta da empresa é maior ou igual ao limite selecionado
-      if (limiteColeta >= limiteSelecionado) {
-        empresa.style.display = "block"; // Mostra a empresa
-      } else {
-        empresa.style.display = "none"; // Esconde a empresa
-      }
-    });
-  }
-
-  // Evento ao alterar o valor do range
-  rangeFiltro.addEventListener("input", filtrarPorLimite);
-
-  // Executa a função uma vez no início para aplicar o filtro padrão
-  filtrarPorLimite();
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const rangeFiltroDistancia = document.querySelector("#distanciaRange"); // Input do tipo range para distância
-  const valorAtualDistancia = document.querySelector("#currentDistancia"); // Exibir valor atual do range de distância
-  const empresas = document.querySelectorAll(".product"); // Seleciona todas as empresas de coleta
-
-  // Função para filtrar empresas pela distância máxima
-  function filtrarPorDistancia() {
-    const distanciaSelecionada = parseFloat(rangeFiltroDistancia.value); // Pega o valor do range
-
-    // Atualiza o valor exibido ao lado do filtro de distância
-    valorAtualDistancia.textContent = `${distanciaSelecionada} km`;
-
-    // Filtra as empresas de acordo com a distância máxima
-    empresas.forEach((empresa) => {
-      const distanciaEmpresa = parseFloat(empresa.getAttribute("data-distancia")); // Pega o valor de data-distancia
-
-      // Verifica se a distância da empresa é menor ou igual à distância selecionada
-      if (distanciaEmpresa <= distanciaSelecionada) {
-        empresa.style.display = "block"; // Mostra a empresa
-      } else {
-        empresa.style.display = "none"; // Esconde a empresa
-      }
-    });
-  }
-
-  // Evento ao alterar o valor do range de distância
-  rangeFiltroDistancia.addEventListener("input", filtrarPorDistancia);
-
-  // Executa a função uma vez no início para aplicar o filtro padrão
-  filtrarPorDistancia();
-});
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  const rangeAvaliacao = document.getElementById("avaliacaoRange"); // Seleciona o input range
-  const avaliacaoValor = document.getElementById("avaliacaoValor"); // Exibe o valor atual do input range
-  const empresas = document.querySelectorAll(".product"); // Seleciona todas as empresas de coleta
-
-  // Função para filtrar empresas pela avaliação mínima
-  function filtrarPorAvaliacao() {
-    const avaliacaoMinima = parseInt(rangeAvaliacao.value); // Pega o valor do range como avaliação mínima
-
-    // Atualiza o valor visual de exibição
-    avaliacaoValor.textContent = avaliacaoMinima;
-
-    // Filtra as empresas de acordo com a avaliação mínima
-    empresas.forEach((empresa) => {
-      const avaliacaoEmpresa = parseInt(empresa.getAttribute("data-avaliacao")); // Pega a avaliação da empresa
-
-      // Mostra ou esconde a empresa de acordo com a avaliação mínima
-      if (avaliacaoEmpresa >= avaliacaoMinima) {
-        empresa.style.display = "block"; // Mostra a empresa
-      } else {
-        empresa.style.display = "none"; // Esconde a empresa
-      }
-    });
-  }
-
-  // Adiciona evento para filtrar sempre que o valor do range mudar
-  rangeAvaliacao.addEventListener("input", filtrarPorAvaliacao);
-
-  // Executa a função uma vez no início para aplicar o filtro padrão
-  filtrarPorAvaliacao();
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  const paginationButtons = document.querySelectorAll(".page-number");
-  const prevButton = document.querySelector(".prev");
-  const nextButton = document.querySelector(".next");
-
-  let currentPage = 1;
-
-  function updatePagination() {
-    paginationButtons.forEach(button => {
-      const page = parseInt(button.textContent);
-      button.classList.toggle("active", page === currentPage);
-    });
-
-    // Atualizar estado dos botões "Previous" e "Next"
-    prevButton.disabled = currentPage === 1;
-    nextButton.disabled = currentPage === paginationButtons.length;
-  }
-
-  paginationButtons.forEach(button => {
-    button.addEventListener("click", function () {
-      currentPage = parseInt(this.textContent);
-      updatePagination();
-    });
-  });
-
-  prevButton.addEventListener("click", function () {
-    if (currentPage > 1) {
-      currentPage--;
-      updatePagination();
+            card.style.display = (passaLimite && passaDistancia && passaBusca) ? 'block' : 'none';
+        });
     }
-  });
 
-  nextButton.addEventListener("click", function () {
-    if (currentPage < paginationButtons.length) {
-      currentPage++;
-      updatePagination();
+    // Função para atualizar os botões de paginação
+    function updatePaginationButtons() {
+        if (!paginationDiv) return;
+        
+        const prevButton = paginationDiv.querySelector('.prev');
+        const nextButton = paginationDiv.querySelector('.next');
+        const pageButtons = paginationDiv.querySelectorAll('.page-number');
+        
+        if (prevButton) {
+            prevButton.disabled = currentPage <= 1;
+        }
+        if (nextButton) {
+            nextButton.disabled = currentPage >= totalPages;
+        }
+        
+        pageButtons.forEach(button => {
+            const pageNum = parseInt(button.textContent);
+            button.classList.toggle('active', pageNum === currentPage);
+        });
     }
-  });
 
-  // Inicializa a página com a primeira ativa
-  updatePagination();
+    // Função para criar botões de paginação
+    function createPaginationButtons(total) {
+        if (!paginationDiv) return;
+        
+        paginationDiv.innerHTML = '';
+        
+        // Botão anterior
+        const prevButton = document.createElement('button');
+        prevButton.className = 'prev';
+        prevButton.textContent = 'Anterior';
+        prevButton.onclick = () => carregarAnuncios(currentPage - 1);
+        paginationDiv.appendChild(prevButton);
+        
+        // Botões numerados
+        for (let i = 1; i <= total; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.className = `page-number ${i === currentPage ? 'active' : ''}`;
+            pageButton.textContent = i;
+            pageButton.onclick = () => carregarAnuncios(i);
+            paginationDiv.appendChild(pageButton);
+        }
+        
+        // Botão próximo
+        const nextButton = document.createElement('button');
+        nextButton.className = 'next';
+        nextButton.textContent = 'Próximo';
+        nextButton.onclick = () => carregarAnuncios(currentPage + 1);
+        paginationDiv.appendChild(nextButton);
+        
+        updatePaginationButtons();
+    }
+
+    // Função para carregar anúncios atualizada
+    async function carregarAnuncios(pagina = 1) {
+        try {
+            const response = await fetch(`carregar_anuncios.php?pagina=${pagina}`);
+            const data = await response.json();
+
+            if (!data.success || !productsGrid) return;
+
+            currentPage = pagina;
+            totalPages = data.paginacao.total_paginas;
+            productsGrid.innerHTML = '';
+
+            if (data.anuncios && data.anuncios.length > 0) {
+                data.anuncios.forEach(anuncio => {
+                    const div = document.createElement('div');
+                    div.className = 'product';
+                    div.dataset.limiteColeta = anuncio.limite_coleta || 0;
+                    div.dataset.distancia = anuncio.distancia || 0;
+                    div.dataset.id = anuncio.id;
+
+                    // Formatar a distância como número inteiro
+                    const distanciaFormatada = anuncio.distancia ? Math.round(parseFloat(anuncio.distancia)) : 'N/A';
+
+                    div.innerHTML = `
+                        <img src="${anuncio.imagem_path}" alt="Imagem da Empresa" class="product-image">
+                        <h3>${anuncio.nome}</h3>
+                        <p>Limite de Coleta: ${anuncio.limite_coleta || 'N/A'} kg</p>
+                        <p class="distancia">Distância: ${distanciaFormatada} km</p>
+                        <span class="favoritar ${anuncio.favoritado ? 'favoritado' : ''}" data-id="${anuncio.id}">♥</span>
+                    `;
+
+                    productsGrid.appendChild(div);
+                });
+
+                atualizarPaginacao(data.paginacao);
+                
+                // Recalcular distâncias após carregar novos anúncios
+                if ("geolocation" in navigator) {
+                    navigator.geolocation.getCurrentPosition(async (position) => {
+                        const distancias = await calcularDistancias(
+                            position.coords.latitude,
+                            position.coords.longitude
+                        );
+                        
+                        // Atualiza as distâncias nos cards
+                        distancias.forEach(dist => {
+                            const card = document.querySelector(`[data-id="${dist.id}"]`);
+                            if (card) {
+                                const distanciaElement = card.querySelector('.distancia');
+                                if (distanciaElement) {
+                                    const distancia = Math.round(dist.distancia);
+                                    card.dataset.distancia = distancia;
+                                    distanciaElement.textContent = `Distância: ${distancia} km`;
+                                }
+                            }
+                        });
+
+                        aplicarFiltros();
+                    });
+                }
+            } else {
+                productsGrid.innerHTML = '<p class="no-results">Nenhuma empresa de coleta encontrada.</p>';
+            }
+        } catch (error) {
+            console.error('Erro ao carregar anúncios:', error);
+            if (productsGrid) {
+                productsGrid.innerHTML = '<p class="error">Erro ao carregar anúncios. Por favor, tente novamente.</p>';
+            }
+        }
+    }
+
+    // Nova função para atualizar a paginação
+    function atualizarPaginacao(paginacao) {
+        if (!paginationDiv) return;
+        
+        paginationDiv.innerHTML = '';
+        
+        // Botão Anterior
+        const prevButton = document.createElement('button');
+        prevButton.className = 'prev';
+        prevButton.textContent = 'Anterior';
+        prevButton.disabled = paginacao.pagina_atual <= 1;
+        prevButton.onclick = () => carregarAnuncios(paginacao.pagina_atual - 1);
+        paginationDiv.appendChild(prevButton);
+
+        // Lógica para mostrar números de página
+        let startPage = Math.max(1, paginacao.pagina_atual - 2);
+        let endPage = Math.min(paginacao.total_paginas, startPage + 4);
+        
+        // Ajusta startPage se necessário
+        if (endPage - startPage < 4) {
+            startPage = Math.max(1, endPage - 4);
+        }
+
+        // Primeiro número e reticências se necessário
+        if (startPage > 1) {
+            const firstButton = document.createElement('button');
+            firstButton.className = 'page-number';
+            firstButton.textContent = '1';
+            firstButton.onclick = () => carregarAnuncios(1);
+            paginationDiv.appendChild(firstButton);
+
+            if (startPage > 2) {
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'ellipsis';
+                ellipsis.textContent = '...';
+                paginationDiv.appendChild(ellipsis);
+            }
+        }
+
+        // Números da página
+        for (let i = startPage; i <= endPage; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.className = `page-number ${i === paginacao.pagina_atual ? 'active' : ''}`;
+            pageButton.textContent = i;
+            pageButton.onclick = () => carregarAnuncios(i);
+            paginationDiv.appendChild(pageButton);
+        }
+
+        // Último número e reticências se necessário
+        if (endPage < paginacao.total_paginas) {
+            if (endPage < paginacao.total_paginas - 1) {
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'ellipsis';
+                ellipsis.textContent = '...';
+                paginationDiv.appendChild(ellipsis);
+            }
+
+            const lastButton = document.createElement('button');
+            lastButton.className = 'page-number';
+            lastButton.textContent = paginacao.total_paginas;
+            lastButton.onclick = () => carregarAnuncios(paginacao.total_paginas);
+            paginationDiv.appendChild(lastButton);
+        }
+
+        // Botão Próximo
+        const nextButton = document.createElement('button');
+        nextButton.className = 'next';
+        nextButton.textContent = 'Próximo';
+        nextButton.disabled = paginacao.pagina_atual >= paginacao.total_paginas;
+        nextButton.onclick = () => carregarAnuncios(paginacao.pagina_atual + 1);
+        paginationDiv.appendChild(nextButton);
+    }
+
+    // Event Listeners
+    if (rangeFiltro) {
+        rangeFiltro.addEventListener('input', function() {
+            if (valorAtual) valorAtual.textContent = `${this.value} kg`;
+            aplicarFiltros();
+        });
+    }
+
+    if (rangeFiltroDistancia) {
+        rangeFiltroDistancia.addEventListener('input', function() {
+            if (valorAtualDistancia) valorAtualDistancia.textContent = `${this.value} km`;
+            aplicarFiltros();
+        });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', aplicarFiltros);
+    }
+
+    // Inicializar carregamento
+    carregarAnuncios(1);
+
+    // Adicione esta chamada dentro da função carregarAnuncios
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const distancias = await calcularDistancias(
+                position.coords.latitude,
+                position.coords.longitude
+            );
+            
+            // Atualiza as distâncias nos cards
+            distancias.forEach(dist => {
+                const card = document.querySelector(`[data-id="${dist.id}"]`);
+                if (card) {
+                    const distanciaElement = card.querySelector('.distancia');
+                    if (distanciaElement) {
+                        const distancia = Math.round(dist.distancia);
+                        card.dataset.distancia = distancia;
+                        distanciaElement.textContent = `Distância: ${distancia} km`;
+                    }
+                }
+            });
+
+            aplicarFiltros();
+        });
+    }
 });
+
+// Adicionar evento de clique nos botões de favoritar
+document.addEventListener('click', async function(e) {
+    if (e.target.classList.contains('favoritar')) {
+        const localId = e.target.dataset.id;
+        
+        try {
+            const response = await fetch('favoritar.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ local_id: localId })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                e.target.classList.toggle('favoritado');
+                if (data.action === 'added') {
+                    e.target.style.color = 'red';
+                } else {
+                    e.target.style.color = 'initial';
+                }
+            } else {
+                alert('Erro ao favoritar: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    }
+});
+
+async function calcularDistancias(latitude, longitude) {
+    try {
+        const response = await fetch('calcular_distancias.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ latitude, longitude })
+        });
+        const data = await response.json();
+        return data.success ? data.distancias : [];
+    } catch (error) {
+        console.error('Erro ao calcular distâncias:', error);
+        return [];
+    }
+}
 
 
 
