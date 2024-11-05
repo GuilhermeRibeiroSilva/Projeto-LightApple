@@ -1,7 +1,9 @@
-document.addEventListener("DOMContentLoaded", function () {
+function initPagination() {
     const paginationButtons = document.querySelectorAll(".page-number");
     const prevButton = document.querySelector(".prev");
     const nextButton = document.querySelector(".next");
+
+    if (!paginationButtons.length) return; // Se não houver botões, não faz nada
 
     let currentPage = 1;
 
@@ -11,35 +13,64 @@ document.addEventListener("DOMContentLoaded", function () {
             button.classList.toggle("active", page === currentPage);
         });
 
-        // Atualizar estado dos botões "Previous" e "Next"
-        prevButton.disabled = currentPage === 1;
-        nextButton.disabled = currentPage === paginationButtons.length;
+        if (prevButton && nextButton) {
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = currentPage === paginationButtons.length;
+        }
     }
 
     paginationButtons.forEach(button => {
-        button.addEventListener("click", function () {
+        button.addEventListener("click", function() {
             currentPage = parseInt(this.textContent);
-            updatePagination();
+            carregarPedidos(currentPage);
         });
     });
 
-    prevButton.addEventListener("click", function () {
-        if (currentPage > 1) {
-            currentPage--;
-            updatePagination();
-        }
-    });
+    if (prevButton) {
+        prevButton.addEventListener("click", function() {
+            if (currentPage > 1) {
+                currentPage--;
+                carregarPedidos(currentPage);
+            }
+        });
+    }
 
-    nextButton.addEventListener("click", function () {
-        if (currentPage < paginationButtons.length) {
-            currentPage++;
-            updatePagination();
-        }
-    });
+    if (nextButton) {
+        nextButton.addEventListener("click", function() {
+            if (currentPage < paginationButtons.length) {
+                currentPage++;
+                carregarPedidos(currentPage);
+            }
+        });
+    }
 
-    // Inicializa a página com a primeira ativa
     updatePagination();
+}
+
+// Inicialização quando o documento estiver pronto
+document.addEventListener('DOMContentLoaded', () => {
+    carregarPedidos(1); // Carrega a primeira página de pedidos
 });
+
+function atualizarPaginacao(info) {
+    const paginationContainer = document.querySelector('.pagination');
+    if (!paginationContainer) return;
+
+    let html = '';
+    
+    if (info.total_pages > 0) {
+        html += `<button class="prev" ${info.current_page === 1 ? 'disabled' : ''}>Anterior</button>`;
+        
+        for (let i = 1; i <= info.total_pages; i++) {
+            html += `<button class="page-number ${i === info.current_page ? 'active' : ''}">${i}</button>`;
+        }
+        
+        html += `<button class="next" ${info.current_page === info.total_pages ? 'disabled' : ''}>Próximo</button>`;
+    }
+
+    paginationContainer.innerHTML = html;
+    initPagination(); // Inicializa os eventos da nova paginação
+}
 
 let map;
 let directionsService;
@@ -133,14 +164,17 @@ function updateModal(info, startCoordinates, endCoordinates) {
         geocodeLatLng(endCoordinates, (endAddress) => {
             const modalInfo = document.getElementById('modal-info');
             modalInfo.innerHTML = `
-                <p><strong>ID do Pedido:</strong> ${info.id}</p>
-                <p><strong>Estabelecimento:</strong> ${info.estabelecimento}</p>
-                <p><strong>Endereço de Partida:</strong> ${startAddress}</p>
-                <p><strong>Endereço de Chegada:</strong> ${endAddress}</p>
+                <p><strong>Pedido:</strong> ${info.id}</p>
+                <p><strong>Cliente:</strong> ${info.nome_cliente}</p>
+                <p><strong>Empresa:</strong> ${info.estabelecimento}</p>
+                <p><strong>Local de Partida:</strong> ${startAddress}</p>
+                <p><strong>Local de Chegada:</strong> ${endAddress}</p>
+                <p><strong>Data/Hora:</strong> ${info.data_hora}</p>
+                <p><strong>Entregador:</strong> ${info.entregador}</p>
                 <p><strong>Quantidade:</strong> ${info.quantidade}</p>
-                <p><strong>Data:</strong> ${info.data}</p>
+                <p><strong>Valor a Receber:</strong> R$ ${info.valor_entregador}</p>
+                <p><strong>Forma de Pagamento:</strong> ${info.forma_pagamento}</p>
                 <p><strong>Status:</strong> ${info.status}</p>
-                
             `;
         });
     });
@@ -186,6 +220,230 @@ document.addEventListener('DOMContentLoaded', () => {
 // Carregar o mapa ao carregar a página
 window.onload = initMap;
 
+// Função para marcar pedido como entregue
+function marcarComoEntregue(pedidoId) {
+    if (!confirm('Confirma que este pedido foi entregue?')) return;
+
+    fetch('marcar_entregue.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ pedido_id: pedidoId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove o card do pedido
+            document.querySelector(`.product[data-id="${pedidoId}"]`).remove();
+            alert('Pedido marcado como entregue com sucesso!');
+        } else {
+            alert(data.message || 'Erro ao marcar pedido como entregue');
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao marcar pedido como entregue');
+    });
+}
+
+function renderizarPedidos(pedidos, paginationInfo) {
+    const container = document.querySelector('.products-grid');
+    container.innerHTML = '';
+
+    if (!pedidos || pedidos.length === 0) {
+        container.innerHTML = '<div class="no-pedidos">Nenhum pedido aceito no momento</div>';
+        return;
+    }
+
+    pedidos.forEach(pedido => {
+        const card = `
+            <div class="product" data-id="${pedido.id}" 
+                 data-route='{"start": ${pedido.coordenadas_partida || '"-12.9714,-38.5014"'}, "end": ${pedido.coordenadas_chegada || '"-12.9833,-38.5167"'}}'
+                 data-info='${JSON.stringify(pedido)}'>
+                <h3>Pedido #${pedido.id}</h3>
+                <div class="pedido-content">
+                    <p><strong>Empresa:</strong> ${pedido.empresa_coleta}</p>
+                    <p><strong>Cliente:</strong> ${pedido.nome_cliente}</p>
+                    <p><strong>Local Partida:</strong> ${pedido.local_partida}</p>
+                    <p><strong>Local Chegada:</strong> ${pedido.local_chegada}</p>
+                    <p><strong>Quantidade:</strong> ${pedido.quantidade_lixo}kg</p>
+                    <p><strong>Data:</strong> ${pedido.data_hora}</p>
+                    <p><strong>Valor a receber:</strong> R$ ${pedido.valor_entregador}</p>
+                    <p><strong>Status:</strong> ${pedido.status}</p>
+                </div>
+                <div class="product-buttons">
+                    <button class="btn-entregue" onclick="marcarComoEntregue(${pedido.id})">
+                        Marcar como Entregue
+                    </button>
+                    <button class="btn-rota show-route">
+                        Mostrar Rota
+                    </button>
+                </div>
+                <span class="info" onclick="mostrarDetalhes(${pedido.id})">&#8505;</span>
+            </div>
+        `;
+        container.innerHTML += card;
+    });
+
+    // Adiciona eventos aos botões de rota após renderizar
+    adicionarEventosBotoesRota();
+    
+    // Atualiza a paginação
+    atualizarPaginacao(paginationInfo);
+}
+
+function carregarPedidos(page = 1) {
+    fetch(`buscar_pedidos_aceitos.php?page=${page}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                renderizarPedidos(data.pedidos, data.pagination);
+            } else {
+                console.error('Erro ao carregar pedidos:', data.message);
+            }
+        })
+        .catch(error => console.error('Erro:', error));
+}
+
+// Função para mostrar detalhes do pedido no modal
+function mostrarDetalhes(pedidoId) {
+    const pedidoElement = document.querySelector(`.product[data-id="${pedidoId}"]`);
+    const pedido = JSON.parse(pedidoElement.getAttribute('data-info'));
+    
+    const modalInfo = document.getElementById('modal-info');
+    modalInfo.innerHTML = `
+        <p><strong>Número do Pedido:</strong> #${pedido.id}</p>
+        <p><strong>Cliente:</strong> ${pedido.nome_cliente}</p>
+        <p><strong>Empresa:</strong> ${pedido.empresa_coleta}</p>
+        <p><strong>Local de Partida:</strong> ${pedido.local_partida}</p>
+        <p><strong>Local de Chegada:</strong> ${pedido.local_chegada}</p>
+        <p><strong>Data/Hora:</strong> ${pedido.data_hora}</p>
+        <p><strong>Entregador:</strong> ${pedido.nome_entregador || 'Não atribuído'}</p>
+        <p><strong>Quantidade:</strong> ${pedido.quantidade_lixo}kg</p>
+        <p><strong>Valor a Receber:</strong> R$ ${pedido.valor_entregador}</p>
+        <p><strong>Forma de Pagamento:</strong> ${pedido.forma_pagamento}</p>
+        <p><strong>Status:</strong> ${pedido.status}</p>
+    `;
+}
+
+// Função para adicionar eventos aos botões de rota
+function adicionarEventosBotoesRota() {
+    document.querySelectorAll('.show-route').forEach(button => {
+        button.addEventListener('click', function() {
+            const productDiv = this.closest('.product');
+            const routeData = JSON.parse(productDiv.getAttribute('data-route'));
+            mostrarRota(routeData.start, routeData.end);
+        });
+    });
+}
+
+// Função para renderizar pedidos atualizada
+function renderizarPedidos(pedidos, paginationInfo) {
+    const container = document.querySelector('.products-grid');
+    container.innerHTML = '';
+
+    if (!pedidos || pedidos.length === 0) {
+        container.innerHTML = '<div class="no-pedidos">Nenhum pedido aceito no momento</div>';
+        return;
+    }
+
+    pedidos.forEach(pedido => {
+        // Formatando as coordenadas corretamente para JSON
+        const coordenadasPartida = pedido.coordenadas_partida || '-12.9714,-38.5014';
+        const coordenadasChegada = pedido.coordenadas_chegada || '-12.9833,-38.5167';
+        
+        const routeData = {
+            start: coordenadasPartida,
+            end: coordenadasChegada
+        };
+
+        const card = `
+            <div class="product" data-id="${pedido.id}" 
+                 data-route='${JSON.stringify(routeData)}'
+                 data-info='${JSON.stringify(pedido)}'>
+                <h3>Pedido #${pedido.id}</h3>
+                <div class="pedido-content">
+                    <p><strong>Empresa:</strong> ${pedido.empresa_coleta}</p>
+                    <p><strong>Cliente:</strong> ${pedido.nome_cliente}</p>
+                    <p><strong>Local Partida:</strong> ${pedido.local_partida}</p>
+                    <p><strong>Local Chegada:</strong> ${pedido.local_chegada}</p>
+                    <p><strong>Quantidade:</strong> ${pedido.quantidade_lixo}kg</p>
+                    <p><strong>Data:</strong> ${pedido.data_hora}</p>
+                    <p><strong>Valor a receber:</strong> R$ ${pedido.valor_entregador}</p>
+                    <p><strong>Status:</strong> ${pedido.status}</p>
+                </div>
+                <div class="product-buttons">
+                    <button class="btn-entregue" onclick="marcarComoEntregue(${pedido.id})">
+                        Marcar como Entregue
+                    </button>
+                    <button class="btn-rota show-route">
+                        Mostrar Rota
+                    </button>
+                </div>
+                <span class="info" onclick="mostrarDetalhes(${pedido.id})">&#8505;</span>
+            </div>
+        `;
+        container.innerHTML += card;
+    });
+
+    // Adiciona eventos aos botões de rota após renderizar
+    adicionarEventosBotoesRota();
+    
+    // Atualiza a paginação
+    atualizarPaginacao(paginationInfo);
+}
+
+// Função para mostrar rota no mapa
+function mostrarRota(start, end) {
+    if (!map) return;
+
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    
+    directionsRenderer.setMap(map);
+    
+    const [startLat, startLng] = start.split(',');
+    const [endLat, endLng] = end.split(',');
+
+    const request = {
+        origin: new google.maps.LatLng(parseFloat(startLat), parseFloat(startLng)),
+        destination: new google.maps.LatLng(parseFloat(endLat), parseFloat(endLng)),
+        travelMode: google.maps.TravelMode.DRIVING
+    };
+
+    directionsService.route(request, function(result, status) {
+        if (status == 'OK') {
+            directionsRenderer.setDirections(result);
+            
+            // Mostrar detalhes da rota
+            const route = result.routes[0];
+            const routeDetails = document.getElementById('route-details');
+            routeDetails.style.display = 'block';
+            routeDetails.innerHTML = `
+                <h3>Detalhes da Rota</h3>
+                <p><strong>Origem:</strong> ${route.legs[0].start_address}</p>
+                <p><strong>Destino:</strong> ${route.legs[0].end_address}</p>
+                <p><strong>Distância:</strong> ${route.legs[0].distance.text}</p>
+                <p><strong>Tempo estimado:</strong> ${route.legs[0].duration.text}</p>
+            `;
+        }
+    });
+}
+
+// Variável global para o mapa
+// Função de inicialização do mapa
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: -12.9714, lng: -38.5014 },
+        zoom: 12
+    });
+}
+
+// Inicialização quando o documento estiver pronto
+document.addEventListener('DOMContentLoaded', () => {
+    carregarPedidos(1);
+});
 
 
 

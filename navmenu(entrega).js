@@ -154,6 +154,7 @@ function atualizarListaPedidos(pedidos) {
             </div>
         `).join('');
 }
+
 // Função para aceitar pedido
 function aceitarPedido(pedidoId) {
     fetch('aceitar_pedido.php', {
@@ -168,13 +169,31 @@ function aceitarPedido(pedidoId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            removerPedido(pedidoId);
+            // Remove o pedido do dropdown
+            const pedidoElement = document.getElementById(`pedido-${pedidoId}`);
+            if (pedidoElement) {
+                pedidoElement.remove();
+            }
+            
+            // Atualiza a lista de pedidos imediatamente
+            carregarPedidosDisponiveis();
+            
+            // Mostra mensagem de sucesso
             alert('Pedido aceito com sucesso!');
+            
+            // Verifica se a lista está vazia
+            const listaPedidos = document.querySelector('.pedidos-lista');
+            if (listaPedidos && !listaPedidos.children.length) {
+                listaPedidos.innerHTML = '<p class="no-pedidos">Nenhum pedido disponível no momento</p>';
+            }
         } else {
             alert(data.message || 'Erro ao aceitar pedido');
         }
     })
-    .catch(error => console.error('Erro:', error));
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao processar a requisição');
+    });
 }
 
 // Função para rejeitar pedido
@@ -191,12 +210,31 @@ function rejeitarPedido(pedidoId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            removerPedido(pedidoId);
+            // Remove o pedido do dropdown
+            const pedidoElement = document.getElementById(`pedido-${pedidoId}`);
+            if (pedidoElement) {
+                pedidoElement.remove();
+            }
+            
+            // Atualiza a lista de pedidos imediatamente
+            carregarPedidosDisponiveis();
+            
+            // Mostra mensagem de sucesso
+            alert('Pedido rejeitado com sucesso!');
+            
+            // Verifica se a lista está vazia
+            const listaPedidos = document.querySelector('.pedidos-lista');
+            if (listaPedidos && !listaPedidos.children.length) {
+                listaPedidos.innerHTML = '<p class="no-pedidos">Nenhum pedido disponível no momento</p>';
+            }
         } else {
             alert(data.message || 'Erro ao rejeitar pedido');
         }
     })
-    .catch(error => console.error('Erro:', error));
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao processar a requisição');
+    });
 }
 
 // Função para lidar com remoção de pedidos

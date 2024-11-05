@@ -1,5 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
     carregarPedidos(1);
+    
+    // Atualizar a cada 30 segundos
+    setInterval(() => {
+        const modal = document.querySelector('.pedido-modal');
+        // Só atualiza se o modal não estiver aberto
+        if (!modal || !modal.classList.contains('active')) {
+            carregarPedidos(1);
+        }
+    }, 30000);
 });
 
 function carregarPedidos(pagina) {
@@ -23,7 +32,7 @@ function renderizarPedidos(pedidos) {
     }
     
     grid.innerHTML = pedidos.map(pedido => `
-        <div class="pedido-card" onclick="mostrarDetalhes(${JSON.stringify(pedido)})">
+        <div class="pedido-card" data-id="${pedido.id}" onclick="mostrarDetalhes(${JSON.stringify(pedido).replace(/"/g, '&quot;')})">
             <h3>Pedido #${pedido.id}</h3>
             <div class="pedido-info">
                 <p>
@@ -96,13 +105,27 @@ function aceitarPedido(pedidoId, event) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // Fecha o modal
+                fecharModal();
+                
+                // Remove o card do pedido
+                const pedidoCard = document.querySelector(`.pedido-card[data-id="${pedidoId}"]`);
+                if (pedidoCard) {
+                    pedidoCard.remove();
+                }
+                
+                // Atualiza a lista de pedidos
+                carregarPedidos(1);
+                
                 alert('Pedido aceito com sucesso!');
-                carregarPedidos(1); // Recarrega a primeira página
             } else {
                 alert(data.message || 'Erro ao aceitar pedido');
             }
         })
-        .catch(error => console.error('Erro:', error));
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao processar a requisição');
+        });
     }
 }
 
@@ -119,19 +142,36 @@ function rejeitarPedido(pedidoId, event) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Pedido rejeitado com sucesso!');
+                // Fecha o modal
+                fecharModal();
+                
+                // Remove o card do pedido
+                const pedidoCard = document.querySelector(`.pedido-card[data-id="${pedidoId}"]`);
+                if (pedidoCard) {
+                    pedidoCard.remove();
+                }
+                
+                // Atualiza a lista de pedidos
                 carregarPedidos(1);
+                
+                alert('Pedido rejeitado com sucesso!');
             } else {
                 alert(data.message || 'Erro ao rejeitar pedido');
             }
         })
-        .catch(error => console.error('Erro:', error));
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao processar a requisição');
+        });
     }
 }
 
 function mostrarDetalhes(pedido) {
     const modal = document.querySelector('.pedido-modal');
     const overlay = document.querySelector('.pedido-modal-overlay');
+    
+    if (!modal || !overlay) return;
+    
     const modalContent = modal.querySelector('.pedido-modal-content');
 
     const conteudo = `
@@ -148,10 +188,10 @@ function mostrarDetalhes(pedido) {
             <p><strong>Quantidade de Lixo:</strong> ${pedido.quantidade_lixo}kg</p>
             <p><strong>Valor do Serviço:</strong> R$ ${pedido.valor_entregador}</p>
             <div class="modal-actions">
-                <button class="pedido-btn btn-aceitar" onclick="aceitarPedido(${pedido.id})">
+                <button class="btn-aceitar" onclick="aceitarPedido(${pedido.id}, event)">
                     Aceitar Pedido
                 </button>
-                <button class="pedido-btn btn-rejeitar" onclick="rejeitarPedido(${pedido.id})">
+                <button class="btn-rejeitar" onclick="rejeitarPedido(${pedido.id}, event)">
                     Rejeitar Pedido
                 </button>
             </div>
@@ -159,35 +199,59 @@ function mostrarDetalhes(pedido) {
     `;
 
     modalContent.innerHTML = conteudo;
-    modal.classList.add('active');
-    overlay.classList.add('active');
+    modal.style.display = 'block';
+    overlay.style.display = 'block';
+    
+    setTimeout(() => {
+        modal.classList.add('active');
+        overlay.classList.add('active');
+    }, 10);
 
     // Fechar modal
     const closeBtn = modal.querySelector('.close-modal');
-    closeBtn.onclick = () => {
+    const fecharModal = () => {
         modal.classList.remove('active');
         overlay.classList.remove('active');
-        // Remove o parâmetro da URL ao fechar o modal
-        if (window.history.pushState) {
-            const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            window.history.pushState({path: newurl}, '', newurl);
-        }
+        setTimeout(() => {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }, 300);
     };
 
-    overlay.onclick = () => {
-        modal.classList.remove('active');
-        overlay.classList.remove('active');
-        // Remove o parâmetro da URL ao fechar o modal
-        if (window.history.pushState) {
-            const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            window.history.pushState({path: newurl}, '', newurl);
-        }
-    };
+    closeBtn.onclick = fecharModal;
+    overlay.onclick = fecharModal;
 }
 
 // Função auxiliar para formatar data e hora
 function formatarDataHora(dataString) {
     if (!dataString) return 'N/A';
-    const data = new Date(dataString);
-    return data.toLocaleString('pt-BR');
+    
+    // Verifica se a data está no formato MySQL (YYYY-MM-DD HH:mm:ss)
+    const data = new Date(dataString.replace(/-/g, '/'));
+    
+    // Verifica se a data é válida
+    if (isNaN(data.getTime())) return 'N/A';
+    
+    return data.toLocaleString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+// Função global para fechar o modal
+function fecharModal() {
+    const modal = document.querySelector('.pedido-modal');
+    const overlay = document.querySelector('.pedido-modal-overlay');
+    
+    if (modal && overlay) {
+        modal.classList.remove('active');
+        overlay.classList.remove('active');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }, 300);
+    }
 } 

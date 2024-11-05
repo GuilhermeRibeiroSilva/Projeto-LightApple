@@ -413,48 +413,160 @@ a {
 
 /*SECTION PEDIDOS LISTAS*/
 
-.PedDisp {
-  margin-top: 4%;
+.PedDisp, .PedAcei {
+    margin: 40px 0;
 }
 
-/* Centraliza o container */
 .container {
-  width: 80%;
-  margin: 0 auto;
-  /* Centraliza horizontalmente */
-  text-align: center;
-  /* Centraliza o texto */
-  padding: 20px;
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
 }
 
+.ttped {
+    color: #287326;
+    font-size: 40px;
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-.pedidos-lista {
-  display: flex;
-  overflow-x: scroll;
-  gap: 15px;
-  padding: 10px 0;
+/* Lista de Pedidos com Scroll Horizontal */
+.pedidos-lista-peddisp, .pedidos-aceitos-pedacei {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    overflow-x: auto; /* Habilita rolagem horizontal */
+    overflow-y: hidden; /* Desabilita rolagem vertical */
+    padding: 20px 0;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Estilização da scrollbar */
+.pedidos-lista-peddisp::-webkit-scrollbar,
+.pedidos-aceitos-pedacei::-webkit-scrollbar {
+    height: 8px;
+}
+
+.pedidos-lista-peddisp::-webkit-scrollbar-track,
+.pedidos-aceitos-pedacei::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.pedidos-lista-peddisp::-webkit-scrollbar-thumb,
+.pedidos-aceitos-pedacei::-webkit-scrollbar-thumb {
+    background: #abd94a;
+    border-radius: 4px;
+}
+
+/* Cards de Pedidos */
+.pedidoNum, .pedidoAct {
+    flex: 0 0 auto;
+    width: 300px;
+    padding: 20px;
+    border-radius: 15px;
+    margin-right: 15px;
+    transition: transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .pedidoNum {
-  min-width: 220px;
-  background-color: #abd94a;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  flex-shrink: 0;
+    background-color: white;
+    border: 2px solid #287326;
 }
 
-.pedidoNum h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  text-align: center;
-  color: #218838;
+.pedidoAct {
+    border: none;
 }
 
-.pedidoNum p {
-  margin: 5px 0;
-  color: #218838;
+.pedidoNum:hover, .pedidoAct:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* Cabeçalho do Card */
+.pedidoNum h3, .pedidoAct h3 {
+    color: #287326;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Conteúdo do Card */
+.pedido-content {
+    margin: 15px 0;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+}
+
+.pedido-content p {
+    margin: 10px 0;
+    color: #287326;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Botões */
+.botoes, .botoes-act {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.aceitar, .rejeitar, .vermais {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.aceitar {
+    background-color: #287326;
+    color: white;
+}
+
+.rejeitar {
+    background-color: #dc3545;
+    color: white;
+}
+
+.vermais {
+    background-color: #287326;
+    color: white;
+}
+
+/* Botão Ver Mais Pedidos */
+.ver-mais-pedidos {
+    display: block;
+    width: 200px;
+    margin: 30px auto;
+    padding: 12px 24px;
+    background-color: #287326;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.ver-mais-pedidos:hover {
+    background-color: #1e5e1e;
+}
+
+/* Mensagens de sem pedidos */
+#no-available-orders, #no-accepted-orders {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+    width: 100%;
 }
 
 .botoes {
@@ -519,7 +631,6 @@ button:hover {
 
 .pedidoAct {
   min-width: 230px;
-  background-color: #abd94a;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -563,4 +674,26 @@ button.entregue:hover {
 #no-accepted-orders {
   color: #218838;
   font-weight: bold;
+}
+
+button.vermais {
+  background-color: #287326;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+
+button.vermais:hover {
+  background-color: #1e5e1e;
+}
+
+.pedidoAct .botoes-act {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
 }

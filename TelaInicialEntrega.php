@@ -62,7 +62,7 @@ try {
                 <ul>
                     <li><a href="TelaInicialEntrega.php" class="inicio">Inicio</a></li>
                     <li><a href="TelaEstabelecimentos.php" class="empresa-coleta">Estabelecimentos</a></li>
-                    <li><a href="#" class="trocar-pontos">Minhas Entregas</a></li>
+                    <li><a href="TelaMinhasEntregas.php" class="trocar-pontos">Minhas Entregas</a></li>
                     <li><a href="#" class="pedidos">Histórico</a></li>
                 </ul>
                 <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
@@ -76,7 +76,7 @@ try {
                                 <h3>Pedidos Disponíveis</h3>
                             </div>
                             <div class="pedidos-lista">
-                                <!-- Pedidos serão carregados aqui via JavaScript -->
+                                <!-- Pedidos serão carregados via JavaScript -->
                             </div>
                         </div>
                     </div>
@@ -127,7 +127,7 @@ try {
                     <div class="txtestabelecimentos">ESTABELECIMENTOS</div>
                 </div>
             </a>
-            <a href="#">
+            <a href="TelaMinhasEntregas.php">
                 <div class="box-minhasentregas">
                     <img class="minhasentregas" src="imagens/Pacote.png" />
                     <div class="txtminhasentregas">MINHAS ENTREGAS</div>
@@ -192,110 +192,26 @@ try {
                     <button class="second"></button>
                 </div>
             </div>
-            <button class="btn-vermais"><a href="#">Ver Mais Estabelecimenos</a></button>
+            <button class="btn-vermais"><a href="TelaEstabelecimentos.php">Ver Mais Estabelecimenos</a></button>
         </section>
         <section class="PedDisp">
             <div class="container">
                 <h2 class="ttped">Pedidos Disponíveis</h2>
-                <p id="no-available-orders" style="display:none; color: #287326; text-align: center;">Aguardar, não há pedidos disponíveis.</p>
-                <div class="pedidos-lista" id="available-orders-list">
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <div class="pedidoNum">
-                        <h3>PEDIDO #001</h3>
-                        <p><strong>Nome do Local:</strong> Restaurante A</p>
-                        <p><strong>Partida:</strong> Rua 1, Nº 50</p>
-                        <p><strong>Chegada:</strong> Rua 10, Nº 200</p>
-                        <p><strong>Peso:</strong> 2kg</p>
-                        <p><strong>Valor:</strong> R$ 25,00</p>
-                        <div class="botoes">
-                            <button class="aceitar">Aceitar</button>
-                            <button class="rejeitar">Rejeitar</button>
-                        </div>
-                    </div>
-                    <!-- Mais pedidos podem ser adicionados aqui -->
+                <div class="pedidos-lista-peddisp" id="available-orders-list">
+                    <!-- Pedidos serão carregados via JavaScript -->
                 </div>
+                <a href="TelaPedidosDisponiveis.php" class="ver-mais-pedidos">
+                    Ver Mais Pedidos
+                </a>
             </div>
         </section>
         <section class="PedAcei">
             <div class="container">
-                <div class="ttped">Pedidos Aceitos</div>
-                <p id="no-accepted-orders">Nenhum pedido aceito ainda. Aceite um pedido para aparecer aqui.</p>
-                <div class="pedidos-aceitos" id="accepted-orders-list">
-                    <!-- Pedidos aceitos serão adicionados aqui -->
+                <h2 class="ttped">Pedidos Aceitos</h2>
+                <div class="pedidos-aceitos-pedacei" id="accepted-orders-list">
+                    <!-- Pedidos aceitos serão carregados via JavaScript -->
                 </div>
             </div>
-
         </section>
     </main>
     <footer class="footer">

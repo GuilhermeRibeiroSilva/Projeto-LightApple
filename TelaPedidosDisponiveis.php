@@ -77,7 +77,7 @@ if (isset($_GET['pedido_id'])) {
                     <div class="sub-menu-ped-wrap" id="pedidosDisponiveis">
                         <div class="sub-menu-ped">
                             <div class="ped-info">
-                                <img src="imagens/package-icon.png" alt="Ícone de pedidos">
+                                <img src="imagens/LightApple-Logo.png" alt="Ícone de pedidos">
                                 <h3>Pedidos Disponíveis</h3>
                             </div>
                             <div class="pedidos-lista">
@@ -183,12 +183,12 @@ if (isset($_GET['pedido_id'])) {
     <script src="TelaPedidosDisponiveis.js"></script>
     <script src="navmenu(entrega).js"></script>
     <?php if ($pedidoParaExibir): ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const pedido = <?php echo json_encode($pedidoParaExibir); ?>;
-            mostrarDetalhes(pedido);
-        });
-    </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const pedido = <?php echo json_encode($pedidoParaExibir); ?>;
+                mostrarDetalhes(pedido);
+            });
+        </script>
     <?php endif; ?>
 </body>
 

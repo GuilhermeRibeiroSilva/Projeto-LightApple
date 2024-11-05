@@ -49,55 +49,90 @@ a {
 main {
     display: flex;
     padding: 20px;
-  }
+    gap: 20px;
+}
 
-  .map-dst {
-    padding: 0px;
-  }
-  
-  /* Estilos do mapa */
-  #map {
-    width: 520px; /* Largura do mapa */
-    height: 500px; /* Altura do mapa */
-    margin-right: 20px;
-    margin-bottom: 20px; 
-    border: 2px solid #218838;
-    border-radius: 10px;
-  }
+/* Container do mapa */
+.map-container {
+    flex: 0 0 45%;
+    height: calc(100vh - 200px);
+    position: sticky;
+    top: 20px;
+}
 
-  #route-details {
-    width: 482px; /* Largura do mapa */
-    height: 18%; /* Altura do mapa */
-    margin-right: 20px;
-    padding: 20px;
-    border: 2px solid #218838;
+#map {
+    width: 100%;
+    height: 70%;
     border-radius: 10px;
-    display: none;
-    color: #218838;
-  }
+    margin-bottom: 20px;
+}
 
-  
-  /* Grid agora com 2 colunas de produtos */
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 colunas de produtos */
-    gap: 20px; /* Espaço entre os produtos */
-    flex-grow: 1;
-  }
-  
-  /* Restante dos estilos do produto */
-  .product {
-    position: relative;
-    border: 1px solid #218838;
-    border-radius: 10px;
-    background-color: #abd94a;
-    color: #218838;
+/* Detalhes da rota */
+#route-details {
+    background: white;
     padding: 15px;
-    text-align: center;
-    transition: transform 0.3s ease;
-  }
-  
-  button.show-route {
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: none;
+}
+
+/* Container dos pedidos */
+.products-container {
+    flex: 0 0 55%;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* Estilo do card de pedido */
+.product {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+/* Botões do card */
+.product-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-entregue, .btn-rota {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-entregue {
+    background: #287326;
+    color: white;
+}
+
+.btn-entregue:hover {
+    background: #1e5e1e;
+}
+
+.btn-rota {
+    background: #abd94a;
+    color: #287326;
+}
+
+.btn-rota:hover {
+    background: #96c235;
+}
+
+button.show-route {
     height: 33px;
     margin-top: 10px;
     padding: 5px 10px;
@@ -106,171 +141,184 @@ main {
     border: none;
     cursor: pointer;
     border-radius: 5px;
-  }
-  
-  button.show-route:hover {
-    background-color: #287326;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  /* Ajustes para dispositivos móveis */
-  @media (max-width: 768px) {
-    main {
-      flex-direction: column;
-    }
-  
-    .products-grid {
-      grid-template-columns: 1fr; /* Em telas menores, 1 produto por linha */
-    }
-  
-    #map {
-      width: 100%;
-      height: 300px;
-    }
-  }
+}
 
-  
+button.show-route:hover {
+    background-color: #287326;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Ajustes para dispositivos móveis */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr; /* Em telas menores, 1 produto por linha */
+    }
+
+    #map {
+        width: 100%;
+        height: 300px;
+    }
+}
 
 /* Estilos das imagens dos produtos */
 .product img {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 10px;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
 }
 
 /* Estilos dos títulos e preços dos produtos */
 .product h3 {
-  font-size: 18px;
-  margin: 6px 0;
+    font-size: 18px;
+    margin: 6px 0;
 }
 
 .product p {
-  font-size: 16px;
-  color: #218838;
-  margin: 10px 0;
+    font-size: 16px;
+    color: #218838;
+    margin: 10px 0;
 }
 
 .star {
-  color: #218838;
+    color: #218838;
 }
 
 .info {
-  position: absolute;
-  top: 80%;
-  right: 20px;
-  font-size: 35px;
-  cursor: pointer;
-  color: transparent;
-  text-shadow: 0 0 0 #218838;
-  transition: transform 0.3s ease, color 0.3s ease;
+    position: absolute;
+    top: 80%;
+    right: 20px;
+    font-size: 35px;
+    cursor: pointer;
+    color: transparent;
+    text-shadow: 0 0 0 #218838;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .pagination {
-  display: flex;
-  justify-content: center; /* Centraliza horizontalmente */
-  margin-top: 25px;        /* Espaçamento entre a grid de produtos e a paginação */
-  margin-bottom: 45px;     /* Espaçamento da paginação para o final da página */
-  padding-left: 39%;
-}
-button {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  background-color: white;
-  cursor: pointer;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
 }
 
-button.active {
-  background-color: #218838;
-  color: #abd94a;
+.pagination button {
+    padding: 8px 16px;
+    border: 1px solid #287326;
+    background: white;
+    color: #287326;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
-button[disabled] {
-  background-color: #fff;
-  cursor: not-allowed;
+.pagination button.active {
+    background: #287326;
+    color: white;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* Modal escondido por padrão */
 .hidden {
-  display: none;
+    display: none;
 }
 
 /* Fundo semi-transparente que cobre toda a tela */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
-  z-index: 5; /* Certifique-se de que fica abaixo do modal */
-  display: none; /* Inicia escondido */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+    z-index: 5; /* Certifique-se de que fica abaixo do modal */
+    display: none; /* Inicia escondido */
 }
 
 /* Estilo básico do modal */
 .modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  background-color: #abd94a;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  padding: 20px;
-  border-radius: 10px;
-  display: none; /* Escondido por padrão */
-  color: #287326;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: #abd94a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    padding: 20px;
+    border-radius: 10px;
+    display: none; /* Escondido por padrão */
+    color: #287326;
 }
 
 /* Estilo do botão de fechar */
 .modal .close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 20px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
 }
 
 /* Organizar informações dentro do modal */
 #modal-info p {
-  margin: 8px 0; /* Margem entre os parágrafos */
-  font-size: 14px;
+    margin: 8px 0; /* Margem entre os parágrafos */
+    font-size: 14px;
 }
 
 /* Desfocar o conteúdo do main */
 .modal-open main {
-  filter: blur(5px);
-  pointer-events: none; /* Desabilitar cliques no conteúdo de fundo */
+    filter: blur(5px);
+    pointer-events: none; /* Desabilitar cliques no conteúdo de fundo */
 }
 
 /* Exibir o modal */
 .modal-active .modal,
 .modal-active .modal-overlay {
-  display: block; /* Mostrar modal e overlay */
+    display: block; /* Mostrar modal e overlay */
 }
-
 
 /* Ajustes para dispositivos móveis */
 @media (max-width: 768px) {
-  main {
-      flex-direction: column; /* Coloca o filtro acima dos produtos em telas pequenas */
-  }
+    main {
+        flex-direction: column; /* Coloca o filtro acima dos produtos em telas pequenas */
+    }
 
-  .accordion {
-      width: 100%;
-      margin-bottom: 20px;
-  }
+    .accordion {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 
-  .products-grid {
-      grid-template-columns: repeat(2, 1fr); /* Reduz a grid para 2 colunas em telas menores */
-  }
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr); /* Reduz a grid para 2 colunas em telas menores */
+    }
 }
 
 @media (max-width: 480px) {
-  .products-grid {
-      grid-template-columns: 1fr; /* Em telas bem pequenas, usa apenas 1 coluna */
-  }
+    .products-grid {
+        grid-template-columns: 1fr; /* Em telas bem pequenas, usa apenas 1 coluna */
+    }
+}
+
+/* Estilo do card de pedido */
+.pedido-content {
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(171, 217, 74, 0.1);
+    border-radius: 8px;
+}
+
+.pedido-content p {
+    margin: 8px 0;
+    color: #287326;
+    font-size: 14px;
 }
