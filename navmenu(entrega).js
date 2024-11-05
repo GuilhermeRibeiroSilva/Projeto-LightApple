@@ -8,7 +8,7 @@ let userPerf = null;
 document.addEventListener('DOMContentLoaded', function() {
     subMenu = document.getElementById("subMenu");
     criarPed = document.getElementById("criarPed");
-    userImageCircle = document.getElementById("userImageCircle");
+    userImageCircle = document.getElementById("userImageCircle"); 
     userPerf = document.querySelector(".user-perf");
 
     // Inicializar event listeners apenas se os elementos existirem
@@ -27,6 +27,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener para cliques fora dos menus
     document.addEventListener('click', handleOutsideClick);
+
+    // Adicionar carregamento inicial de pedidos
+    carregarPedidosDisponiveis();
+
+    // Atualizar pedidos a cada 30 segundos
+    setInterval(carregarPedidosDisponiveis, 30000);
 });
 
 // Função para carregar o perfil do usuário
@@ -58,8 +64,10 @@ function toggleMenu() {
 
 // Função para alternar o menu de pedidos
 function toggleMenuPed() {
-    closeAllMenus();
-    if (criarPed) criarPed.classList.toggle("open-menu-ped");
+    const subMenuPed = document.querySelector('.sub-menu-ped-wrap');
+    if (subMenuPed) {
+        subMenuPed.classList.toggle('open-menu-ped');
+    }
 }
 
 // Função para lidar com cliques fora dos menus
@@ -85,18 +93,126 @@ function atualizarImagemPerfil(urlImagem) {
     }
 }
 
-// Funções específicas de entrega mantidas do arquivo original
+// Função para carregar pedidos disponíveis
+function carregarPedidosDisponiveis() {
+    fetch('buscar_pedidos_disponiveis.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                atualizarListaPedidos(data.pedidos);
+            }
+        })
+        .catch(error => console.error('Erro:', error));
+}
+
+// Função para atualizar a lista de pedidos no dropdown
+function atualizarListaPedidos(pedidos) {
+    const listaPedidos = document.querySelector('.sub-menu-ped .pedidos-lista');
+    if (!listaPedidos) return;
+
+    listaPedidos.innerHTML = pedidos.length === 0 
+        ? '<p class="no-pedidos">Nenhum pedido disponível no momento</p>'
+        : pedidos.map(pedido => `
+            <div class="pedido-card" id="pedido-${pedido.id}">
+                <div class="pedido-header">
+                    Pedido #${pedido.id}
+                </div>
+                
+                <div class="pedido-content">
+                    <div class="pedido-item">
+                        <div class="pedido-label">Empresa</div>
+                        <div class="pedido-valor">${pedido.empresa_coleta}</div>
+                    </div>
+                    
+                    <div class="pedido-item">
+                        <div class="pedido-label">Cliente</div>
+                        <div class="pedido-valor">${pedido.nome_cliente}</div>
+                    </div>
+                    
+                    <div class="pedido-item">
+                        <div class="pedido-label">Quantidade</div>
+                        <div class="pedido-valor">${pedido.quantidade_lixo}kg</div>
+                    </div>
+                    
+                    <div class="pedido-valor-destaque">
+                        <div class="pedido-label">Valor do Serviço</div>
+                        <div class="pedido-valor">R$ ${pedido.valor_entregador}</div>
+                    </div>
+                </div>
+                
+                <div class="pedido-acoes">
+                    <button class="pedido-btn btn-aceitar" onclick="aceitarPedido(${pedido.id})">
+                        Aceitar
+                    </button>
+                    <button class="pedido-btn btn-rejeitar" onclick="rejeitarPedido(${pedido.id})">
+                        Rejeitar
+                    </button>
+                    <a href="TelaPedidosDisponiveis.php?pedido_id=${pedido.id}" class="pedido-btn btn-detalhes">
+                        Ver Mais
+                    </a>
+                </div>
+            </div>
+        `).join('');
+}
+// Função para aceitar pedido
 function aceitarPedido(pedidoId) {
-    removerPedido(pedidoId);
+    fetch('aceitar_pedido.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            pedido_id: pedidoId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            removerPedido(pedidoId);
+            alert('Pedido aceito com sucesso!');
+        } else {
+            alert(data.message || 'Erro ao aceitar pedido');
+        }
+    })
+    .catch(error => console.error('Erro:', error));
 }
 
+// Função para rejeitar pedido
 function rejeitarPedido(pedidoId) {
-    removerPedido(pedidoId);
+    fetch('rejeitar_pedido.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            pedido_id: pedidoId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            removerPedido(pedidoId);
+        } else {
+            alert(data.message || 'Erro ao rejeitar pedido');
+        }
+    })
+    .catch(error => console.error('Erro:', error));
 }
 
+// Função para lidar com remoção de pedidos
 function removerPedido(pedidoId) {
     let pedido = document.getElementById(pedidoId);
     if (pedido) {
         pedido.remove();
     }
 }
+
+// Fechar o menu quando clicar fora
+document.addEventListener('click', function(event) {
+    const pedidosMenu = document.querySelector('.pedidos-menu');
+    const subMenuPed = document.querySelector('.sub-menu-ped-wrap');
+    
+    if (!pedidosMenu.contains(event.target) && subMenuPed.classList.contains('open-menu-ped')) {
+        subMenuPed.classList.remove('open-menu-ped');
+    }
+});

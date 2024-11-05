@@ -41,6 +41,7 @@ try {
         <nav>
             <a href="#"><img src="imagens/LightApple-Logo.png" class="logo-lightapple"></a>
             <h2>Painel Administrativo</h2>
+            <button onclick="fazerLogout()" class="logout-btn">Sair</button>
         </nav>
     </header>
 
@@ -67,6 +68,13 @@ try {
                 <h3>Gerenciar Produtos</h3>
                 <div id="produtos-grid" class="grid-container">
                     <!-- Produtos serão carregados aqui dinamicamente -->
+                </div>
+            </div>
+
+            <div class="admin-section">
+                <h3>Pedidos de Troca</h3>
+                <div class="grid-container" id="pedidos-troca-grid">
+                    <!-- Os pedidos serão carregados aqui via JavaScript -->
                 </div>
             </div>
         </div>

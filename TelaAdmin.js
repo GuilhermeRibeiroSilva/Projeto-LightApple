@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     carregarLocais();
     carregarProdutos();
+    carregarPedidosTroca();
     
     // Setup do formulário de cadastro de local
     document.getElementById('cadastro-local-form').addEventListener('submit', async function(e) {
@@ -221,5 +222,124 @@ function limparFormulario(formId) {
     if (formId === 'cadastro-local-form') {
         document.getElementById('limite-coleta-container').style.display = 'none';
         document.getElementById('limite-coleta').required = false;
+    }
+}
+
+// Função para carregar pedidos de troca
+async function carregarPedidosTroca() {
+    try {
+        const response = await fetch('carregar_pedidos_troca_admin.php');
+        const data = await response.json();
+        
+        const grid = document.getElementById('pedidos-troca-grid');
+        grid.innerHTML = '';
+        
+        data.forEach(pedido => {
+            const card = document.createElement('div');
+            card.className = 'pedido-card';
+            card.innerHTML = `
+                <div class="pedido-info">
+                    <span class="pedido-id">#${pedido.numero}</span>
+                    <span class="pedido-cliente">Cliente: ${pedido.nome_cliente}</span>
+                    <span class="pedido-pontos">Pontos: ${pedido.pontos_total}</span>
+                    <span class="pedido-data">Data: ${formatarData(pedido.data_compra)}</span>
+                    <span class="status-badge ${pedido.status}">${pedido.status.toUpperCase()}</span>
+                </div>
+                <div class="pedido-acoes">
+                    <button class="info-btn" onclick="verDetalhesPedido(${pedido.id})">Ver Detalhes</button>
+                    ${pedido.status === 'pendente' ? 
+                        `<button class="finalizar-btn" onclick="finalizarPedido(${pedido.id})">Finalizar Pedido</button>` 
+                        : ''}
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar pedidos:', error);
+    }
+}
+
+// Função para ver detalhes do pedido
+async function verDetalhesPedido(id) {
+    try {
+        const response = await fetch(`buscar_detalhes_pedido.php?id=${id}`);
+        const data = await response.json();
+        
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+
+        const pedido = data;
+        const status = pedido.status ? pedido.status.toUpperCase() : 'PENDENTE';
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <h3>Detalhes do Pedido #${pedido.numero}</h3>
+                <div class="pedido-detalhes">
+                    <p><strong>Cliente:</strong> ${pedido.nome_cliente}</p>
+                    <p><strong>Data:</strong> ${formatarData(pedido.data_compra)}</p>
+                    <p><strong>Status:</strong> ${status}</p>
+                    <p><strong>Total de Pontos:</strong> ${pedido.pontos_total}</p>
+                    <h4>Itens:</h4>
+                    <ul>
+                        ${pedido.itens.map(item => `
+                            <li>${item.nome_produto} - ${item.pontos} pontos</li>
+                        `).join('')}
+                    </ul>
+                </div>
+                <button onclick="this.closest('.modal').remove()">Fechar</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    } catch (error) {
+        console.error('Erro ao buscar detalhes:', error);
+        alert('Erro ao buscar detalhes do pedido');
+    }
+}
+
+// Função para finalizar pedido
+async function finalizarPedido(id) {
+    if (confirm('Tem certeza que deseja finalizar este pedido?')) {
+        try {
+            const response = await fetch('finalizar_pedido_troca.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: id })
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                alert('Pedido finalizado com sucesso!');
+                carregarPedidosTroca();
+            } else {
+                alert('Erro ao finalizar pedido: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao finalizar pedido');
+        }
+    }
+}
+
+// Adicionar no início do arquivo, antes do DOMContentLoaded
+function formatarData(dataString) {
+    if (!dataString) return '';
+    const data = new Date(dataString);
+    return data.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+function fazerLogout() {
+    if (confirm('Tem certeza que deseja sair?')) {
+        window.location.href = 'logout.php';
     }
 }

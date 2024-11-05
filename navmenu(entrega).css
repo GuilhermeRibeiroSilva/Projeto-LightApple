@@ -1,187 +1,195 @@
 /*NAVBAR*/
 
 nav {
-    background: #abd94a;
-    width: 98%;
-    padding: 4px 1%; 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-  }
-  
-  .logo-lightapple {
-    flex-shrink: 0;
-    width: 75px;
-    height: 75px;
-    position: relative;
-    object-fit: cover;
-    padding-left: 1px;
-  }
-  .lightapple-titulo {
-    color: #287326;
-    text-align: left;
-    font-family: "Ribeye-Regular", sans-serif;
-    font-size: 28px;
-    line-height: 36px;
-    font-weight: 400;
-    position: relative;
-    width: 296px;
-    padding-left: 15px;
-  }
-  .inicio {
-    color: #287326;
-    text-align: left;
-    font-family: "Roboto-Regular", sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    position: relative;
-  }
-  .empresa-coleta {
-    color: #287326;
-    text-align: left;
-    font-family: "Roboto-Regular", sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    position: relative;
-  }
-  .trocar-pontos {
-    color: #287326;
-    text-align: left;
-    font-family: "Roboto-Regular", sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    position: relative;
-  }
-  .pedidos {
-    color: #287326;
-    text-align: left;
-    font-family: "Roboto-Regular", sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    position: relative;
-  }
-  #pesquisar {
-    border-radius: 6px;
-    border-style: solid;
-    border-color: #287326;
-    border-width: 2px;
-    padding: 8px;
-    display: flex;
-    flex-direction: row;
-    gap: 4px;
-    align-items: center;
-    justify-content: flex-end;
-    flex-shrink: 0;
-    width: 200px;
-    margin-right: 26px;
-    position: relative;
-  }
-  
-  .user-menu {
-    position: relative;
-  }
-  
-  .user-perf {
-    width: 40px;
-    border-radius: 50%; /* Mantém o círculo */
-    cursor: pointer;
-    margin-right: 40px;
-    background-size: cover;
-    background-color: #ddd; /* Cor padrão se não houver imagem */
-}
-  
-  nav ul {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center; 
-    list-style: none;
-    padding-left: 90px;
-  }
-  
-  nav ul li {
-    margin: 0 20px;
-  }
-  
-  nav ul li a {
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  /*DROPDOWN PERFIL*/
-  
-  .sub-menu-wrap {
-    position: absolute;
-    top: 120%;
-    right: 0; 
-    width: 250px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease;
-    z-index: 10; 
-  }
-  
-  .sub-menu-wrap.open-menu {
-    max-height: 600px;
-  }
-  
-  .sub-menu {
-    background: #fff;
-    border: 1px solid #287326;
-    border-radius: 0px 0px 10px 10px;
-    padding: 20px;
-    margin-top: 10px;
-  }
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .user-image-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
-    background-size: cover;
+  background: #abd94a;
+  width: 98%;
+  padding: 4px 1%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
 }
 
-  .user-info h3 {
-    color: #287326;
-  }
-  
-  .sub-menu hr {
-    margin: 8px 0px 0px 0px;
-  }
-  
-  .sub-menu-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #287326;
-    margin: 15px 0;
-  }
-  
-  .sub-menu-link p {
-    flex-grow: 1;
-  }
-  
-  .sub-menu-link span {
-    font-size: 22px;
-    transition: transform 0.5s;
-  }
-  
-  .sub-menu-link:hover span {
-    transform: translateX(5px);
-  }
-  
-  .sub-menu-link:hover p {
-    font-weight: 600;
-  }
+.logo-lightapple {
+  flex-shrink: 0;
+  width: 75px;
+  height: 75px;
+  position: relative;
+  object-fit: cover;
+  padding-left: 1px;
+}
+
+.lightapple-titulo {
+  color: #287326;
+  text-align: left;
+  font-family: "Ribeye-Regular", sans-serif;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 400;
+  position: relative;
+  width: 296px;
+  padding-left: 15px;
+}
+
+.inicio {
+  color: #287326;
+  text-align: left;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+}
+
+.empresa-coleta {
+  color: #287326;
+  text-align: left;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+}
+
+.trocar-pontos {
+  color: #287326;
+  text-align: left;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+}
+
+.pedidos {
+  color: #287326;
+  text-align: left;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+}
+
+#pesquisar {
+  border-radius: 6px;
+  border-style: solid;
+  border-color: #287326;
+  border-width: 2px;
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  width: 200px;
+  margin-right: 26px;
+  position: relative;
+}
+
+.user-menu {
+  position: relative;
+}
+
+.user-perf {
+  width: 40px;
+  border-radius: 50%;
+  /* Mantém o círculo */
+  cursor: pointer;
+  margin-right: 40px;
+  background-size: cover;
+  background-color: #ddd;
+  /* Cor padrão se não houver imagem */
+}
+
+nav ul {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding-left: 90px;
+}
+
+nav ul li {
+  margin: 0 20px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/*DROPDOWN PERFIL*/
+
+.sub-menu-wrap {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  width: 250px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease;
+  z-index: 10;
+}
+
+.sub-menu-wrap.open-menu {
+  max-height: 600px;
+}
+
+.sub-menu {
+  background: #fff;
+  border: 1px solid #287326;
+  border-radius: 0px 0px 10px 10px;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-image-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+  background-size: cover;
+}
+
+.user-info h3 {
+  color: #287326;
+}
+
+.sub-menu hr {
+  margin: 8px 0px 0px 0px;
+}
+
+.sub-menu-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #287326;
+  margin: 15px 0;
+}
+
+.sub-menu-link p {
+  flex-grow: 1;
+}
+
+.sub-menu-link span {
+  font-size: 22px;
+  transition: transform 0.5s;
+}
+
+.sub-menu-link:hover span {
+  transform: translateX(5px);
+}
+
+.sub-menu-link:hover p {
+  font-weight: 600;
+}
 
 
 /* DROPDOWN PEDIDOS */
@@ -196,109 +204,214 @@ nav {
   margin-right: 40px;
 }
 
+/* Container do Dropdown */
 .sub-menu-ped-wrap {
   position: absolute;
-  top: 120%;
-  right: 0;
-  width: 320px;
+  top: 100%;
+  right: 4%;
+  width: 350px;
   max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease;
-  z-index: 10;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-x: hidden;
+  transition: max-height 0.3s ease;
+  z-index: 1000;
 }
 
 .sub-menu-ped-wrap.open-menu-ped {
-  max-height: 600px;
+  max-height: 80vh;
 }
 
 .sub-menu-ped {
-  background: #fff;
-  border: 1px solid #287326;
-  border-radius: 0px 0px 10px 10px;
-  padding: 20px;
-  margin-top: 10px;
-  max-height: 500px; /* Altura fixa */
-  overflow-y: auto; /* Ativa a rolagem se necessário */
+  padding: 16px;
 }
 
-.pedido-box {
-    background-color: #f4f4f4;
-    border: 1px solid #287326;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.pedido-detalhes h4 {
-    color: #287326;
-    font-size: 18px;
-}
-
-.pedido-detalhes p {
-    margin: 5px 0;
-    color: #333;
-}
-
-.pedido-acoes {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.btn-aceitar, .btn-rejeitar {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn-aceitar {
-    background-color: #287326;
-    color: #fff;
-}
-
-.btn-rejeitar {
-    background-color: #e74c3c;
-    color: #fff;
-}
-
-.btn-aceitar:hover {
-    background-color: #3e8e41;
-}
-
-.btn-rejeitar:hover {
-    background-color: #c0392b;
-}
-
-.lista-pedidos {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
+/* Cabeçalho do Dropdown */
 .ped-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 12px;
 }
 
 .ped-info img {
-    width: 50px;
-    border-radius: 50%;
-    margin-bottom: 10px;
+  width: 24px;
+  height: 24px;
 }
 
 .ped-info h3 {
-    color: #287326;
+  color: #287326;
+  font-size: 16px;
+  margin: 0;
 }
 
+/* Lista de Pedidos */
+.pedidos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: calc(80vh - 100px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 16px 0 0;
+  margin-right: -8px;
+}
 
+/* Scrollbar Vertical */
+.pedidos-lista::-webkit-scrollbar {
+  width: 6px;
+}
 
+.pedidos-lista::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
 
-  
+.pedidos-lista::-webkit-scrollbar-thumb {
+  background: #abd94a;
+  border-radius: 3px;
+}
+
+/* Card de Pedido */
+.pedido-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  width: calc(108% - 24px);
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+.pedido-card:last-child {
+  margin-bottom: 0;
+}
+
+/* Cabeçalho do Card */
+.pedido-header {
+  color: #287326;
+  font-size: 16px;
+  font-weight: 600;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* Conteúdo do Card */
+.pedido-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pedido-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.pedido-item:last-child {
+  border-bottom: none;
+}
+
+.pedido-label {
+  color: #666;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.pedido-valor {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Destaque do Valor */
+.pedido-valor-destaque {
+  background: #f8fff8;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 8px 0;
+  text-align: center;
+}
+
+.pedido-valor-destaque .pedido-label {
+  color: #287326;
+  margin-bottom: 4px;
+}
+
+.pedido-valor-destaque .pedido-valor {
+  color: #287326;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Botões */
+.pedido-acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e9ecef;
+}
+
+.pedido-btn {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-aceitar {
+  background: #287326;
+  color: white;
+}
+
+.btn-aceitar:hover {
+  background: #1e5e1e;
+}
+
+.btn-rejeitar {
+  background: #fff;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+.btn-rejeitar:hover {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-detalhes {
+  width: 94%;
+  background: #fff;
+  color: #287326;
+  border: 1px solid #287326;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-detalhes:hover {
+  background: #f0f8f0;
+}
+
+/* Mensagem sem pedidos */
+.no-pedidos {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+  font-style: italic;
+}

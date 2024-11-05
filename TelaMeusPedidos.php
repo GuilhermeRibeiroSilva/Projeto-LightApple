@@ -256,23 +256,24 @@ try {
             </div>
         </div>
 
-        <!-- Grid de Pedidos -->
+        <!-- Grid de pedidos -->
         <div class="products-grid">
-            <!-- Os pedidos serão carregados aqui via JavaScript -->
+            <!-- Os pedidos serão inseridos aqui via JavaScript -->
         </div>
     </main>
 
-    <!-- Paginação -->
-    <div class="pagination"></div>
-
-    <!-- Modal -->
-    <div id="modal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <div id="modal-info"></div>
+    <!-- Modal e Overlay de Pedidos -->
+    <div class="pedido-modal-overlay"></div>
+    <div class="pedido-modal">
+        <div class="pedido-modal-content">
+            <!-- O conteúdo será inserido aqui via JavaScript -->
         </div>
     </div>
-    <div class="modal-overlay"></div>
+    
+    <!-- Paginação -->
+    <div class="pagination">
+        <!-- A paginação será inserida aqui via JavaScript -->
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -307,6 +308,8 @@ try {
             </div>
         </div>
     </footer>
+
+
 
     <script src="TelaMeusPedidos.js"></script>
     <script src="navmenu(cliente).js"></script>

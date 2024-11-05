@@ -97,36 +97,78 @@ main {
 /* Cards de pedidos */
 .product {
     background: white;
-    border: 1px solid #ddd;
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
-    padding: 15px;
+    padding: 20px;
     position: relative;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .product:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .product h3 {
-    margin: 10px 0;
     color: #218838;
+    margin-bottom: 15px;
+    font-size: 1.2em;
 }
 
 .product p {
-    margin: 5px 0;
-    color: #666;
+    margin: 6px 0;
+    color: #555;
+    font-size: 0.95em;
+}
+
+/* Badges de status */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.status-badge.aberto {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-badge.pendente {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.status-badge.fechado {
+    background-color: #dc3545;
+    color: white;
 }
 
 /* Ícone de informação */
 .info {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 24px;
+    bottom: 15px;
+    right: 15px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #218838;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    color: #218838;
+    transition: all 0.3s ease;
+}
+
+.info:hover {
+    background-color: #1a6e2e;
+    transform: scale(1.1);
 }
 
 /* Paginação */
@@ -203,4 +245,139 @@ main {
     .products-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Modal Overlay */
+.pedido-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    backdrop-filter: blur(2px);
+}
+
+.pedido-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 2001;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.pedido-modal.active,
+.pedido-modal-overlay.active {
+    display: block;
+}
+
+.pedido-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.pedido-modal-body {
+    padding: 20px 0;
+}
+
+/* Estilização do conteúdo do modal */
+.pedido-modal h2 {
+    color: #218838;
+    margin-bottom: 20px;
+}
+
+.pedido-modal p {
+    margin: 10px 0;
+    line-height: 1.5;
+}
+
+.pedido-modal .produtos-lista {
+    list-style: none;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.pedido-modal .produtos-lista li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.pedido-modal .produtos-lista li:last-child {
+    border-bottom: none;
+}
+
+.close-modal {
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    background: none;
+    border: none;
+    padding: 0;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #000;
+}
+
+/* Ajuste para scrollbar personalizada */
+.pedido-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.pedido-modal::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.pedido-modal::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.pedido-modal::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Estilo para informações do entregador */
+.entregador-info {
+    background-color: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+    margin: 8px 0;
+}
+
+.entregador-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    margin-right: 5px;
+}
+
+.entregador-badge.entregador {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.entregador-badge.transportadora {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
 }

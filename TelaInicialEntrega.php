@@ -72,9 +72,10 @@ try {
                     <div class="sub-menu-ped-wrap" id="pedidosDisponiveis">
                         <div class="sub-menu-ped">
                             <div class="ped-info">
+                                <img src="imagens/LightApple-Logo.png" alt="Ícone de pedidos">
                                 <h3>Pedidos Disponíveis</h3>
                             </div>
-                            <div id="pedidos-lista" class="pedidos-lista">
+                            <div class="pedidos-lista">
                                 <!-- Pedidos serão carregados aqui via JavaScript -->
                             </div>
                         </div>
