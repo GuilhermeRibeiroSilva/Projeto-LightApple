@@ -12,6 +12,8 @@ $data = json_decode(file_get_contents('php://input'), true);
 $pedidoId = $data['pedido_id'] ?? null;
 
 try {
+    $conn->beginTransaction();
+
     // Verifica se o pedido ainda está disponível
     $stmt = $conn->prepare("
         SELECT id FROM pedidos 
@@ -20,11 +22,19 @@ try {
     $stmt->execute([$pedidoId]);
     
     if (!$stmt->fetch()) {
+        $conn->rollBack();
         echo json_encode(['success' => false, 'message' => 'Pedido não está mais disponível']);
         exit;
     }
 
-    // Atualiza o pedido com o entregador atual
+    // Insere na tabela pedidos_aceitos
+    $stmt = $conn->prepare("
+        INSERT INTO pedidos_aceitos (pedido_id, entregador_id, data_aceite)
+        VALUES (?, ?, NOW())
+    ");
+    $stmt->execute([$pedidoId, $_SESSION['user_id']]);
+
+    // Atualiza o status do pedido
     $stmt = $conn->prepare("
         UPDATE pedidos 
         SET entregador_id = ?, status = 'aceito' 
@@ -32,12 +42,24 @@ try {
     ");
     
     if ($stmt->execute([$_SESSION['user_id'], $pedidoId])) {
-        echo json_encode(['success' => true]);
+        $conn->commit();
+        echo json_encode([
+            'success' => true,
+            'message' => 'Pedido aceito com sucesso'
+        ]);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Erro ao aceitar pedido']);
+        $conn->rollBack();
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Erro ao aceitar pedido'
+        ]);
     }
 
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => 'Erro: ' . $e->getMessage()]);
+    $conn->rollBack();
+    echo json_encode([
+        'success' => false, 
+        'message' => 'Erro ao aceitar pedido: ' . $e->getMessage()
+    ]);
 }
 ?> 

@@ -475,3 +475,495 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+
+/* Media Query para telas de 320px */
+@media screen and (max-width: 320px) {
+    /* Ajustes gerais */
+    body {
+        padding: 0 10px;
+    }
+
+    /* Ajustes no navbar */
+    .navbar {
+        padding: 10px;
+        height: auto;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .light-apple-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .lightapple-titulo {
+        font-size: 20px;
+        text-align: center;
+        flex: none;
+    }
+
+    .navigation {
+        width: 100%;
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    .possui-conta, .entrar {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    /* Ajustes na seção principal */
+    .section-criar-conta {
+        height: auto;
+        position: static;
+        margin-top: 20px;
+    }
+
+    .box-criarconta {
+        width: 100%;
+        position: static;
+        left: 0;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .tt {
+        font-size: 24px;
+        line-height: 30px;
+        text-align: center;
+    }
+
+    .desc {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .desc::after {
+        content: '';
+        display: block;
+        margin: 10px 0;
+    }
+
+    .coleta-imagem {
+        display: none;
+    }
+
+    /* Ajustes no formulário */
+    .form-container {
+        position: static;
+        width: 100%;
+        transform: none;
+        margin: 0;
+        padding: 10px;
+    }
+
+    form {
+        padding: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    input,
+    select,
+    button {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+    }
+
+    label {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    /* Ajustes nos campos específicos */
+    #nome, #cpf, #cnpj, #dataNascimento, #telefone, #endereco, #email, #senha, #confirmarSenha, #tipoConta {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .txtnome, .txtcpf, .txtdatanasc, .txttel, .txtend, .txtemail, .txtsenha, .txttconta {
+        font-size: 14px;
+    }
+
+    /* Oculta os elementos no nav */
+    .navbar .navigation {
+        display: none;
+    }
+
+    /* Adiciona os elementos abaixo da descrição */
+    .desc {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .desc::after {
+        content: '';
+        display: block;
+        margin: 10px 0;
+    }
+
+    /* Estiliza os elementos movidos */
+    .box-criarconta .possui-conta,
+    .box-criarconta .entrar {
+        display: block;
+        text-align: center;
+        font-size: 14px;
+        color: #287326;
+    }
+
+    .box-criarconta .possui-conta {
+        margin-bottom: 5px;
+    }
+
+    /* Oculta a navigation no navbar */
+    .navbar .navigation {
+        display: none;
+    }
+
+    /* Estiliza a navigation quando movida para depois da descrição */
+    .box-criarconta .navigation {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        background: none;
+        width: 100%;
+        margin-top: -15px;
+        margin-bottom: -5px;
+        gap: 5px;
+    }
+
+    .box-criarconta .navigation .possui-conta,
+    .box-criarconta .navigation .entrar {
+        text-align: center;
+        font-size: 14px;
+        color: #287326;
+        margin: 0;
+    }
+
+    /* Remove apenas a navigation do navbar */
+    .navbar > .navigation {
+        display: none;
+    }
+}
+
+/* Media Query para telas de 375px */
+@media screen and (max-width: 375px) {
+    /* Ajustes gerais */
+    body {
+        padding: 0 15px;
+    }
+
+    /* Ajustes no navbar */
+    .navbar {
+        padding: 12px;
+        height: auto;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .light-apple-logo {
+        width: 45px;
+        height: 45px;
+    }
+
+    .lightapple-titulo {
+        font-size: 22px;
+        text-align: center;
+        flex: none;
+    }
+
+    .navigation {
+        width: 100%;
+        gap: 12px;
+        flex-direction: column;
+    }
+
+    .possui-conta, .entrar {
+        font-size: 15px;
+        text-align: center;
+    }
+
+    /* Ajustes na seção principal */
+    .section-criar-conta {
+        height: auto;
+        position: static;
+        margin-top: 25px;
+    }
+
+    .box-criarconta {
+        width: 100%;
+        position: static;
+        left: 0;
+        padding: 12px;
+        margin-bottom: 25px;
+    }
+
+    .tt {
+        font-size: 26px;
+        line-height: 32px;
+        text-align: center;
+    }
+
+    .desc {
+        font-size: 15px;
+        text-align: center;
+        margin-bottom: 12px;
+    }
+
+    .desc::after {
+        content: '';
+        display: block;
+        margin: 12px 0;
+    }
+
+    .coleta-imagem {
+        display: none;
+    }
+
+    /* Ajustes no formulário */
+    .form-container {
+        position: static;
+        width: 100%;
+        transform: none;
+        margin: 0;
+        padding: 12px;
+    }
+
+    form {
+        padding: 18px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    input,
+    select,
+    button {
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+        margin-bottom: 18px;
+        box-sizing: border-box;
+    }
+
+    label {
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+
+    button {
+        margin-top: 25px;
+        padding: 14px;
+        font-size: 16px;
+    }
+
+    /* Ajustes nos campos específicos */
+    #nome, #cpf, #cnpj, #dataNascimento, #telefone, #endereco, #email, #senha, #confirmarSenha, #tipoConta {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .txtnome, .txtcpf, .txtdatanasc, .txttel, .txtend, .txtemail, .txtsenha, .txttconta {
+        font-size: 15px;
+    }
+
+    /* Oculta os elementos no nav */
+    .navbar .navigation {
+        display: none;
+    }
+
+    /* Adiciona os elementos abaixo da descrição */
+    .desc {
+        font-size: 15px;
+        text-align: center;
+        margin-bottom: 12px;
+    }
+
+    .desc::after {
+        content: '';
+        display: block;
+        margin: 12px 0;
+    }
+
+    /* Estiliza os elementos movidos */
+    .box-criarconta .navigation {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        background: none;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        gap: 8px;
+    }
+
+    .box-criarconta .navigation .possui-conta,
+    .box-criarconta .navigation .entrar {
+        text-align: center;
+        font-size: 15px;
+        color: #287326;
+        margin: 0;
+    }
+
+    /* Remove apenas a navigation do navbar */
+    .navbar > .navigation {
+        display: none;
+    }
+}
+
+/* Media Query para telas de 425px */
+@media screen and (max-width: 425px) {
+    /* Ajustes gerais */
+    body {
+        padding: 0 20px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Ajustes no navbar */
+    .navbar {
+        padding: 15px;
+        height: auto;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .light-apple-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .lightapple-titulo {
+        font-size: 24px;
+        text-align: center;
+        flex: none;
+    }
+
+    /* Ajustes na seção principal */
+    .section-criar-conta {
+        height: auto;
+        position: static;
+        margin-top: 30px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .box-criarconta {
+        width: 100%;
+        position: static;
+        left: 0;
+        padding: 15px;
+        margin-bottom: 30px;
+    }
+
+    .tt {
+        font-size: 28px;
+        line-height: 34px;
+        text-align: center;
+    }
+
+    .desc {
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .desc::after {
+        content: '';
+        display: block;
+        margin: 15px 0;
+    }
+
+    .coleta-imagem {
+        display: none;
+    }
+
+    /* Ajustes no formulário */
+    .form-container {
+        position: static;
+        width: 100%;
+        max-width: 100%;
+        transform: none;
+        margin: 0;
+        padding: 15px;
+    }
+
+    form {
+        padding: 20px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    input,
+    select,
+    button {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+
+    label {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    button {
+        margin-top: 30px;
+        padding: 15px;
+        font-size: 18px;
+    }
+
+    /* Ajustes nos campos específicos */
+    #nome, #cpf, #cnpj, #dataNascimento, #telefone, #endereco, #email, #senha, #confirmarSenha, #tipoConta {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .txtnome, .txtcpf, .txtdatanasc, .txttel, .txtend, .txtemail, .txtsenha, .txttconta {
+        font-size: 16px;
+    }
+
+    /* Oculta os elementos no nav */
+    .navbar .navigation {
+        display: none;
+    }
+
+    /* Estiliza os elementos movidos */
+    .box-criarconta .navigation {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        background: none;
+        width: 100%;
+        margin-top: 12px;
+        margin-bottom: 25px;
+        gap: 10px;
+    }
+
+    .box-criarconta .navigation .possui-conta,
+    .box-criarconta .navigation .entrar {
+        text-align: center;
+        font-size: 16px;
+        color: #287326;
+        margin: 0;
+    }
+
+    /* Remove apenas a navigation do navbar */
+    .navbar > .navigation {
+        display: none;
+    }
+}

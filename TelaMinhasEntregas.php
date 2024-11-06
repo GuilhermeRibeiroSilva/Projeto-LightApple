@@ -48,6 +48,7 @@ try {
     <link rel="stylesheet" href="TelaMinhasEntregas.css">
     <link rel="stylesheet" href="navmenu(entrega).css">
     <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -125,9 +126,9 @@ try {
     
     <main>
         <!-- Container do Mapa -->
-        <div class="map-container">
+        <div id="map-container">
             <div id="map"></div>
-            <div id="route-details" class="route-details-panel">
+            <div id="route-details" style="display: none;">
                 <!-- Detalhes da rota serão inseridos aqui via JavaScript -->
             </div>
         </div>
@@ -144,13 +145,15 @@ try {
             </div>
         </div>
 
-        <!-- Modal de Informações do Pedido -->
+        <!-- Modal de Detalhes -->
         <div id="modal" class="modal hidden">
             <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <h3>Detalhes do Pedido</h3>
+                <div class="modal-header">
+                    <h3>Detalhes do Pedido</h3>
+                    <button class="close-btn">&times;</button>
+                </div>
                 <div id="modal-info">
-                    <!-- Informações detalhadas do pedido serão inseridas aqui -->
+                    <!-- Informações detalhadas serão inseridas aqui -->
                 </div>
             </div>
         </div>

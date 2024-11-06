@@ -1,3 +1,43 @@
+<?php
+session_start();
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION['user_id'])) {
+    header('Location: entar.php'); // Redireciona para login se não estiver autenticado
+    exit;
+}
+
+$userId = $_SESSION['user_id']; // Recupera o ID do usuário da sessão
+
+// Conexão com o banco de dados
+$host = 'localhost';
+$dbname = 'light_apple';
+$username = 'root';
+$password = '';
+
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Recupera os dados do usuário
+    $stmt = $conn->prepare("SELECT *, DATE_FORMAT(dataCriacao, '%M de %Y') AS membro_desde FROM usuarios WHERE id = :id");
+    $stmt->bindParam(':id', $userId);
+    $stmt->execute();
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verifica se o usuário existe
+    if (!$usuario) {
+        header("Location: error.php");
+        exit();
+    }
+
+    // Obtém o caminho da imagem de perfil ou uma imagem padrão
+    $profileImagePath = $usuario['profile_image_path'] ?? 'imagens/default_image.png'; // Caminho padrão se não houver imagem
+
+} catch (PDOException $e) {
+    echo "Erro: " . $e->getMessage();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -11,7 +51,7 @@
 </head>
 
 <body>
-<input type="hidden" id="user-id" value="<?php echo htmlspecialchars($userId); ?>">
+    <input type="hidden" id="user-id" value="<?php echo htmlspecialchars($userId); ?>">
     <header>
         <div class="hero">
             <nav>
@@ -22,8 +62,8 @@
                 <ul>
                     <li><a href="TelaInicialEntrega.php" class="inicio">Inicio</a></li>
                     <li><a href="TelaEstabelecimentos.php" class="empresa-coleta">Estabelecimentos</a></li>
-                    <li><a href="#" class="trocar-pontos">Minhas Entregas</a></li>
-                    <li><a href="#" class="pedidos">Histórico</a></li>
+                    <li><a href="TelaMinhasEntregas.php" class="trocar-pontos">Minhas Entregas</a></li>
+                    <li><a href="TelaHistorico(entrega).php" class="pedidos">Histórico</a></li>
                 </ul>
                 <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
                 <!-- Drop-down de Pedidos Disponíveis -->
@@ -80,156 +120,55 @@
         </div>
     </header>
     <section class="section-txt">
-        <h1 class="historico">Historico</h1>
+        <h1 class="historico">Histórico</h1>
     </section>
     <main>
-        <div class="accordion" id="accordionPanelsStayOpenExample">
+        <!-- Filtros (accordion) -->
+        <div class="accordion">
+            <!-- Filtro de pesquisa -->
+            <input type="search" id="searchOrderNumber" class="search-input" placeholder="Buscar por número do pedido...">
 
-            <input type="search" name="" id="flitersearch">
-
-            <!-- Filtro de Status Pedidos -->
+            <!-- Filtro de Status -->
             <div class="accordion-item">
-                <h2 class="accordion-header" id="headingStatus">Status do Pedido</h2>
-                <div id="collapseStatus" class="accordion-collapse collapse show" aria-labelledby="headingStatus">
-                    <div class="accordion-body">
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="status-link text-dark">Todos</a></li>
-                            <li><a href="#" class="status-link text-dark">Abertos</a></li>
-                            <li><a href="#" class="status-link text-dark">Pendentes</a></li>
-                            <li><a href="#" class="status-link text-dark">Fechados</a></li>
-                        </ul>
-                    </div>
+                <h2 class="accordion-header">Status do Pedido</h2>
+                <div class="accordion-body">
+                    <ul>
+                        <li><a href="#" class="status-link" data-status="todos">Todos</a></li>
+                        <li><a href="#" class="status-link" data-status="aberto">Abertos</a></li>
+                        <li><a href="#" class="status-link" data-status="pendente">Pendentes</a></li>
+                        <li><a href="#" class="status-link" data-status="fechado">Fechados</a></li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Filtro de Data de Pedido -->
+            <!-- Filtro de Data -->
             <div class="accordion-item">
-                <h2 class="accordion-header" id="headingData">Data de Pedido</h2>
-                <div id="collapseData" class="accordion-collapse collapse show" aria-labelledby="headingData">
-                    <div class="accordion-body">
-                        <label for="orderDate">Data do Pedido:</label>
-                        <input type="date" id="orderDate" class="form-control">
-                    </div>
+                <h2 class="accordion-header">Data do Pedido</h2>
+                <div class="accordion-body">
+                    <input type="date" id="orderDate">
                 </div>
             </div>
-
         </div>
 
-        <div class="products-grid">
-            <div class="product" data-status="Pendentes" data-data="2024-05-15" data-info='{
-            "id": "#001",
-            "produto": "ROOP",
-            "localPartida": "XY",
-            "localChegada": "X",
-            "quantidade": "15 kg",
-            "data": "15/05/2024",
-            "status": "PENDENTE"
-        }' >
-                <h3>Pedido #001</h3>
-                <p>ROOP</p>
-                <p>Qtd: 15 kg</p>
-                <P>15/05/2024</P>
-                <p>PENDENTE</p>
-                <span class="info">&#8505;</span>
-            </div>
-            <div class="product" data-status="Abertos" data-data="2024-05-15" data-info='{
-            "id": "#001",
-            "produto": "ROOP",
-            "localPartida": "XY",
-            "localChegada": "X",
-            "quantidade": "15 kg",
-            "data": "15/05/2024",
-            "status": "PENDENTE"
-        }'>
-                <h3>Pedido #002</h3>
-                <p>ROOP</p>
-                <p>Qtd: 15 kg</p>
-                <P>15/05/2024</P>
-                <p>ABERTO</p>
-                <span class="info">&#8505;</span>
-            </div>
-            <div class="product" data-status="Fechados" data-data="2022-08-15" data-info='{
-            "id": "#001",
-            "produto": "ROOP",
-            "localPartida": "XY",
-            "localChegada": "X",
-            "quantidade": "15 kg",
-            "data": "15/05/2024",
-            "status": "PENDENTE"
-        }'>
-                <h3>Pedido #003</h3>
-                <p>ROOP</p>
-                <p>Qtd: 15 kg</p>
-                <P>15/08/2022</P>
-                <p>FECHADO</p>
-                <span class="info">&#8505;</span>
-            </div>
-            <div class="product" data-status="Abertos" data-data="2022-08-15" data-info='{
-            "id": "#001",
-            "produto": "ROOP",
-            "localPartida": "XY",
-            "localChegada": "X",
-            "quantidade": "15 kg",
-            "data": "15/05/2024",
-            "status": "PENDENTE"
-        }'>
-                <h3>Pedido #004</h3>
-                <p>ROOP</p>
-                <p>Qtd: 15 kg</p>
-                <P>15/08/2022</P>
-                <p>ABERTO</p>
-                <span class="info">&#8505;</span>
-            </div>
-            <div class="product" data-status="Pendentes" data-data="2020-12-15" data-info='{
-            "id": "#001",
-            "produto": "ROOP",
-            "localPartida": "XY",
-            "localChegada": "X",
-            "quantidade": "15 kg",
-            "data": "15/05/2024",
-            "status": "PENDENTE"
-        }'>
-                <h3>Pedido #005</h3>
-                <p>ROOP</p>
-                <p>Qtd: 15 kg</p>
-                <P>15/12/2020</P>
-                <p>PENDENTE</p>
-                <span class="info">&#8505;</span>
-            </div>
-            <div class="product" data-status="Fechados" data-data="2020-12-15" data-info='{
-            "id": "#001",
-            "produto": "ROOP",
-            "localPartida": "XY",
-            "localChegada": "X",
-            "quantidade": "15 kg",
-            "data": "15/05/2024",
-            "status": "PENDENTE"
-        }'>
-                <h3>Pedido #006</h3>
-                <p>ROOP</p>
-                <p>Qtd: 15 kg</p>
-                <P>15/12/2020</P>
-                <p>FECHADO</p>
-                <span class="info">&#8505;</span>
-            </div>
-
-        </div>
-        <!-- Modal que aparecerá ao clicar no ícone de info -->
-        <div id="modal" class="modal hidden">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <h3>Informações do Pedido</h3>
-                <p id="modal-info"></p>
-            </div>
+        <!-- Grid de pedidos -->
+        <div class="products-grid" id="productsGrid">
+            <!-- Os cards de pedidos serão gerados dinamicamente aqui -->
         </div>
     </main>
+
+    <!-- Modal e Overlay de Pedidos -->
+    <div class="modal-overlay"></div>
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Informações do Pedido</h3>
+            <p id="modal-info"></p>
+        </div>
+    </div>
+
+    <!-- Paginação -->
     <div class="pagination">
-        <button class="prev" disabled>Previous</button>
-        <button class="page-number active">1</button>
-        <span>...</span>
-        <button class="page-number">2</button>
-        <button class="page-number">3</button>
-        <button class="next">Next</button>
+        <!-- A paginação será inserida aqui via JavaScript -->
     </div>
     <footer class="footer">
         <img class="light-apple-logo" src="imagens/LightApple-Logo.png" />

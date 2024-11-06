@@ -748,3 +748,196 @@ flex-shrink: 0;
   justify-content: flex-start;
 }
 
+/* Media Query para 320px */
+@media screen and (max-width: 320px) {
+    /* Ajustes gerais */
+    body {
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    /* Navbar */
+    .navbar {
+        padding: 10px;
+        height: auto;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .lightapple-logo {
+        width: 45px;
+        height: 45px;
+    }
+
+    .lightapple-titulo {
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .navigation {
+        gap: 15px;
+        flex-direction: column;
+    }
+
+    .criar-conta, .entrar {
+        font-size: 16px;
+    }
+
+    /* Anúncio 1 */
+    .anuncio-1 {
+        padding: 20px 10px;
+    }
+
+    .caixa-txt-1 {
+        width: 100%;
+        left: 0;
+        top: 45px;
+        padding: 0 10px;
+    }
+
+    .tt-1, .desc-1 {
+        width: 100%;
+    }
+
+    .tt-1 {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    /* Seção Vantagens */
+    .section-vantagens {
+        padding: 30px 15px;
+        height: auto;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .txt-de-vantagem {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .vantagens {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .txt-delivery, .txt-pontos {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    /* Anúncio 2 */
+    .anuncio-2 {
+        width: 100%;
+        height: auto;
+        padding: 30px 15px;
+        flex-direction: column;
+    }
+
+    .tt-2 {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .centro-coleta {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    /* Seção Sobre */
+    .section-sobre {
+        padding: 30px 15px;
+    }
+
+    .tt-3, .desc-3 {
+        width: 100%;
+    }
+
+    .tt-3 {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .objetivos {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .list-obj {
+      height: 5%;
+  }
+
+    .box-objetivo-1,
+    .box-objetivo-2,
+    .box-objetivo-3 {
+        width: 100%;
+    }
+
+    /* Anúncio 3 */
+    .anuncio-3 {
+        padding: 30px 15px;
+    }
+
+    .image {
+        width: 100%;
+        height: auto;
+        position: relative;
+        left: 0;
+        top: 0;
+    }
+
+    /* Footer */
+    .footer {
+        height: auto;
+        padding: 20px;
+    }
+
+    .light-apple-logo {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .box-social {
+        width: 100%;
+        height: auto;
+        position: relative;
+        left: 0;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .twitter, .instagram, .facebook, .linkedin {
+        position: relative;
+        left: 0;
+        top: 0;
+    }
+
+    .box-info {
+        width: 100%;
+        height: auto;
+        position: relative;
+        left: 0;
+        top: 0;
+        align-items: center;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .copy-2024-light-apple {
+        position: relative;
+        left: 0;
+        top: 0;
+        width: 100%;
+        text-align: center;
+        margin: 20px 0;
+    }
+}
+

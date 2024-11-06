@@ -72,179 +72,106 @@ function atualizarPaginacao(info) {
     initPagination(); // Inicializa os eventos da nova paginação
 }
 
+let currentDirectionsRenderer = null;
 let map;
-let directionsService;
-let directionsRenderer;
-let geocoder;
 
 function initMap() {
-    // Inicializa o mapa
-    map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: -12.9714, lng: -38.5014 },
-        zoom: 13,
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 7,
+        center: { lat: -23.5505, lng: -46.6333 } // Exemplo de coordenadas válidas
     });
-
-    // Inicializa DirectionsService, DirectionsRenderer e Geocoder
-    directionsService = new google.maps.DirectionsService();
-    directionsRenderer = new google.maps.DirectionsRenderer();
-    geocoder = new google.maps.Geocoder();
     directionsRenderer.setMap(map);
 
-    // Adiciona listeners para os botões "Mostrar Percurso"
-    const routeButtons = document.querySelectorAll(".show-route");
-    routeButtons.forEach(button => {
-        button.addEventListener("click", (event) => {
-            const product = button.closest('.product');
-            const routeData = JSON.parse(product.getAttribute('data-route')); // Obtém as coordenadas do data-route
-            const start = routeData.start;
-            const end = routeData.end;
+    const start = { lat: -23.5505, lng: -46.6333 }; // Coordenadas de início
+    const end = { lat: -22.9068, lng: -43.1729 }; // Coordenadas de destino
 
-            calculateAndDisplayRoute(start, end, product); // Calcula e exibe a rota, passando o produto
-        });
-    });
+    calculateAndDisplayRoute(directionsService, directionsRenderer, start, end);
 }
 
-function calculateAndDisplayRoute(start, end, product) {
+function calculateAndDisplayRoute(directionsService, directionsRenderer, start, end) {
+    directionsService.route(
+        {
+            origin: start,
+            destination: end,
+            travelMode: google.maps.TravelMode.DRIVING
+        },
+        (response, status) => {
+            if (status === "OK") {
+                directionsRenderer.setDirections(response);
+            } else {
+                console.error("Erro ao buscar direções: " + status);
+            }
+        }
+    );
+}
+
+function mostrarRota(start, end) {
+    if (!map) return;
+
+    if (!isValidCoordinates(start) || !isValidCoordinates(end)) {
+        console.error('Coordenadas inválidas:', start, end);
+        alert('Não foi possível calcular a rota devido a coordenadas inválidas.');
+        return;
+    }
+
+    if (currentDirectionsRenderer) {
+        currentDirectionsRenderer.setMap(null);
+    }
+
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer({
+        map: map,
+        suppressMarkers: false,
+        polylineOptions: {
+            strokeColor: "#287326",
+            strokeWeight: 5
+        }
+    });
+
+    currentDirectionsRenderer = directionsRenderer;
+
     const request = {
-        origin: start,
-        destination: end,
-        travelMode: google.maps.TravelMode.DRIVING,
+        origin: new google.maps.LatLng(parseFloat(start.lat), parseFloat(start.lng)),
+        destination: new google.maps.LatLng(parseFloat(end.lat), parseFloat(end.lng)),
+        travelMode: google.maps.TravelMode.DRIVING
     };
 
-    directionsService.route(request, (response, status) => {
-        if (status === google.maps.DirectionsStatus.OK) {
-            directionsRenderer.setDirections(response);
-
-            const route = response.routes[0].legs[0];
-            const distance = route.distance.text;
-            const duration = route.duration.text;
-
-            // Atualiza os detalhes da rota no route-details
-            const routeDetails = document.getElementById("route-details");
-            routeDetails.innerHTML = `
-                <h4>Detalhes da Rota:</h4>
-                <p><strong>Endereço de Partida:</strong> ${route.start_address}</p>
-                <p><strong>Endereço de Chegada:</strong> ${route.end_address}</p>
-                <p><strong>Distância:</strong> ${distance}</p>
-                <p><strong>Duração estimada:</strong> ${duration}</p>
-            `;
-            routeDetails.style.display = "block";
-
-            // Salva os endereços no atributo data do produto para serem usados no modal
-            product.setAttribute('data-start-address', route.start_address);
-            product.setAttribute('data-end-address', route.end_address);
-
-        } else {
-            console.error("Erro ao calcular a rota: " + status);
-        }
-    });
-}
-
-// Função para converter coordenadas em endereços usando Geocoder
-function geocodeLatLng(location, callback) {
-    geocoder.geocode({ location: location }, (results, status) => {
-        if (status === google.maps.GeocoderStatus.OK) {
-            if (results[0]) {
-                callback(results[0].formatted_address); // Retorna o endereço convertido
-            } else {
-                console.error('Nenhum resultado encontrado para o endereço.');
-                callback('Endereço não disponível');
-            }
-        } else {
-            console.error('Erro de Geocoder: ' + status);
-            callback('Erro ao obter o endereço');
-        }
-    });
-}
-
-// Função para abrir o modal e obter endereços através do data-route
-function updateModal(info, startCoordinates, endCoordinates) {
-    // Converte as coordenadas de partida e chegada em endereços e só então atualiza o modal
-    geocodeLatLng(startCoordinates, (startAddress) => {
-        geocodeLatLng(endCoordinates, (endAddress) => {
-            const modalInfo = document.getElementById('modal-info');
-            modalInfo.innerHTML = `
-                <p><strong>Pedido:</strong> ${info.id}</p>
-                <p><strong>Cliente:</strong> ${info.nome_cliente}</p>
-                <p><strong>Empresa:</strong> ${info.estabelecimento}</p>
-                <p><strong>Local de Partida:</strong> ${startAddress}</p>
-                <p><strong>Local de Chegada:</strong> ${endAddress}</p>
-                <p><strong>Data/Hora:</strong> ${info.data_hora}</p>
-                <p><strong>Entregador:</strong> ${info.entregador}</p>
-                <p><strong>Quantidade:</strong> ${info.quantidade}</p>
-                <p><strong>Valor a Receber:</strong> R$ ${info.valor_entregador}</p>
-                <p><strong>Forma de Pagamento:</strong> ${info.forma_pagamento}</p>
-                <p><strong>Status:</strong> ${info.status}</p>
-            `;
-        });
-    });
-}
-
-// Modal logic (independente do botão "Mostrar Percurso")
-document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('modal');
-    const closeModalBtn = document.querySelector('.close-btn');
-    const overlay = document.createElement('div');
-    overlay.classList.add('modal-overlay');
-    document.body.appendChild(overlay);
-
-    // Função para abrir o modal
-    function openModal(info, startCoordinates, endCoordinates) {
-        updateModal(info, startCoordinates, endCoordinates); // Atualiza o modal com as coordenadas
-        document.body.classList.add('modal-active');
-    }
-
-    // Função para fechar o modal
-    function closeModal() {
-        document.body.classList.remove('modal-active');
-    }
-
-    // Adicionar evento de clique nos ícones de info
-    document.querySelectorAll('.info').forEach(infoIcon => {
-        infoIcon.addEventListener('click', (e) => {
-            const product = e.target.closest('.product');
-            const info = JSON.parse(product.getAttribute('data-info'));
-            const routeData = JSON.parse(product.getAttribute('data-route')); // Obtém as coordenadas do data-route
-            const startCoordinates = routeData.start;
-            const endCoordinates = routeData.end;
+    directionsService.route(request, function(result, status) {
+        if (status == 'OK') {
+            directionsRenderer.setDirections(result);
+            const route = result.routes[0];
             
-            openModal(info, startCoordinates, endCoordinates); // Abre o modal com as coordenadas
-        });
-    });
-
-    // Fechar o modal ao clicar no botão de fechar
-    closeModalBtn.addEventListener('click', closeModal);
-    overlay.addEventListener('click', closeModal);
-});
-
-// Carregar o mapa ao carregar a página
-window.onload = initMap;
-
-// Função para marcar pedido como entregue
-function marcarComoEntregue(pedidoId) {
-    if (!confirm('Confirma que este pedido foi entregue?')) return;
-
-    fetch('marcar_entregue.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ pedido_id: pedidoId })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Remove o card do pedido
-            document.querySelector(`.product[data-id="${pedidoId}"]`).remove();
-            alert('Pedido marcado como entregue com sucesso!');
+            document.getElementById('route-details').innerHTML = `
+                <h3>Detalhes da Rota</h3>
+                <p><strong>Distância:</strong> ${route.legs[0].distance.text}</p>
+                <p><strong>Tempo estimado:</strong> ${route.legs[0].duration.text}</p>
+                <p><strong>Local de Partida:</strong> ${start.endereco}</p>
+                <p><strong>Local de Chegada:</strong> ${end.endereco}</p>
+            `;
         } else {
-            alert(data.message || 'Erro ao marcar pedido como entregue');
+            console.error('Erro ao calcular rota:', status);
         }
-    })
-    .catch(error => {
-        console.error('Erro:', error);
-        alert('Erro ao marcar pedido como entregue');
     });
+}
+
+function isValidCoordinates(location) {
+    return location && !isNaN(location.lat) && !isNaN(location.lng);
+}
+
+// Função para carregar os dados do pedido e mostrar a rota
+function carregarRotaPedido(pedidoId) {
+    fetch(`buscar_dados_rota.php?pedido_id=${pedidoId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                mostrarRota(data.start, data.end);
+            } else {
+                console.error('Erro ao carregar dados da rota:', data.message);
+            }
+        })
+        .catch(error => console.error('Erro:', error));
 }
 
 function renderizarPedidos(pedidos, paginationInfo) {
@@ -256,41 +183,156 @@ function renderizarPedidos(pedidos, paginationInfo) {
         return;
     }
 
+    // Usar Set para evitar duplicatas
+    const pedidosProcessados = new Set();
+
     pedidos.forEach(pedido => {
+        if (pedidosProcessados.has(pedido.id)) return;
+        pedidosProcessados.add(pedido.id);
+
+        const routeData = {
+            start: {
+                lat: pedido.lat_partida,
+                lng: pedido.lng_partida,
+                endereco: pedido.endereco_partida
+            },
+            end: {
+                lat: pedido.lat_chegada,
+                lng: pedido.lng_chegada,
+                endereco: pedido.endereco_chegada
+            }
+        };
+
         const card = `
-            <div class="product" data-id="${pedido.id}" 
-                 data-route='{"start": ${pedido.coordenadas_partida || '"-12.9714,-38.5014"'}, "end": ${pedido.coordenadas_chegada || '"-12.9833,-38.5167"'}}'
-                 data-info='${JSON.stringify(pedido)}'>
-                <h3>Pedido #${pedido.id}</h3>
-                <div class="pedido-content">
-                    <p><strong>Empresa:</strong> ${pedido.empresa_coleta}</p>
-                    <p><strong>Cliente:</strong> ${pedido.nome_cliente}</p>
-                    <p><strong>Local Partida:</strong> ${pedido.local_partida}</p>
-                    <p><strong>Local Chegada:</strong> ${pedido.local_chegada}</p>
-                    <p><strong>Quantidade:</strong> ${pedido.quantidade_lixo}kg</p>
-                    <p><strong>Data:</strong> ${pedido.data_hora}</p>
-                    <p><strong>Valor a receber:</strong> R$ ${pedido.valor_entregador}</p>
-                    <p><strong>Status:</strong> ${pedido.status}</p>
+            <div class="product-card" data-id="${pedido.id}" data-route='${JSON.stringify(routeData)}'>
+                <div class="card-header">
+                    <div class="pedido-info">
+                        <h3>Pedido #${pedido.id}</h3>
+                        <span class="status-badge">${pedido.status}</span>
+                    </div>
+                    <div class="empresa-info">
+                        <span>${pedido.empresa_coleta}</span>
+                    </div>
                 </div>
-                <div class="product-buttons">
-                    <button class="btn-entregue" onclick="marcarComoEntregue(${pedido.id})">
-                        Marcar como Entregue
-                    </button>
-                    <button class="btn-rota show-route">
-                        Mostrar Rota
-                    </button>
+                <div class="card-body">
+                    <div class="endereco-info">
+                        <p><strong>Coleta:</strong> ${pedido.local_partida}</p>
+                        <p><strong>Entrega:</strong> ${pedido.local_chegada}</p>
+                    </div>
+                    <div class="info-adicional">
+                        <p><strong>Quantidade:</strong> ${pedido.quantidade_lixo}kg</p>
+                        <p><strong>Valor:</strong> R$ ${pedido.valor_entregador}</p>
+                    </div>
+                    <div class="card-buttons">
+                        <button class="btn-vermais" onclick="mostrarDetalhes(${pedido.id})">
+                            Ver mais
+                        </button>
+                        <button class="btn-rota show-route">
+                            Mostrar Rota
+                        </button>
+                        <button class="btn-entregue" onclick="marcarComoEntregue(${pedido.id})">
+                            Marcar como Entregue
+                        </button>
+                    </div>
                 </div>
-                <span class="info" onclick="mostrarDetalhes(${pedido.id})">&#8505;</span>
             </div>
         `;
         container.innerHTML += card;
     });
 
-    // Adiciona eventos aos botões de rota após renderizar
     adicionarEventosBotoesRota();
-    
-    // Atualiza a paginação
     atualizarPaginacao(paginationInfo);
+}
+
+function adicionarEventosBotoesRota() {
+    document.querySelectorAll('.show-route').forEach(button => {
+        button.addEventListener('click', function() {
+            const card = this.closest('.product-card');
+            const routeData = JSON.parse(card.getAttribute('data-route'));
+            if (routeData.start && routeData.end) {
+                mostrarRota(routeData.start, routeData.end);
+            } else {
+                console.error('Dados da rota não encontrados');
+            }
+        });
+    });
+}
+
+function mostrarDetalhes(pedidoId) {
+    const modal = document.getElementById('modal');
+    const modalOverlay = document.querySelector('.modal-overlay');
+    const pedidoCard = document.querySelector(`[data-pedido-id="${pedidoId}"]`);
+    
+    if (!pedidoCard) return;
+    
+    const pedido = JSON.parse(pedidoCard.getAttribute('data-info'));
+    const modalInfo = document.getElementById('modal-info');
+
+    // Adiciona overlay se não existir
+    if (!modalOverlay) {
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        document.body.appendChild(overlay);
+    }
+
+    modalInfo.innerHTML = `
+        <div class="modal-body">
+            <p><strong>Cliente:</strong> ${pedido.nome_cliente}</p>
+            <p><strong>Empresa:</strong> ${pedido.empresa_coleta}</p>
+            <p><strong>Quantidade:</strong> ${pedido.quantidade_lixo}kg</p>
+            <p><strong>Valor:</strong> R$ ${pedido.valor}</p>
+            <p><strong>Local de Coleta:</strong> ${pedido.endereco_partida}</p>
+            <p><strong>Local de Entrega:</strong> ${pedido.endereco_chegada}</p>
+            <p><strong>Status:</strong> <span class="status ${pedido.status}">${pedido.status}</span></p>
+        </div>
+    `;
+
+    modal.classList.remove('hidden');
+    document.querySelector('.modal-overlay').style.display = 'block';
+
+    // Fecha o modal
+    const closeBtn = modal.querySelector('.close-btn');
+    closeBtn.onclick = function() {
+        modal.classList.add('hidden');
+        document.querySelector('.modal-overlay').style.display = 'none';
+    };
+}
+
+function fecharModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none';
+    document.querySelector('.modal-overlay').style.display = 'none';
+}
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+    carregarPedidos(1);
+});
+
+// Função para marcar pedido como entregue
+function marcarComoEntregue(pedidoId) {
+    if (confirm('Tem certeza que deseja marcar este pedido como entregue?')) {
+        fetch('marcar_entregue.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ pedido_id: pedidoId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Pedido marcado como entregue com sucesso!');
+                carregarPedidos(1); // Recarrega a lista de pedidos
+            } else {
+                alert(data.message || 'Erro ao marcar pedido como entregue');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao marcar pedido como entregue');
+        });
+    }
 }
 
 function carregarPedidos(page = 1) {
@@ -298,7 +340,45 @@ function carregarPedidos(page = 1) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                renderizarPedidos(data.pedidos, data.pagination);
+                const container = document.querySelector('.products-grid');
+                if (!data.pedidos || data.pedidos.length === 0) {
+                    container.innerHTML = '<div class="no-pedidos">Nenhum pedido encontrado</div>';
+                    return;
+                }
+
+                container.innerHTML = data.pedidos.map(pedido => `
+                    <div class="product-card" data-pedido-id="${pedido.id}" data-info='${JSON.stringify(pedido)}'>
+                        <div class="card-header">
+                            <h3>Pedido #${pedido.id}</h3>
+                            <span class="status ${pedido.status}">${pedido.status}</span>
+                        </div>
+                        <div class="card-content">
+                            <p><strong>Cliente:</strong> ${pedido.nome_cliente}</p>
+                            <p><strong>Empresa:</strong> ${pedido.empresa_coleta}</p>
+                            <p><strong>Quantidade:</strong> ${pedido.quantidade_lixo}kg</p>
+                            <p><strong>Valor:</strong> R$ ${pedido.valor}</p>
+                            <p><strong>Local de Coleta:</strong> ${pedido.endereco_partida}</p>
+                            <p><strong>Local de Entrega:</strong> ${pedido.endereco_chegada || 'Não especificado'}</p>
+                        </div>
+                        <div class="card-buttons">
+                            <button class="btn-vermais" onclick="mostrarDetalhes(${pedido.id})">
+                                Ver Mais
+                            </button>
+                            <button class="btn-rota" onclick="mostrarRota(
+                                {lat: ${pedido.start.lat}, lng: ${pedido.start.lng}, endereco: '${pedido.start.endereco}'},
+                                {lat: ${pedido.end.lat}, lng: ${pedido.end.lng}, endereco: '${pedido.end.endereco}'}
+                            )">
+                                Ver Rota
+                            </button>
+                            <button class="btn-entregue" onclick="marcarComoEntregue(${pedido.id})">
+                                Marcar como Entregue
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Atualiza a paginação
+                atualizarPaginacao(data.pagination);
             } else {
                 console.error('Erro ao carregar pedidos:', data.message);
             }
@@ -306,129 +386,43 @@ function carregarPedidos(page = 1) {
         .catch(error => console.error('Erro:', error));
 }
 
-// Função para mostrar detalhes do pedido no modal
-function mostrarDetalhes(pedidoId) {
-    const pedidoElement = document.querySelector(`.product[data-id="${pedidoId}"]`);
-    const pedido = JSON.parse(pedidoElement.getAttribute('data-info'));
+// Função para atualizar a paginação
+function atualizarPaginacao(paginationData) {
+    const paginationContainer = document.querySelector('.pagination');
+    const totalPages = paginationData.total_pages;
+    const currentPage = paginationData.current_page;
+
+    let paginationHTML = '';
     
-    const modalInfo = document.getElementById('modal-info');
-    modalInfo.innerHTML = `
-        <p><strong>Número do Pedido:</strong> #${pedido.id}</p>
-        <p><strong>Cliente:</strong> ${pedido.nome_cliente}</p>
-        <p><strong>Empresa:</strong> ${pedido.empresa_coleta}</p>
-        <p><strong>Local de Partida:</strong> ${pedido.local_partida}</p>
-        <p><strong>Local de Chegada:</strong> ${pedido.local_chegada}</p>
-        <p><strong>Data/Hora:</strong> ${pedido.data_hora}</p>
-        <p><strong>Entregador:</strong> ${pedido.nome_entregador || 'Não atribuído'}</p>
-        <p><strong>Quantidade:</strong> ${pedido.quantidade_lixo}kg</p>
-        <p><strong>Valor a Receber:</strong> R$ ${pedido.valor_entregador}</p>
-        <p><strong>Forma de Pagamento:</strong> ${pedido.forma_pagamento}</p>
-        <p><strong>Status:</strong> ${pedido.status}</p>
-    `;
-}
-
-// Função para adicionar eventos aos botões de rota
-function adicionarEventosBotoesRota() {
-    document.querySelectorAll('.show-route').forEach(button => {
-        button.addEventListener('click', function() {
-            const productDiv = this.closest('.product');
-            const routeData = JSON.parse(productDiv.getAttribute('data-route'));
-            mostrarRota(routeData.start, routeData.end);
-        });
-    });
-}
-
-// Função para renderizar pedidos atualizada
-function renderizarPedidos(pedidos, paginationInfo) {
-    const container = document.querySelector('.products-grid');
-    container.innerHTML = '';
-
-    if (!pedidos || pedidos.length === 0) {
-        container.innerHTML = '<div class="no-pedidos">Nenhum pedido aceito no momento</div>';
-        return;
-    }
-
-    pedidos.forEach(pedido => {
-        // Formatando as coordenadas corretamente para JSON
-        const coordenadasPartida = pedido.coordenadas_partida || '-12.9714,-38.5014';
-        const coordenadasChegada = pedido.coordenadas_chegada || '-12.9833,-38.5167';
-        
-        const routeData = {
-            start: coordenadasPartida,
-            end: coordenadasChegada
-        };
-
-        const card = `
-            <div class="product" data-id="${pedido.id}" 
-                 data-route='${JSON.stringify(routeData)}'
-                 data-info='${JSON.stringify(pedido)}'>
-                <h3>Pedido #${pedido.id}</h3>
-                <div class="pedido-content">
-                    <p><strong>Empresa:</strong> ${pedido.empresa_coleta}</p>
-                    <p><strong>Cliente:</strong> ${pedido.nome_cliente}</p>
-                    <p><strong>Local Partida:</strong> ${pedido.local_partida}</p>
-                    <p><strong>Local Chegada:</strong> ${pedido.local_chegada}</p>
-                    <p><strong>Quantidade:</strong> ${pedido.quantidade_lixo}kg</p>
-                    <p><strong>Data:</strong> ${pedido.data_hora}</p>
-                    <p><strong>Valor a receber:</strong> R$ ${pedido.valor_entregador}</p>
-                    <p><strong>Status:</strong> ${pedido.status}</p>
-                </div>
-                <div class="product-buttons">
-                    <button class="btn-entregue" onclick="marcarComoEntregue(${pedido.id})">
-                        Marcar como Entregue
-                    </button>
-                    <button class="btn-rota show-route">
-                        Mostrar Rota
-                    </button>
-                </div>
-                <span class="info" onclick="mostrarDetalhes(${pedido.id})">&#8505;</span>
-            </div>
+    if (totalPages > 1) {
+        // Botão Anterior
+        paginationHTML += `
+            <button class="prev" ${currentPage === 1 ? 'disabled' : ''} 
+                    onclick="carregarPedidos(${currentPage - 1})">
+                Anterior
+            </button>
         `;
-        container.innerHTML += card;
-    });
 
-    // Adiciona eventos aos botões de rota após renderizar
-    adicionarEventosBotoesRota();
-    
-    // Atualiza a paginação
-    atualizarPaginacao(paginationInfo);
-}
-
-// Função para mostrar rota no mapa
-function mostrarRota(start, end) {
-    if (!map) return;
-
-    const directionsService = new google.maps.DirectionsService();
-    const directionsRenderer = new google.maps.DirectionsRenderer();
-    
-    directionsRenderer.setMap(map);
-    
-    const [startLat, startLng] = start.split(',');
-    const [endLat, endLng] = end.split(',');
-
-    const request = {
-        origin: new google.maps.LatLng(parseFloat(startLat), parseFloat(startLng)),
-        destination: new google.maps.LatLng(parseFloat(endLat), parseFloat(endLng)),
-        travelMode: google.maps.TravelMode.DRIVING
-    };
-
-    directionsService.route(request, function(result, status) {
-        if (status == 'OK') {
-            directionsRenderer.setDirections(result);
-            
-            // Mostrar detalhes da rota
-            const route = result.routes[0];
-            const routeDetails = document.getElementById('route-details');
-            routeDetails.style.display = 'block';
-            routeDetails.innerHTML = `
-                <h3>Detalhes da Rota</h3>
-                <p><strong>Origem:</strong> ${route.legs[0].start_address}</p>
-                <p><strong>Destino:</strong> ${route.legs[0].end_address}</p>
-                <p><strong>Distância:</strong> ${route.legs[0].distance.text}</p>
-                <p><strong>Tempo estimado:</strong> ${route.legs[0].duration.text}</p>
+        // Números das páginas
+        for (let i = 1; i <= totalPages; i++) {
+            paginationHTML += `
+                <button class="page-number ${i === currentPage ? 'active' : ''}"
+                        onclick="carregarPedidos(${i})">
+                    ${i}
+                </button>
             `;
         }
-    });
+
+        // Botão Próximo
+        paginationHTML += `
+            <button class="next" ${currentPage === totalPages ? 'disabled' : ''} 
+                    onclick="carregarPedidos(${currentPage + 1})">
+                Próximo
+            </button>
+        `;
+    }
+
+    paginationContainer.innerHTML = paginationHTML;
 }
 
 // Variável global para o mapa
@@ -444,6 +438,156 @@ function initMap() {
 document.addEventListener('DOMContentLoaded', () => {
     carregarPedidos(1);
 });
+
+// Funções do Modal
+function abrirModal(pedido) {
+    const modal = document.getElementById('modal');
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    document.body.appendChild(overlay);
+
+    const modalContent = `
+        <div class="modal-header">
+            <h3>Detalhes do Pedido</h3>
+            <button class="close-btn" onclick="fecharModal()">&times;</button>
+        </div>
+        <div class="modal-content">
+            <p><strong>Cliente:</strong> ${pedido.nome_cliente}</p>
+            <p><strong>Empresa:</strong> ${pedido.empresa_coleta}</p>
+            <p><strong>Local de Coleta:</strong> ${pedido.endereco_partida}</p>
+            <p><strong>Local de Entrega:</strong> ${pedido.endereco_chegada}</p>
+            <p><strong>Quantidade:</strong> ${pedido.quantidade_lixo}kg</p>
+            <p><strong>Valor:</strong> R$ ${pedido.valor_entregador}</p>
+            <p><strong>Data/Hora:</strong> ${pedido.data_hora}</p>
+            <p><strong>Forma de Pagamento:</strong> ${pedido.forma_pagamento}</p>
+        </div>
+    `;
+
+    document.getElementById('modal-info').innerHTML = modalContent;
+    modal.style.display = 'block';
+    overlay.style.display = 'block';
+}
+
+function fecharModal() {
+    const modal = document.getElementById('modal');
+    const overlay = document.querySelector('.modal-overlay');
+    modal.style.display = 'none';
+    if (overlay) {
+        overlay.remove();
+    }
+}
+
+// Função para mostrar rota com scroll automático
+function mostrarRota(start, end) {
+    if (!map) return;
+
+    if (currentDirectionsRenderer) {
+        currentDirectionsRenderer.setMap(null);
+    }
+
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer({
+        map: map,
+        suppressMarkers: false,
+        polylineOptions: {
+            strokeColor: "#287326",
+            strokeWeight: 5
+        }
+    });
+
+    currentDirectionsRenderer = directionsRenderer;
+
+    const request = {
+        origin: new google.maps.LatLng(parseFloat(start.lat), parseFloat(start.lng)),
+        destination: new google.maps.LatLng(parseFloat(end.lat), parseFloat(end.lng)),
+        travelMode: google.maps.TravelMode.DRIVING
+    };
+
+    directionsService.route(request, function(result, status) {
+        if (status == 'OK') {
+            directionsRenderer.setDirections(result);
+            const route = result.routes[0];
+            
+            document.getElementById('route-details').innerHTML = `
+                <h3>Detalhes da Rota</h3>
+                <p><strong>Distância:</strong> ${route.legs[0].distance.text}</p>
+                <p><strong>Tempo estimado:</strong> ${route.legs[0].duration.text}</p>
+                <p><strong>Local de Partida:</strong> ${start.endereco}</p>
+                <p><strong>Local de Chegada:</strong> ${end.endereco}</p>
+            `;
+        }
+    });
+}
+
+// Adicione também o CSS necessário:
+const style = document.createElement('style');
+style.textContent = `
+    #route-details {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-top: 20px;
+    }
+
+    .route-details-container {
+        font-family: Arial, sans-serif;
+    }
+
+    .route-details-header {
+        border-bottom: 2px solid #287326;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+    }
+
+    .route-details-header h3 {
+        color: #287326;
+        margin: 0;
+    }
+
+    .route-info {
+        margin-bottom: 20px;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .info-item i {
+        color: #287326;
+        margin-right: 10px;
+        width: 20px;
+    }
+
+    .route-points {
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+    }
+
+    .route-point {
+        margin-bottom: 15px;
+    }
+
+    .route-point strong {
+        color: #287326;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .route-point p {
+        margin: 0;
+        color: #666;
+    }
+
+    .route-error {
+        color: #dc3545;
+        text-align: center;
+        padding: 20px;
+    }
+`;
+document.head.appendChild(style);
 
 
 

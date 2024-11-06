@@ -63,7 +63,7 @@ try {
                     <li><a href="TelaInicialEntrega.php" class="inicio">Inicio</a></li>
                     <li><a href="TelaEstabelecimentos.php" class="empresa-coleta">Estabelecimentos</a></li>
                     <li><a href="TelaMinhasEntregas.php" class="trocar-pontos">Minhas Entregas</a></li>
-                    <li><a href="#" class="pedidos">Histórico</a></li>
+                    <li><a href="TelaHistorico(entrega).php" class="pedidos">Histórico</a></li>
                 </ul>
                 <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
                 <!-- Drop-down de Pedidos Disponíveis -->
@@ -133,7 +133,7 @@ try {
                     <div class="txtminhasentregas">MINHAS ENTREGAS</div>
                 </div>
             </a>
-            <a href="#">
+            <a href="TelaHistorico(entrega).php">
                 <div class="box-pedidos">
                     <img class="pedido" src="imagens/pedido.png" />
                     <div class="txtpedidos">PEDIDOS</div>

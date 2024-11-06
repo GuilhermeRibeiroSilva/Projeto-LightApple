@@ -10,63 +10,65 @@ if (!isset($_SESSION['user_id'])) {
 
 try {
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $limit = 6;
+    $limit = 2; // 2 pedidos por página
     $offset = ($page - 1) * $limit;
 
-    // Consulta atualizada com base nas tabelas reais
     $sql = "SELECT 
         p.id,
         p.empresa_coleta,
         u.nome as nome_cliente,
-        p.local_partida,
-        p.local_chegada,
         p.quantidade_lixo,
-        p.valor,
+        p.valor as valor_entregador,
         p.status,
         p.forma_pagamento,
         DATE_FORMAT(p.data_criacao, '%d/%m/%Y %H:%i') as data_hora,
-        ROUND(p.valor * 0.30, 2) as valor_entregador,
-        ent.nome as nome_entregador,
-        CONCAT(l_partida.latitude, ',', l_partida.longitude) as coordenadas_partida,
-        CONCAT(l_chegada.latitude, ',', l_chegada.longitude) as coordenadas_chegada
+        u.endereco as endereco_partida,
+        l.endereco as endereco_chegada,
+        l.latitude as lat_chegada,
+        l.longitude as lng_chegada
     FROM pedidos p
     JOIN usuarios u ON p.user_id = u.id
-    JOIN pedidos_aceitos pa ON p.id = pa.pedido_id
-    LEFT JOIN usuarios ent ON p.entregador_id = ent.id
-    LEFT JOIN locais l_partida ON p.local_partida = l_partida.endereco
-    LEFT JOIN locais l_chegada ON p.local_chegada = l_chegada.endereco
-    WHERE pa.entregador_id = :user_id 
+    LEFT JOIN locais l ON p.local_chegada = l.id
+    WHERE p.entregador_id = :user_id 
     AND p.status = 'aceito'
     ORDER BY p.data_criacao DESC
     LIMIT :limit OFFSET :offset";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':user_id', $_SESSION['user_id']);
+    $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
     $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
     $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
     
     $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Contar total de pedidos
-    $sqlCount = "SELECT COUNT(*) as total 
-                 FROM pedidos p 
-                 JOIN pedidos_aceitos pa ON p.id = pa.pedido_id
-                 WHERE pa.entregador_id = :user_id 
-                 AND p.status = 'aceito'";
-    
+    // Processa os pedidos para incluir as coordenadas
+    foreach ($pedidos as &$pedido) {
+        $pedido['end'] = [
+            'lat' => floatval($pedido['lat_chegada']),
+            'lng' => floatval($pedido['lng_chegada']),
+            'endereco' => $pedido['endereco_chegada']
+        ];
+        
+        $pedido['start'] = [
+            'endereco' => $pedido['endereco_partida']
+        ];
+    }
+
+    // Conta o total de pedidos
+    $sqlCount = "SELECT COUNT(*) as total FROM pedidos 
+                 WHERE entregador_id = :user_id AND status = 'aceito'";
     $stmtCount = $conn->prepare($sqlCount);
     $stmtCount->bindParam(':user_id', $_SESSION['user_id']);
     $stmtCount->execute();
     $totalPedidos = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
-    $totalPages = ceil($totalPedidos / $limit);
-
+    
     echo json_encode([
         'success' => true,
         'pedidos' => $pedidos,
         'pagination' => [
             'current_page' => $page,
-            'total_pages' => $totalPages,
+            'total_pages' => ceil($totalPedidos / $limit),
             'total_pedidos' => $totalPedidos
         ]
     ]);

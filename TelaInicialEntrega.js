@@ -99,6 +99,8 @@ function renderizarPedidosAceitos(pedidos) {
 
 // Função para aceitar pedido
 function aceitarPedido(pedidoId) {
+    if (!confirm('Deseja aceitar este pedido?')) return;
+
     fetch('aceitar_pedido.php', {
         method: 'POST',
         headers: {
@@ -109,9 +111,10 @@ function aceitarPedido(pedidoId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Atualiza ambas as listas após aceitar o pedido
-            carregarPedidosTelaInicial();
             alert('Pedido aceito com sucesso!');
+            // Atualiza a lista de pedidos
+            carregarPedidosDisponiveis();
+            carregarPedidosAceitos();
         } else {
             alert(data.message || 'Erro ao aceitar pedido');
         }

@@ -116,4 +116,52 @@ document.addEventListener('DOMContentLoaded', function () {
             labelDataNascimento.style.display = 'block'; // Mostra o label de Data de Nascimento
         }
     });
+
+    function moverElementosResponsivo() {
+        const boxCriarconta = document.querySelector('.box-criarconta');
+        const navigation = document.querySelector('.navigation');
+        const desc = document.querySelector('.desc');
+        const mediaQuery = window.matchMedia('(max-width: 425px)'); // Atualizado para 425px
+
+        function handleResize(e) {
+            if (e.matches) {
+                // Move os elementos para depois da descrição
+                if (navigation && desc) {
+                    // Remove a navigation do navbar e insere após a desc
+                    navigation.remove();
+                    desc.insertAdjacentElement('afterend', navigation);
+                    
+                    // Ajusta os estilos
+                    navigation.style.display = 'flex';
+                    navigation.style.flexDirection = 'column';
+                    navigation.style.alignItems = 'center';
+                    navigation.style.gap = '10px';
+                    navigation.style.marginTop = '12px';
+                    navigation.style.marginBottom = '25px';
+                    navigation.style.background = 'none';
+                }
+            } else {
+                // Retorna os elementos para o navbar
+                const navbar = document.querySelector('.navbar');
+                if (navigation && navbar) {
+                    navigation.remove();
+                    navbar.appendChild(navigation);
+                    
+                    // Restaura os estilos originais
+                    navigation.style.display = 'flex';
+                    navigation.style.flexDirection = 'row';
+                    navigation.style.background = '#abd94a';
+                    navigation.style.marginTop = '0';
+                    navigation.style.marginBottom = '0';
+                }
+            }
+        }
+
+        // Adiciona listener para mudanças na media query
+        mediaQuery.addListener(handleResize);
+        // Executa a função imediatamente
+        handleResize(mediaQuery);
+    }
+
+    moverElementosResponsivo();
 });

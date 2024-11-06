@@ -47,57 +47,113 @@ a {
 /*Maps e produtos*/
 /* Alterar a estrutura para exibir o mapa à esquerda */
 main {
-    display: flex;
-    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 20px;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: calc(100vh - 200px);
 }
 
 /* Container do mapa */
-.map-container {
-    flex: 0 0 45%;
-    height: calc(100vh - 200px);
-    position: sticky;
-    top: 20px;
+#map-container {
+    position: relative;
+    height: 400px;
+    margin-bottom: 20px;
 }
 
 #map {
     width: 100%;
-    height: 70%;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    height: 100%;
+    border-radius: 12px;
 }
 
 /* Detalhes da rota */
 #route-details {
     background: white;
+    border-radius: 12px;
     padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display: none;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 100;
 }
 
 /* Container dos pedidos */
 .products-container {
-    flex: 0 0 55%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .products-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    padding-right: 10px;
 }
 
-/* Estilo do card de pedido */
+/* Estilo do card de pedido atualizado */
 .product {
     background: white;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     position: relative;
+    border: 1px solid #e0e0e0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Botões do card */
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.pedido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.pedido-header h3 {
+    color: #287326;
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.pedido-status {
+    background: #abd94a;
+    color: #287326;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+.pedido-content {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.pedido-content p {
+    margin: 8px 0;
+    color: #444;
+    font-size: 0.95em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pedido-content p strong {
+    color: #287326;
+}
+
 .product-buttons {
     display: flex;
     gap: 10px;
@@ -106,12 +162,17 @@ main {
 
 .btn-entregue, .btn-rota {
     flex: 1;
-    padding: 10px;
+    padding: 12px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: 500;
     transition: all 0.2s ease;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .btn-entregue {
@@ -237,11 +298,11 @@ button.show-route:hover {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
-    z-index: 5; /* Certifique-se de que fica abaixo do modal */
-    display: none; /* Inicia escondido */
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    display: none;
 }
 
 /* Estilo básico do modal */
@@ -250,29 +311,55 @@ button.show-route:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
-    background-color: #abd94a;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10;
+    background: white;
     padding: 20px;
-    border-radius: 10px;
-    display: none; /* Escondido por padrão */
+    border-radius: 12px;
+    z-index: 999;
+    width: 90%;
+    max-width: 500px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+    color: #287326;
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.close-btn:hover {
     color: #287326;
 }
 
-/* Estilo do botão de fechar */
-.modal .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 20px;
+#modal-info {
+    display: grid;
+    gap: 15px;
 }
 
-/* Organizar informações dentro do modal */
 #modal-info p {
-    margin: 8px 0; /* Margem entre os parágrafos */
-    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+#modal-info p:last-child {
+    border-bottom: none;
 }
 
 /* Desfocar o conteúdo do main */
@@ -321,4 +408,313 @@ button.show-route:hover {
     margin: 8px 0;
     color: #287326;
     font-size: 14px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.card-content p {
+    margin: 10px 0;
+    line-height: 1.5;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    padding: 15px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+}
+
+.pedido-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pedido-info h3 {
+    color: #287326;
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    background: #abd94a;
+    color: #287326;
+}
+
+.empresa-info {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.empresa-info img {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.endereco-info {
+    margin-bottom: 15px;
+}
+
+.partida, .chegada {
+    display: flex;
+    align-items: flex-start;
+    margin: 8px 0;
+}
+
+.partida i, .chegada i {
+    color: #287326;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+
+.detalhes-pedido {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+}
+
+.card-footer {
+    display: flex;
+    padding: 15px;
+    gap: 10px;
+    background: #f8f9fa;
+}
+
+.btn-rota, .btn-entregue, .btn-detalhes {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-rota {
+    background: #287326;
+    color: white;
+    flex: 1;
+}
+
+.btn-entregue {
+    background: #abd94a;
+    color: #287326;
+    flex: 1;
+}
+
+.btn-detalhes {
+    background: #e9ecef;
+    color: #495057;
+    width: 40px;
+    padding: 0;
+}
+
+/* Estilos para os detalhes da rota */
+#route-details {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.route-details-content {
+    padding: 15px;
+}
+
+.route-details-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.route-details-header h3 {
+    color: #287326;
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.route-details-body {
+    padding: 10px 0;
+}
+
+.route-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.route-point i {
+    color: #287326;
+    font-size: 1.2em;
+    margin-top: 3px;
+}
+
+.point-details {
+    flex: 1;
+}
+
+.point-details strong {
+    display: block;
+    color: #287326;
+    margin-bottom: 5px;
+}
+
+.point-details p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.route-divider {
+    border-left: 2px dashed #287326;
+    height: 30px;
+    margin-left: 22px;
+    margin-bottom: 5px;
+}
+
+.route-info {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.info-item i {
+    color: #287326;
+}
+
+.info-item span {
+    color: #666;
+    font-size: 0.9em;
+}
+
+/* Estilo dos botões */
+.card-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.card-buttons button {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-vermais,
+.btn-rota,
+.btn-entregue {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-vermais {
+    background: #f8f9fa;
+    color: #287326;
+    border: 1px solid #287326;
+}
+
+.btn-rota {
+    background: #287326;
+    color: white;
+}
+
+.btn-entregue {
+    background: #abd94a;
+    color: #287326;
+}
+
+/* Scrollbar personalizada */
+.products-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.products-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.products-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+/* Status styles */
+.status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status.aceito {
+    background-color: #e6f4ea;
+    color: #287326;
+}
+
+/* Paginação */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.pagination button.active {
+    background: #287326;
+    color: white;
+    border-color: #287326;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
