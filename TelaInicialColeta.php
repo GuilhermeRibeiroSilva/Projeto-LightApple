@@ -67,15 +67,15 @@ try {
                 </ul>
                 <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar...">
                 <div class="pedido-menu">
-                    <img src="imagens/Clipboard.png" class="ped-pic" onclick="toggleMenuPed()">
-                    <div class="sub-menu-ped-wrap" id="criarPed">
+                    <img src="imagens/Clipboard.png" class="ped-pic" onclick="toggleMenuPed(event)">
+                    <div class="sub-menu-ped-wrap">
                         <div class="sub-menu-ped">
                             <div class="ped-info">
                                 <img src="imagens/LightApple-Logo.png">
                                 <h3>Pedidos</h3>
                             </div>
-                            <div class="lista-pedidos" id="dropdown-pedidos-list">
-                                <!-- Pedidos do dropdown serão gerados aqui -->
+                            <div class="pedidos-lista">
+                                <!-- Pedidos serão inseridos aqui via JavaScript -->
                             </div>
                         </div>
                     </div>
@@ -186,12 +186,11 @@ try {
             </div>
             <button class="btn-vermais"><a href="#">Ver Mais Estabelecimenos</a></button>
         </section>
-        <section class="PedDisp">
+        <section class="PedDisp main-content">
             <div class="container">
                 <h2 class="ttped">Pedidos</h2>
-                <p id="no-available-orders" style="display:none; color: #287326; text-align: center;">Aguardar, não há pedidos.</p>
-                <div class="pedidos-lista" id="available-orders-list">
-                    <!-- Pedidos da seção serão gerados aqui -->
+                <div class="pedidos-lista-peddisp">
+                    <!-- Cards principais serão inseridos aqui -->
                 </div>
             </div>
         </section>

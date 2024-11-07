@@ -18,6 +18,19 @@ try {
         throw new Exception("Este email já está cadastrado");
     }
 
+    // Trata CPF e CNPJ baseado no tipo de conta
+    if (in_array($dados['tipoConta'], ['empresa de coleta', 'Transportadora', 'estabelecimentos', 'condominios'])) {
+        $dados['cpf'] = null; // Define CPF como null para empresas
+        if (empty($dados['cnpj'])) {
+            throw new Exception("CNPJ é obrigatório para este tipo de conta");
+        }
+    } else {
+        $dados['cnpj'] = null; // Define CNPJ como null para pessoas físicas
+        if (empty($dados['cpf'])) {
+            throw new Exception("CPF é obrigatório para este tipo de conta");
+        }
+    }
+
     // Hash da senha
     $senha_hash = password_hash($dados['senha'], PASSWORD_DEFAULT);
 
@@ -29,22 +42,22 @@ try {
         nome, 
         email, 
         senha, 
-        tipo_conta,
+        tipoConta,
         cpf,
         cnpj,
-        data_nascimento,
+        dataNascimento,
         telefone,
         endereco,
         pontos,
-        created_at
+        dataCriacao
     ) VALUES (
         :nome,
         :email,
         :senha,
-        :tipo_conta,
+        :tipoConta,
         :cpf,
         :cnpj,
-        :data_nascimento,
+        :dataNascimento,
         :telefone,
         :endereco,
         1000,
@@ -57,10 +70,10 @@ try {
     $stmt->bindParam(':nome', $dados['nome']);
     $stmt->bindParam(':email', $dados['email']);
     $stmt->bindParam(':senha', $senha_hash);
-    $stmt->bindParam(':tipo_conta', $dados['tipoConta']);
+    $stmt->bindParam(':tipoConta', $dados['tipoConta']);
     $stmt->bindParam(':cpf', $dados['cpf']);
     $stmt->bindParam(':cnpj', $dados['cnpj']);
-    $stmt->bindParam(':data_nascimento', $dados['dataNascimento']);
+    $stmt->bindParam(':dataNascimento', $dados['dataNascimento']);
     $stmt->bindParam(':telefone', $dados['telefone']);
     $stmt->bindParam(':endereco', $dados['endereco']);
     

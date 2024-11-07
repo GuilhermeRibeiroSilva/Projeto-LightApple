@@ -254,3 +254,32 @@ document.addEventListener('click', function(event) {
         subMenuPed.classList.remove('open-menu-ped');
     }
 });
+
+// Adicione esta função que estava faltando
+function marcarPedidoComoRecebido(pedidoId) {
+    const userId = document.getElementById('user-id').value;
+    
+    fetch('marcar_pedido_recebido.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            pedido_id: pedidoId,
+            user_id: userId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Pedido marcado como recebido com sucesso!');
+            carregarPedidosTelaInicial();
+        } else {
+            alert(data.message || 'Erro ao marcar pedido como recebido');
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao marcar pedido como recebido');
+    });
+}

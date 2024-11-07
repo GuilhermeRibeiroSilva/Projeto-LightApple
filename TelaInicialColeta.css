@@ -11,7 +11,6 @@ body {
   height: 100vh;
   width: 100vw;
   background-color: rgb(255, 255, 255);
-  overflow-x: hidden;
 }
 
 a {
@@ -307,89 +306,114 @@ a {
   border-color: #218838;
 }
 
-/*SECTION PEDIDOS LISTAS*/
-
+/* SECTION PEDIDOS */
 .PedDisp {
-  margin-top: 4%;
+    width: 100%;
+    padding: 40px 0;
+    overflow: visible;
 }
 
-/* Centraliza o container */
 .container {
-  width: 80%;
-  margin: 0 auto;
-  /* Centraliza horizontalmente */
-  text-align: center;
-  /* Centraliza o texto */
-  padding: 20px;
-}
-
-
-.pedidos-lista {
-  display: flex;
-  overflow-x: scroll;
-  gap: 15px;
-  padding: 10px 0;
-}
-
-.pedidoNum {
-  min-width: 220px;
-  background-color: #abd94a;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  flex-shrink: 0;
-}
-
-.pedidoNum h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  text-align: center;
-  color: #218838;
-}
-
-.pedidoNum p {
-  margin: 5px 0;
-  color: #218838;
-}
-
-.botoes {
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
-}
-
-button {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-button.recebido {
-  background-color: #287326;
-  color: white;
-}
-
-/* Efeito de hover nos botões */
-button:hover {
-  opacity: 0.8;
-}
-
-#no-available-orders {
-  color: #218838;
-  font-weight: bold;
+    width: 90%;
+    margin: 0 auto;
+    overflow: visible;
 }
 
 .ttped {
-  margin-bottom: 2%;
-  color: #287326;
-  text-align: center;
-  font-family: "Roboto-Bold", sans-serif;
-  font-size: 40px;
-  line-height: 48px;
-  font-weight: 700;
-  position: relative;
-  align-self: stretch;
+    color: #287326;
+    font-size: 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
 }
+
+/* Container de rolagem horizontal */
+.pedidos-lista-peddisp {
+  display: flex;
+  flex-direction: row; /* Alinha os itens em uma linha */
+  flex-wrap: nowrap; /* Impede a quebra de linha */
+  gap: 20px;
+  padding: 20px 0;
+  overflow-x: auto; /* Permite rolagem horizontal */
+  width: 100%;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+/* Card individual */
+.pedidoNum {
+    min-width: 300px; /* Define uma largura mínima para os cards */
+    width: 300px; /* Define uma largura fixa para os cards */
+    background: white;
+    border: 2px solid #287326;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    white-space: normal;
+}
+
+.pedidoNum h3 {
+    color: #287326;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.pedido-content {
+    margin: 15px 0;
+}
+
+.pedido-content p {
+    margin: 8px 0;
+    color: #287326;
+    font-size: 14px;
+}
+
+/* Botões */
+.botoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.aceitar, .vermais {
+    flex: 1;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #287326;
+    color: white;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.aceitar:hover, .vermais:hover {
+    background-color: #1e5e1e;
+}
+
+/* Scrollbar personalizada */
+.pedidos-lista-peddisp::-webkit-scrollbar {
+    height: 8px;
+}
+
+.pedidos-lista-peddisp::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.pedidos-lista-peddisp::-webkit-scrollbar-thumb {
+    background: #abd94a;
+    border-radius: 4px;
+}
+
+/* Mensagem sem pedidos */
+#no-available-orders {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+    width: 100%;
+}
+
+
+
+
